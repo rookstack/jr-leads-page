@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lead Pipeline | Fidelity Realty Advisors</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:  #0b1a2e;
+      --navy2: #112340;
+      --gold:  #c9a84c;
+      --gold2: #e6c76a;
+      --white: #f5f5f0;
+      --muted: #8a9baf;
+      --green: #4caf82;
+      --red:   #e05c5c;
+      --orange:#e09a3c;
+      --border:rgba(201,168,76,0.2);
+    }
+    body { font-family: Arial, sans-serif; background: var(--navy); color: var(--white); min-height: 100vh; }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--navy2);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-size: 0.85rem; font-weight: bold; color: var(--gold); letter-spacing: 0.05em; }
+    .logo span { color: var(--muted); font-weight: normal; font-size: 0.75rem; margin-left: 8px; }
+
+    /* ── STATS BAR ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      padding: 20px 24px;
+      background: var(--navy2);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+    .stat-num { font-size: 1.6rem; font-weight: bold; color: var(--white); line-height: 1; }
+    .stat-label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+    .stat-num.hot   { color: var(--red); }
+    .stat-num.warm  { color: var(--orange); }
+    .stat-num.gold  { color: var(--gold); }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      padding: 16px 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .toolbar input[type=text] {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 14px;
+      color: var(--white);
+      font-size: 0.85rem;
+      outline: none;
+      width: 220px;
+    }
+    .toolbar input:focus { border-color: var(--gold); }
+    .toolbar select {
+      background: var(--navy2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: var(--white);
+      font-size: 0.85rem;
+      outline: none;
+      cursor: pointer;
+    }
+    .toolbar select:focus { border-color: var(--gold); }
+
+    /* ── LEADS TABLE ── */
+    .table-wrap { padding: 0 24px 40px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 900px; }
+    thead tr { border-bottom: 1px solid var(--border); }
+    th {
+      text-align: left;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 10px 12px;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    th:hover { color: var(--gold); }
+    tbody tr {
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+    tbody tr:hover { background: rgba(255,255,255,0.04); }
+    td { padding: 12px 12px; font-size: 0.85rem; vertical-align: middle; }
+
+    /* badges */
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .badge-hot    { background: rgba(224,92,92,0.15);  color: var(--red);    border: 1px solid rgba(224,92,92,0.3); }
+    .badge-warm   { background: rgba(224,154,60,0.15); color: var(--orange); border: 1px solid rgba(224,154,60,0.3); }
+    .badge-cold   { background: rgba(138,155,175,0.1); color: var(--muted);  border: 1px solid rgba(138,155,175,0.2); }
+    .badge-stage  { background: rgba(201,168,76,0.1);  color: var(--gold);   border: 1px solid var(--border); }
+    .badge-dropped{ background: rgba(100,100,100,0.1); color: #666;          border: 1px solid #333; }
+    .badge-valid  { background: rgba(76,175,130,0.12); color: var(--green);  border: 1px solid rgba(76,175,130,0.25); }
+
+    .distress-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .distress-track {
+      width: 50px; height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .distress-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--gold);
+    }
+    .distress-fill.high { background: var(--red); }
+    .distress-fill.med  { background: var(--orange); }
+
+    /* ── DRAWER / DETAIL PANEL ── */
+    .drawer-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+    }
+    .drawer-overlay.open { display: block; }
+    .drawer {
+      position: fixed;
+      top: 0; right: -420px; bottom: 0;
+      width: 420px;
+      background: var(--navy2);
+      border-left: 1px solid var(--border);
+      overflow-y: auto;
+      transition: right 0.25s ease;
+      z-index: 201;
+      padding: 28px 24px;
+    }
+    .drawer.open { right: 0; }
+    .drawer-close {
+      position: absolute; top: 16px; right: 16px;
+      background: none; border: none; color: var(--muted);
+      font-size: 1.2rem; cursor: pointer;
+    }
+    .drawer-close:hover { color: var(--white); }
+    .drawer h2 { font-size: 1.1rem; color: var(--white); margin-bottom: 4px; }
+    .drawer .d-sub { font-size: 0.8rem; color: var(--muted); margin-bottom: 20px; }
+    .drawer hr { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+    .d-section { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .d-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .d-field label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); display: block; margin-bottom: 3px; }
+    .d-field span { font-size: 0.9rem; color: var(--white); }
+    .d-full { grid-column: 1 / -1; }
+
+    /* ── EMPTY STATE ── */
+    .empty {
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--muted);
+    }
+    .empty h3 { font-size: 1rem; margin-bottom: 8px; }
+    .empty p { font-size: 0.85rem; }
+
+    /* ── LOADING ── */
+    .loading {
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+      .drawer { width: 100%; right: -100%; }
+      .stats { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    Fidelity Realty Advisors
+    <span>Lead Pipeline</span>
+  </div>
+  <div style="font-size:0.75rem;color:var(--muted)" id="last-updated"></div>
+</header>
+
+<!-- Stats -->
+<div class="stats" id="stats-bar">
+  <div class="stat"><div class="stat-num" id="s-total">—</div><div class="stat-label">Total Leads</div></div>
+  <div class="stat"><div class="stat-num hot" id="s-hot">—</div><div class="stat-label">Hot 🔥</div></div>
+  <div class="stat"><div class="stat-num warm" id="s-warm">—</div><div class="stat-label">Warm</div></div>
+  <div class="stat"><div class="stat-num gold" id="s-stage1">—</div><div class="stat-label">Stage 1</div></div>
+  <div class="stat"><div class="stat-num gold" id="s-stage2">—</div><div class="stat-label">Stage 2+</div></div>
+  <div class="stat"><div class="stat-num" id="s-validated">—</div><div class="stat-label">PRP Valid</div></div>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <input type="text" id="search" placeholder="Search address or owner…" oninput="filterLeads()" />
+  <select id="filter-status" onchange="filterLeads()">
+    <option value="">All Status</option>
+    <option value="hot">Hot 🔥</option>
+    <option value="warm">Warm</option>
+    <option value="cold">Cold</option>
+  </select>
+  <select id="filter-stage" onchange="filterLeads()">
+    <option value="">All Stages</option>
+    <option value="1">Stage 1</option>
+    <option value="2">Stage 2</option>
+    <option value="3">Stage 3+</option>
+  </select>
+  <select id="filter-prp" onchange="filterLeads()">
+    <option value="">All PRP</option>
+    <option value="validated">PRP Validated ✓</option>
+    <option value="pending">PRP Pending</option>
+  </select>
+</div>
+
+<!-- Table -->
+<div class="table-wrap">
+  <div class="loading" id="loading-state">Loading leads…</div>
+  <div class="empty" id="empty-state" style="display:none;">
+    <h3>No leads match your filters.</h3>
+    <p>Try adjusting the search or filter options.</p>
+  </div>
+  <table id="leads-table" style="display:none;">
+    <thead>
+      <tr>
+        <th onclick="sortBy('address')">Address</th>
+        <th onclick="sortBy('owner_name')">Owner</th>
+        <th onclick="sortBy('distress_score')">Distress ↕</th>
+        <th onclick="sortBy('est_equity')">Equity</th>
+        <th onclick="sortBy('est_value')">Est. Value</th>
+        <th>Status</th>
+        <th onclick="sortBy('stage')">Stage</th>
+        <th>PRP</th>
+        <th onclick="sortBy('added_at')">Added</th>
+      </tr>
+    </thead>
+    <tbody id="leads-body"></tbody>
+  </table>
+</div>
+
+<!-- Detail Drawer -->
+<div class="drawer-overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  <div id="drawer-content"></div>
+</div>
+
+<script>
+  // ── CONFIG ── swap these once schema is live
+  const SUPABASE_URL   = 'YOUR_SUPABASE_URL';
+  const SUPABASE_KEY   = 'YOUR_SUPABASE_ANON_KEY';
+  const SCHEMA         = 'leads';
+
+  // ── SAMPLE DATA (active until Supabase is wired) ──
+  const SAMPLE_LEADS = [
+    {
+      id: 'sample-1',
+      address: '3861 WRY RD', city: 'GREENACRES', state: 'FL', zip: '33467',
+      property_type: 'Single Family', sq_ft: 2193, beds: 4, baths: 2,
+      year_built: 1953, lot_size: 43560,
+      est_value: 647629, est_equity: 96629, purchase_price: 615000,
+      owned_since: '2025-09-01',
+      distress_score: 39, owner_occupied: true,
+      owner_name: 'EUGENIO LOPEZ', owner_age: 46,
+      owner_2_name: 'ROSA ELENA VASQUEZ', owner_2_age: 41,
+      mailing_address: '3861 WRY RD, GREENACRES, FL 33467',
+      source: 'property_radar', stage: 1,
+      prp_validated: false, is_warm: false, is_hot: false, dropped: false,
+      added_at: new Date().toISOString(),
+    },
+    {
+      id: 'sample-2',
+      address: 'BRIARWOOD MHP', city: 'GREENACRES', state: 'FL', zip: null,
+      property_type: 'Mobile Home Park', sq_ft: null, beds: null, baths: null,
+      year_built: null, lot_size: null,
+      est_value: null, est_equity: -2779863, purchase_price: null,
+      owned_since: null,
+      distress_score: 85, owner_occupied: false,
+      owner_name: 'BRIARWOOD MHP LLC', owner_age: null,
+      owner_2_name: null, owner_2_age: null,
+      mailing_address: null,
+      source: 'property_radar', stage: 1,
+      prp_validated: false, is_warm: false, is_hot: false, dropped: false,
+      added_at: new Date().toISOString(),
+    },
+  ];
+
+  let allLeads = [];
+  let filtered = [];
+  let sortKey = 'distress_score';
+  let sortDir = -1;
+
+  // ── LOAD ──
+  async function loadLeads() {
+    if (SUPABASE_URL.startsWith('YOUR_')) {
+      allLeads = SAMPLE_LEADS;
+      renderAll();
+      return;
+    }
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/properties?select=*&order=distress_score.desc`,
+        {
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Accept-Profile': SCHEMA,
+          }
+        }
+      );
+      allLeads = await res.json();
+      renderAll();
+    } catch (e) {
+      document.getElementById('loading-state').textContent = 'Failed to load leads. Check Supabase config.';
+    }
+  }
+
+  function renderAll() {
+    updateStats();
+    filterLeads();
+    document.getElementById('last-updated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  }
+
+  // ── STATS ──
+  function updateStats() {
+    const active = allLeads.filter(l => !l.dropped);
+    document.getElementById('s-total').textContent    = active.length;
+    document.getElementById('s-hot').textContent      = active.filter(l => l.is_hot).length;
+    document.getElementById('s-warm').textContent     = active.filter(l => l.is_warm && !l.is_hot).length;
+    document.getElementById('s-stage1').textContent   = active.filter(l => l.stage === 1).length;
+    document.getElementById('s-stage2').textContent   = active.filter(l => l.stage >= 2).length;
+    document.getElementById('s-validated').textContent= active.filter(l => l.prp_validated && l.prp_owner_match).length;
+  }
+
+  // ── FILTER ──
+  function filterLeads() {
+    const q     = document.getElementById('search').value.toLowerCase();
+    const status= document.getElementById('filter-status').value;
+    const stage = document.getElementById('filter-stage').value;
+    const prp   = document.getElementById('filter-prp').value;
+
+    filtered = allLeads.filter(l => {
+      if (l.dropped) return false;
+      if (q && !`${l.address} ${l.city} ${l.owner_name || ''} ${l.owner_2_name || ''}`.toLowerCase().includes(q)) return false;
+      if (status === 'hot'  && !l.is_hot) return false;
+      if (status === 'warm' && !(l.is_warm && !l.is_hot)) return false;
+      if (status === 'cold' && (l.is_warm || l.is_hot)) return false;
+      if (stage && l.stage !== parseInt(stage) && !(stage === '3' && l.stage >= 3)) return false;
+      if (prp === 'validated' && !(l.prp_validated && l.prp_owner_match)) return false;
+      if (prp === 'pending'   && l.prp_validated) return false;
+      return true;
+    });
+
+    sortLeads();
+  }
+
+  // ── SORT ──
+  function sortBy(key) {
+    if (sortKey === key) sortDir *= -1;
+    else { sortKey = key; sortDir = -1; }
+    sortLeads();
+  }
+
+  function sortLeads() {
+    filtered.sort((a, b) => {
+      const va = a[sortKey] ?? (sortDir === 1 ? Infinity : -Infinity);
+      const vb = b[sortKey] ?? (sortDir === 1 ? Infinity : -Infinity);
+      return va < vb ? sortDir : va > vb ? -sortDir : 0;
+    });
+    renderTable();
+  }
+
+  // ── RENDER TABLE ──
+  function renderTable() {
+    const loading = document.getElementById('loading-state');
+    const empty   = document.getElementById('empty-state');
+    const table   = document.getElementById('leads-table');
+    const tbody   = document.getElementById('leads-body');
+
+    loading.style.display = 'none';
+
+    if (filtered.length === 0) {
+      empty.style.display = 'block';
+      table.style.display = 'none';
+      return;
+    }
+
+    empty.style.display = 'none';
+    table.style.display = 'table';
+
+    tbody.innerHTML = filtered.map(l => {
+      const statusBadge = l.is_hot
+        ? `<span class="badge badge-hot">Hot 🔥</span>`
+        : l.is_warm
+        ? `<span class="badge badge-warm">Warm</span>`
+        : `<span class="badge badge-cold">Cold</span>`;
+
+      const dscore = l.distress_score ?? '—';
+      const dlevel = dscore >= 70 ? 'high' : dscore >= 40 ? 'med' : '';
+      const dbar = dscore !== '—' ? `
+        <div class="distress-bar">
+          <span>${dscore}</span>
+          <div class="distress-track"><div class="distress-fill ${dlevel}" style="width:${dscore}%"></div></div>
+        </div>` : '—';
+
+      const equity = l.est_equity != null
+        ? `<span style="color:${l.est_equity < 0 ? 'var(--red)' : 'var(--green)'}">
+            ${l.est_equity < 0 ? '-' : ''}$${Math.abs(l.est_equity).toLocaleString()}
+           </span>` : '—';
+
+      const value   = l.est_value ? `$${l.est_value.toLocaleString()}` : '—';
+      const prpBadge= l.prp_validated && l.prp_owner_match
+        ? `<span class="badge badge-valid">✓ Valid</span>`
+        : `<span class="badge badge-cold">Pending</span>`;
+
+      const added = l.added_at ? new Date(l.added_at).toLocaleDateString() : '—';
+
+      return `<tr onclick="openDrawer('${l.id}')">
+        <td>
+          <div style="font-weight:bold;font-size:0.88rem;">${l.address}</div>
+          <div style="font-size:0.75rem;color:var(--muted)">${l.city}, ${l.state}${l.zip ? ' ' + l.zip : ''}</div>
+        </td>
+        <td>
+          <div>${l.owner_name || '—'}</div>
+          ${l.owner_2_name ? `<div style="font-size:0.75rem;color:var(--muted)">${l.owner_2_name}</div>` : ''}
+        </td>
+        <td>${dbar}</td>
+        <td>${equity}</td>
+        <td style="color:var(--muted)">${value}</td>
+        <td>${statusBadge}</td>
+        <td><span class="badge badge-stage">Stage ${l.stage}</span></td>
+        <td>${prpBadge}</td>
+        <td style="color:var(--muted);font-size:0.8rem">${added}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ── DRAWER ──
+  function openDrawer(id) {
+    const l = allLeads.find(x => x.id === id);
+    if (!l) return;
+
+    const fmt = v => v != null ? v : '—';
+    const fmtMoney = v => v != null ? `$${Math.abs(v).toLocaleString()}${v < 0 ? ' (negative)' : ''}` : '—';
+    const fmtDate  = v => v ? new Date(v).toLocaleDateString() : '—';
+
+    document.getElementById('drawer-content').innerHTML = `
+      <h2>${l.address}</h2>
+      <div class="d-sub">${l.city}, ${l.state}${l.zip ? ' ' + l.zip : ''} · ${l.property_type || 'Unknown type'}</div>
+
+      <div class="d-section">Owner</div>
+      <div class="d-grid">
+        <div class="d-field"><label>Primary Owner</label><span>${fmt(l.owner_name)}${l.owner_age ? ', ' + l.owner_age : ''}</span></div>
+        <div class="d-field"><label>Co-Owner</label><span>${l.owner_2_name ? l.owner_2_name + (l.owner_2_age ? ', ' + l.owner_2_age : '') : '—'}</span></div>
+        <div class="d-field d-full"><label>Mailing Address</label><span>${fmt(l.mailing_address)}</span></div>
+        <div class="d-field"><label>Phone</label><span>${l.phone || (l.phone_unlocked ? 'Unlocked' : '🔒 Locked')}</span></div>
+        <div class="d-field"><label>Email</label><span>${l.email || (l.email_unlocked ? 'Unlocked' : '🔒 Locked')}</span></div>
+      </div>
+
+      <hr />
+      <div class="d-section">Property</div>
+      <div class="d-grid">
+        <div class="d-field"><label>Beds / Baths</label><span>${fmt(l.beds)} / ${fmt(l.baths)}</span></div>
+        <div class="d-field"><label>Sq Ft</label><span>${l.sq_ft ? l.sq_ft.toLocaleString() : '—'}</span></div>
+        <div class="d-field"><label>Year Built</label><span>${fmt(l.year_built)}</span></div>
+        <div class="d-field"><label>Lot Size</label><span>${l.lot_size ? l.lot_size.toLocaleString() + ' sqft' : '—'}</span></div>
+        <div class="d-field"><label>Owner Occupied</label><span>${l.owner_occupied == null ? '—' : l.owner_occupied ? 'Yes' : 'No'}</span></div>
+        <div class="d-field"><label>Listed</label><span>${l.listed ? 'Yes' : 'No'}</span></div>
+      </div>
+
+      <hr />
+      <div class="d-section">Valuation</div>
+      <div class="d-grid">
+        <div class="d-field"><label>Est. Value</label><span>${fmtMoney(l.est_value)}</span></div>
+        <div class="d-field"><label>Est. Equity</label><span style="color:${l.est_equity < 0 ? 'var(--red)' : 'var(--green)'}">${fmtMoney(l.est_equity)}</span></div>
+        <div class="d-field"><label>Purchase Price</label><span>${fmtMoney(l.purchase_price)}</span></div>
+        <div class="d-field"><label>Owned Since</label><span>${fmtDate(l.owned_since)}</span></div>
+        <div class="d-field"><label>Distress Score</label><span style="color:${l.distress_score >= 70 ? 'var(--red)' : l.distress_score >= 40 ? 'var(--orange)' : 'var(--white)'}">${fmt(l.distress_score)} / 100</span></div>
+      </div>
+
+      <hr />
+      <div class="d-section">Campaign Status</div>
+      <div class="d-grid">
+        <div class="d-field"><label>Stage</label><span>Stage ${l.stage}</span></div>
+        <div class="d-field"><label>Status</label><span>${l.is_hot ? '🔥 Hot' : l.is_warm ? '🟡 Warm' : 'Cold'}</span></div>
+        <div class="d-field"><label>PRP Validated</label><span>${l.prp_validated ? (l.prp_owner_match ? '✓ Match' : '✗ Changed') : 'Pending'}</span></div>
+        <div class="d-field"><label>Mailer Sent</label><span>${fmtDate(l.mailer_sent_at)}</span></div>
+        <div class="d-field"><label>QR Scans</label><span>${l.qr_scan_count ?? 0}</span></div>
+        <div class="d-field"><label>FB Synced</label><span>${l.fb_synced_at ? fmtDate(l.fb_synced_at) : 'No'}</span></div>
+        ${l.is_warm ? `<div class="d-field"><label>Warm Since</label><span>${fmtDate(l.warm_lead_at)}</span></div>` : ''}
+        ${l.is_hot  ? `<div class="d-field"><label>Hot Since</label><span>${fmtDate(l.hot_lead_at)}</span></div>` : ''}
+      </div>
+    `;
+
+    document.getElementById('overlay').classList.add('open');
+    document.getElementById('drawer').classList.add('open');
+  }
+
+  function closeDrawer() {
+    document.getElementById('overlay').classList.remove('open');
+    document.getElementById('drawer').classList.remove('open');
+  }
+
+  loadLeads();
+</script>
+</body>
+</html>
