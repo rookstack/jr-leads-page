@@ -72,6 +72,7 @@ CREATE TABLE IF NOT EXISTS jr_leads.properties (
   owner_age           INTEGER,
   owner_2_name        TEXT,
   owner_2_age         INTEGER,
+  is_business_owned   BOOLEAN DEFAULT FALSE,       -- TRUE if owner is LLC/Trust/Corp (affects mailer copy)
 
   -- Contact (unlocked via Property Radar credits)
   phone               TEXT,
