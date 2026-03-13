@@ -170,6 +170,19 @@ CREATE INDEX IF NOT EXISTS idx_jr_leads_prp         ON jr_leads.properties(prp_v
 CREATE INDEX IF NOT EXISTS idx_jr_leads_submissions ON jr_leads.form_submissions(property_id);
 
 -- ============================================================
+-- ROLE GRANTS (required for PostgREST access)
+-- ============================================================
+GRANT USAGE ON SCHEMA jr_leads TO postgres, anon, authenticated, service_role;
+GRANT ALL ON ALL TABLES IN SCHEMA jr_leads TO service_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA jr_leads TO service_role;
+GRANT ALL ON ALL FUNCTIONS IN SCHEMA jr_leads TO service_role;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA jr_leads TO authenticated;
+GRANT SELECT ON ALL TABLES IN SCHEMA jr_leads TO anon;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA jr_leads GRANT ALL ON TABLES TO service_role;
+ALTER DEFAULT PRIVILEGES IN SCHEMA jr_leads GRANT ALL ON SEQUENCES TO service_role;
+
+-- ============================================================
 -- EXPOSE TO POSTGREST
 -- Settings → API → Extra schemas → add "jr_leads"
 -- ============================================================
