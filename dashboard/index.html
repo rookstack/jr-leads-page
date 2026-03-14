@@ -126,6 +126,7 @@
     .badge-stage  { background: rgba(201,168,76,0.1);  color: var(--gold);   border: 1px solid var(--border); }
     .badge-dropped{ background: rgba(100,100,100,0.1); color: #666;          border: 1px solid #333; }
     .badge-valid  { background: rgba(76,175,130,0.12); color: var(--green);  border: 1px solid rgba(76,175,130,0.25); }
+    .badge-changed{ background: rgba(224,154,60,0.15); color: var(--orange); border: 1px solid rgba(224,154,60,0.3); }
 
     .distress-bar {
       display: flex;
@@ -241,8 +242,9 @@
   </select>
   <select id="filter-prp" onchange="filterLeads()">
     <option value="">All PRP</option>
-    <option value="validated">PRP Validated ✓</option>
-    <option value="pending">PRP Pending</option>
+    <option value="matched">✓ Owner Match</option>
+    <option value="changed">⚠ Owner Changed</option>
+    <option value="pending">Pending</option>
   </select>
 </div>
 
@@ -379,8 +381,9 @@
       if (status === 'warm' && !(l.is_warm && !l.is_hot)) return false;
       if (status === 'cold' && (l.is_warm || l.is_hot)) return false;
       if (stage && l.stage !== parseInt(stage) && !(stage === '3' && l.stage >= 3)) return false;
-      if (prp === 'validated' && !(l.prp_validated && l.prp_owner_match)) return false;
-      if (prp === 'pending'   && l.prp_validated) return false;
+      if (prp === 'matched'  && !(l.prp_validated && l.prp_owner_match)) return false;
+      if (prp === 'changed'  && !(l.prp_validated && !l.prp_owner_match)) return false;
+      if (prp === 'pending'  && l.prp_validated) return false;
       return true;
     });
 
@@ -442,9 +445,11 @@
            </span>` : '—';
 
       const value   = l.est_value ? `$${l.est_value.toLocaleString()}` : '—';
-      const prpBadge= l.prp_validated && l.prp_owner_match
-        ? `<span class="badge badge-valid">✓ Valid</span>`
-        : `<span class="badge badge-cold">Pending</span>`;
+      const prpBadge= !l.prp_validated
+        ? `<span class="badge badge-cold">Pending</span>`
+        : l.prp_owner_match
+        ? `<span class="badge badge-valid">✓ Match</span>`
+        : `<span class="badge badge-changed">⚠ Changed</span>`;
 
       const added = l.added_at ? new Date(l.added_at).toLocaleDateString() : '—';
 
@@ -516,7 +521,7 @@
       <div class="d-grid">
         <div class="d-field"><label>Stage</label><span>Stage ${l.stage}</span></div>
         <div class="d-field"><label>Status</label><span>${l.is_hot ? '🔥 Hot' : l.is_warm ? '🟡 Warm' : 'Cold'}</span></div>
-        <div class="d-field"><label>PRP Validated</label><span>${l.prp_validated ? (l.prp_owner_match ? '✓ Match' : '✗ Changed') : 'Pending'}</span></div>
+        <div class="d-field"><label>PRP Validated</label><span style="color:${!l.prp_validated ? 'var(--muted)' : l.prp_owner_match ? 'var(--green)' : 'var(--orange)'}">${!l.prp_validated ? 'Pending' : l.prp_owner_match ? '✓ Owner Match' : '⚠ Owner Changed'}</span></div>
         <div class="d-field"><label>Mailer Sent</label><span>${fmtDate(l.mailer_sent_at)}</span></div>
         <div class="d-field"><label>QR Scans</label><span>${l.qr_scan_count ?? 0}</span></div>
         <div class="d-field"><label>FB Synced</label><span>${l.fb_synced_at ? fmtDate(l.fb_synced_at) : 'No'}</span></div>
