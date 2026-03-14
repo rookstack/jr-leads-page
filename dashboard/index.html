@@ -240,6 +240,9 @@
     <option value="2">Stage 2</option>
     <option value="3">Stage 3+</option>
   </select>
+  <select id="filter-list" onchange="filterLeads()">
+    <option value="">All Lists</option>
+  </select>
   <select id="filter-prp" onchange="filterLeads()">
     <option value="">All PRP</option>
     <option value="matched">✓ Owner Match</option>
@@ -285,6 +288,7 @@
   const SUPABASE_URL   = 'https://uebyzgrsaylfexldhccu.supabase.co';
   const SUPABASE_KEY   = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVlYnl6Z3JzYXlsZmV4bGRoY2N1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NjgwOTQsImV4cCI6MjA4NzU0NDA5NH0.5QpO51ZIxNFskzuvA_k2yjpoNVz1NUrT0sMsY8wFGKQ';
   const SCHEMA         = 'jr_leads';
+  let allLists = [];
 
   // ── SAMPLE DATA (active until Supabase is wired) ──
   const SAMPLE_LEADS = [
@@ -333,15 +337,26 @@
       return;
     }
     try {
+      const headers = {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Accept-Profile': SCHEMA,
+      };
+
+      // Load lists for filter dropdown
+      const listsRes = await fetch(`${SUPABASE_URL}/rest/v1/lists?select=id,name&order=imported_at.desc`, { headers });
+      allLists = await listsRes.json();
+      const listSel = document.getElementById('filter-list');
+      allLists.forEach(l => {
+        const opt = document.createElement('option');
+        opt.value = l.id;
+        opt.textContent = l.name;
+        listSel.appendChild(opt);
+      });
+
       const res = await fetch(
         `${SUPABASE_URL}/rest/v1/properties?select=*&order=distress_score.desc`,
-        {
-          headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Accept-Profile': SCHEMA,
-          }
-        }
+        { headers }
       );
       allLeads = await res.json();
       renderAll();
@@ -373,6 +388,7 @@
     const status= document.getElementById('filter-status').value;
     const stage = document.getElementById('filter-stage').value;
     const prp   = document.getElementById('filter-prp').value;
+    const list  = document.getElementById('filter-list').value;
 
     filtered = allLeads.filter(l => {
       if (l.dropped) return false;
@@ -384,6 +400,7 @@
       if (prp === 'matched'  && !(l.prp_validated && l.prp_owner_match)) return false;
       if (prp === 'changed'  && !(l.prp_validated && !l.prp_owner_match)) return false;
       if (prp === 'pending'  && l.prp_validated) return false;
+      if (list && l.list_id !== list) return false;
       return true;
     });
 
@@ -522,6 +539,7 @@
         <div class="d-field"><label>Stage</label><span>Stage ${l.stage}</span></div>
         <div class="d-field"><label>Status</label><span>${l.is_hot ? '🔥 Hot' : l.is_warm ? '🟡 Warm' : 'Cold'}</span></div>
         <div class="d-field"><label>PRP Validated</label><span style="color:${!l.prp_validated ? 'var(--muted)' : l.prp_owner_match ? 'var(--green)' : 'var(--orange)'}">${!l.prp_validated ? 'Pending' : l.prp_owner_match ? '✓ Owner Match' : '⚠ Owner Changed'}</span></div>
+        ${l.prp_notes ? `<div class="d-field d-full"><label>RPR Notes</label><span style="font-size:0.8rem;color:var(--muted)">${l.prp_notes}</span></div>` : ''}
         <div class="d-field"><label>Mailer Sent</label><span>${fmtDate(l.mailer_sent_at)}</span></div>
         <div class="d-field"><label>QR Scans</label><span>${l.qr_scan_count ?? 0}</span></div>
         <div class="d-field"><label>FB Synced</label><span>${l.fb_synced_at ? fmtDate(l.fb_synced_at) : 'No'}</span></div>
