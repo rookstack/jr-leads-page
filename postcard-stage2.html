@@ -1,0 +1,247 @@
+<!-- FRONT -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { width: 6.25in; height: 4.25in; font-family: 'Lato', sans-serif; }
+    .front {
+      width: 100%; height: 100%;
+      background: #f5f0e8;
+      color: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0.45in 0.5in 0.4in;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Dark navy accent strip on left */
+    .front::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      width: 0.08in; height: 100%;
+      background: #c9944a;
+    }
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.13in;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #c9944a;
+    }
+    .stage-label {
+      font-size: 0.1in;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #7a6a58;
+      margin-top: 0.06in;
+    }
+    .headline {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.44in;
+      font-weight: 700;
+      line-height: 1.1;
+      color: #1a3a5c;
+    }
+    .subline {
+      font-size: 0.155in;
+      color: #5a4a38;
+      line-height: 1.5;
+      margin-top: 0.1in;
+      max-width: 3.6in;
+    }
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .urgency-bar {
+      background: #1a3a5c;
+      color: #f5f0e8;
+      border-radius: 6px;
+      padding: 0.1in 0.15in;
+      font-size: 0.12in;
+      max-width: 3.2in;
+      line-height: 1.5;
+    }
+    .urgency-bar strong { color: #c9944a; }
+    .qr-placeholder {
+      width: 0.9in; height: 0.9in;
+      background: #1a3a5c;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .qr-text {
+      font-size: 0.08in;
+      color: #c9944a;
+      text-align: center;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="front">
+    <div>
+      <div class="brand">Quick Short Sales</div>
+      <div class="stage-label">Important — time sensitive</div>
+    </div>
+    <div>
+      <div class="headline">Avoid foreclosure.<br/>Protect your future.</div>
+      <div class="subline">The longer you wait, the fewer options you have.<br/>A short sale may be the exit you didn't know was possible.</div>
+    </div>
+    <div class="bottom">
+      <div class="urgency-bar">
+        <strong>{{property_address}}, {{property_city}}</strong><br/>
+        Don't let the bank make this decision for you.
+      </div>
+      <div class="qr-placeholder">
+        <div class="qr-text">Act<br/>now</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+<!-- BACK -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { width: 6.25in; height: 4.25in; font-family: 'Lato', sans-serif; }
+    .back {
+      width: 100%; height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 0.85fr;
+      background: #1a3a5c;
+    }
+    .left {
+      padding: 0.38in 0.32in;
+      background: #1a3a5c;
+      color: #f5f0e8;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .right {
+      padding: 0.32in 0.28in;
+      background: #f5f0e8;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .greeting {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.19in;
+      font-weight: 700;
+      color: #c9944a;
+      margin-bottom: 0.1in;
+    }
+    .body-copy {
+      font-size: 0.125in;
+      line-height: 1.6;
+      color: #c8bfaf;
+    }
+    .body-copy p + p { margin-top: 0.1in; }
+    .closer {
+      font-size: 0.12in;
+      font-style: italic;
+      color: #f5f0e8;
+      border-left: 0.035in solid #c9944a;
+      padding-left: 0.12in;
+      margin-top: 0.1in;
+      line-height: 1.5;
+    }
+    .sig {
+      font-size: 0.11in;
+      color: #7a9abf;
+    }
+    .sig strong { display: block; color: #f5f0e8; font-size: 0.125in; margin-bottom: 0.03in; }
+    /* Right panel */
+    .cta-label {
+      font-size: 0.1in;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #c9944a;
+      margin-bottom: 0.06in;
+    }
+    .cta-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.19in;
+      font-weight: 700;
+      color: #1a3a5c;
+      line-height: 1.2;
+      margin-bottom: 0.1in;
+    }
+    .benefits {
+      font-size: 0.12in;
+      color: #3a3028;
+      line-height: 1.8;
+    }
+    .benefits span { display: block; }
+    .divider { height: 1px; background: rgba(26,58,92,0.12); margin: 0.1in 0; }
+    .cta-block {
+      font-size: 0.12in;
+      color: #1a3a5c;
+      line-height: 1.6;
+    }
+    .cta-block .gold { color: #c9944a; font-weight: 700; display: block; font-size: 0.135in; }
+    .address-block {
+      font-size: 0.105in;
+      color: #7a6a58;
+      line-height: 1.5;
+    }
+    .address-block strong { color: #1a3a5c; display: block; margin-bottom: 0.03in; }
+  </style>
+</head>
+<body>
+  <div class="back">
+    <div class="left">
+      <div>
+        <div class="greeting">Hi {{seller_first_name}},</div>
+        <div class="body-copy">
+          <p>I reached out last month because I genuinely want to help — and I'm following up because time matters here. Once foreclosure moves forward, eviction becomes a very real possibility, and the damage to your credit can follow you for years.</p>
+          <p>A short sale is a real alternative. We negotiate directly with your lender, and you walk away on your own terms — not because the bank forced you out. No upfront costs. The sooner we connect, the more options we can put in front of you.</p>
+        </div>
+        <div class="closer">Foreclosure and eviction can follow you for years — a short sale lets you walk away with your dignity intact.</div>
+      </div>
+      <div class="sig">
+        <strong>Jack Watlington</strong>
+        <span>Licensed Broker, FL #3139881 · {{cta_phone}}</span>
+      </div>
+    </div>
+    <div class="right">
+      <div>
+        <div class="cta-label">Don't wait</div>
+        <div class="cta-heading">Get your free<br/>consultation<br/>today.</div>
+        <div class="benefits">
+          <span>✓ We handle lender negotiations</span>
+          <span>✓ No upfront cost or pressure</span>
+          <span>✓ You choose the timeline</span>
+          <span>✓ Confidential, judgment-free</span>
+        </div>
+        <div class="divider"></div>
+        <div class="cta-block">
+          <span class="gold">quickshortsales.net</span>
+          or call <strong>{{cta_phone}}</strong>
+        </div>
+      </div>
+      <div class="address-block">
+        <strong>{{mail_to_name}}</strong>
+        {{mail_to_line1}}<br/>
+        {{mail_to_city}}, {{mail_to_state}} {{mail_to_zip}}
+      </div>
+    </div>
+  </div>
+</body>
+</html>

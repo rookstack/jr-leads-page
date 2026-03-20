@@ -1,0 +1,261 @@
+<!-- FRONT -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { width: 6.25in; height: 4.25in; font-family: 'Lato', sans-serif; }
+    .front {
+      width: 100%; height: 100%;
+      background: linear-gradient(160deg, #1a3a5c 0%, #0d2035 100%);
+      color: #f5f0e8;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0.45in 0.5in 0.4in;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Faded circular watermark */
+    .front::before {
+      content: '';
+      position: absolute;
+      bottom: -0.5in; right: -0.5in;
+      width: 3in; height: 3in;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,148,74,0.1) 0%, transparent 70%);
+    }
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.13in;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #c9944a;
+    }
+    .final-badge {
+      font-size: 0.1in;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #c9944a;
+      border: 1px solid rgba(201,148,74,0.4);
+      border-radius: 20px;
+      padding: 0.04in 0.12in;
+    }
+    .headline {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.42in;
+      font-weight: 700;
+      line-height: 1.1;
+      color: #ffffff;
+    }
+    .subline {
+      font-size: 0.145in;
+      color: #c8bfaf;
+      line-height: 1.55;
+      margin-top: 0.1in;
+      max-width: 3.8in;
+      font-style: italic;
+    }
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .property-box {
+      border-left: 0.04in solid rgba(201,148,74,0.5);
+      padding-left: 0.13in;
+    }
+    .property-label {
+      font-size: 0.1in;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(201,148,74,0.7);
+      margin-bottom: 0.04in;
+    }
+    .property-addr {
+      font-size: 0.14in;
+      font-weight: 700;
+      color: #f5f0e8;
+    }
+    .qr-placeholder {
+      width: 0.9in; height: 0.9in;
+      background: rgba(245,240,232,0.08);
+      border: 1px solid rgba(201,148,74,0.35);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .qr-text {
+      font-size: 0.08in;
+      color: #c9944a;
+      text-align: center;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="front">
+    <div class="top-row">
+      <div class="brand">Quick Short Sales</div>
+      <div class="final-badge">Final notice</div>
+    </div>
+    <div>
+      <div class="headline">It's not too late —<br/>but timing matters.</div>
+      <div class="subline">This is my final note to you. I hope you'll reach out<br/>before foreclosure takes that choice away.</div>
+    </div>
+    <div class="bottom">
+      <div class="property-box">
+        <div class="property-label">Your property</div>
+        <div class="property-addr">{{property_address}}<br/>{{property_city}}, {{property_state}}</div>
+      </div>
+      <div class="qr-placeholder">
+        <div class="qr-text">Last<br/>chance<br/>to connect</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+<!-- BACK -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { width: 6.25in; height: 4.25in; font-family: 'Lato', sans-serif; }
+    .back {
+      width: 100%; height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 0.85fr;
+      background: #f5f0e8;
+    }
+    .left {
+      padding: 0.38in 0.32in;
+      background: #f5f0e8;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .right {
+      padding: 0.32in 0.28in;
+      background: #0d2035;
+      color: #f5f0e8;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .greeting {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.19in;
+      font-weight: 700;
+      color: #1a3a5c;
+      margin-bottom: 0.1in;
+    }
+    .body-copy {
+      font-size: 0.125in;
+      line-height: 1.6;
+      color: #3a3028;
+    }
+    .body-copy p + p { margin-top: 0.1in; }
+    .closer {
+      font-size: 0.125in;
+      font-weight: 700;
+      color: #1a3a5c;
+      margin-top: 0.1in;
+      font-style: italic;
+    }
+    .sig {
+      font-size: 0.11in;
+      color: #7a6a58;
+      border-top: 1px solid rgba(26,58,92,0.12);
+      padding-top: 0.1in;
+    }
+    .sig strong { display: block; color: #1a3a5c; font-size: 0.13in; margin-bottom: 0.03in; }
+    /* Right panel */
+    .final-label {
+      font-size: 0.1in;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #c9944a;
+      margin-bottom: 0.06in;
+    }
+    .cta-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.2in;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 0.12in;
+    }
+    .cta-block {
+      font-size: 0.12in;
+      color: #c8bfaf;
+      line-height: 1.7;
+    }
+    .cta-block .gold { color: #c9944a; font-weight: 700; display: block; font-size: 0.135in; }
+    .divider { height: 1px; background: rgba(201,148,74,0.2); margin: 0.1in 0; }
+    .window-note {
+      font-size: 0.115in;
+      color: #7a9abf;
+      font-style: italic;
+      line-height: 1.5;
+    }
+    .address-block {
+      font-size: 0.105in;
+      color: #4a6a8a;
+      line-height: 1.5;
+    }
+    .address-block strong { color: #f5f0e8; display: block; margin-bottom: 0.03in; }
+  </style>
+</head>
+<body>
+  <div class="back">
+    <div class="left">
+      <div>
+        <div class="greeting">Hi {{seller_first_name}},</div>
+        <div class="body-copy">
+          <p>This is the last note I'll send. I've reached out twice because I believe you deserve to know there's a way through this — one that doesn't end in foreclosure, eviction, or years of damaged credit.</p>
+          <p>A short sale lets you leave on your terms, with your dignity intact and a faster path to financial recovery. We know the lenders, we know the process, and we're ready to go to work for you at no upfront cost. But this window doesn't stay open forever.</p>
+        </div>
+        <div class="closer">One conversation could change everything.</div>
+      </div>
+      <div class="sig">
+        <strong>Jack Watlington</strong>
+        <span>Licensed Real Estate Broker, FL #3139881</span>
+        <span>Fidelity Realty Advisors · {{cta_phone}}</span>
+      </div>
+    </div>
+    <div class="right">
+      <div>
+        <div class="final-label">This is it</div>
+        <div class="cta-heading">Reach out<br/>before it's<br/>too late.</div>
+        <div class="cta-block">
+          <span class="gold">quickshortsales.net</span>
+          <span>Fill out the short form — takes 2 minutes.</span>
+          <span style="margin-top:0.08in;display:block;">Or call Jack directly:</span>
+          <span class="gold">{{cta_phone}}</span>
+        </div>
+        <div class="divider"></div>
+        <div class="window-note">After foreclosure proceeds, a short sale is no longer an option. Don't wait.</div>
+      </div>
+      <div class="address-block">
+        <strong>{{mail_to_name}}</strong>
+        {{mail_to_line1}}<br/>
+        {{mail_to_city}}, {{mail_to_state}} {{mail_to_zip}}
+      </div>
+    </div>
+  </div>
+</body>
+</html>
