@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Short Sales — Logo Concepts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&family=Merriweather:wght@300;400;700&family=Source+Sans+3:wght@300;400;600;700&family=DM+Serif+Display&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f4f0;
+      color: #1a1a1a;
+      padding: 48px 32px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .page-header h1 {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 12px;
+    }
+
+    .page-header h2 {
+      font-family: 'Inter', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+
+    .page-header p {
+      font-size: 14px;
+      color: #666;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ─── Concept Section ─── */
+    .concept {
+      background: #fff;
+      border-radius: 12px;
+      margin-bottom: 56px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+
+    .concept-header {
+      padding: 28px 36px 20px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .concept-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-bottom: 4px;
+    }
+
+    .concept-name {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    /* ─── Preview Areas ─── */
+    .preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .preview-panel {
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 280px;
+    }
+
+    .preview-panel.light {
+      background: #fafafa;
+      border-right: 1px solid #f0f0f0;
+    }
+
+    .preview-panel.dark {
+      background: #1a1a1a;
+    }
+
+    .preview-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-bottom: 24px;
+      align-self: flex-start;
+    }
+
+    .preview-panel.dark .preview-label {
+      color: #555;
+    }
+
+    /* Favicon row */
+    .favicon-row {
+      padding: 28px 40px;
+      background: #f7f7f5;
+      border-top: 1px solid #ebebeb;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .favicon-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #aaa;
+      min-width: 120px;
+    }
+
+    .favicon-samples {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .favicon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .favicon-size-label {
+      font-size: 9px;
+      color: #bbb;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ─── Spec Block ─── */
+    .spec-block {
+      padding: 28px 36px 32px;
+      background: #fff;
+      border-top: 1px solid #f0f0f0;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 28px;
+    }
+
+    .spec-item h4 {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-bottom: 10px;
+    }
+
+    .spec-item p, .spec-item li {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .spec-item ul {
+      list-style: none;
+    }
+
+    .swatch-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .swatch-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .swatch-hex {
+      font-size: 9px;
+      color: #aaa;
+      font-family: monospace;
+      letter-spacing: 0.03em;
+    }
+
+    /* ═══════════════════════════════════════════
+       CONCEPT A — Navy + Gold
+    ═══════════════════════════════════════════ */
+
+    /* Large wordmark */
+    .logo-a-large {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+
+    .logo-a-wordmark {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 42px;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      color: #1a3a5c;
+    }
+
+    .logo-a-wordmark span {
+      color: #c9944a;
+    }
+
+    .logo-a-sub {
+      font-family: 'Lato', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #5a7a9a;
+      padding-left: 3px;
+    }
+
+    .logo-a-rule {
+      width: 100%;
+      height: 1.5px;
+      background: linear-gradient(90deg, #c9944a 0%, #e8c080 100%);
+      margin: 6px 0 4px;
+      border-radius: 2px;
+    }
+
+    /* Dark version of A */
+    .logo-a-large.on-dark .logo-a-wordmark { color: #f0e8d8; }
+    .logo-a-large.on-dark .logo-a-wordmark span { color: #c9944a; }
+    .logo-a-large.on-dark .logo-a-sub { color: #8aaccc; }
+
+    /* Favicon A */
+    .fav-a {
+      background: #1a3a5c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    .fav-a svg text {
+      font-family: 'Playfair Display', serif;
+      fill: #c9944a;
+      font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════
+       CONCEPT B — Forest Green + Cream
+    ═══════════════════════════════════════════ */
+
+    .logo-b-large {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+
+    .logo-b-top {
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+      font-size: 38px;
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+      color: #f5f0e8;
+    }
+
+    .logo-b-top em {
+      font-style: normal;
+      color: #8aba8e;
+    }
+
+    .logo-b-bottom {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .logo-b-leaf {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .logo-b-sub {
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
+      font-size: 11.5px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #8aba8e;
+    }
+
+    /* Light version of B */
+    .logo-b-large.on-light .logo-b-top { color: #1a4a2e; }
+    .logo-b-large.on-light .logo-b-top em { color: #3a8a4e; }
+    .logo-b-large.on-light .logo-b-sub { color: #3a8a4e; }
+
+    /* Favicon B */
+    .fav-b {
+      background: #1a4a2e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    /* ═══════════════════════════════════════════
+       CONCEPT C — Charcoal + Sky Blue
+    ═══════════════════════════════════════════ */
+
+    .logo-c-large {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .logo-c-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .logo-c-icon {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+    }
+
+    .logo-c-text-stack {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .logo-c-quick {
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 300;
+      font-size: 18px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #4a90d9;
+    }
+
+    .logo-c-short {
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 700;
+      font-size: 42px;
+      letter-spacing: -0.02em;
+      line-height: 0.95;
+      color: #2c3e50;
+    }
+
+    .logo-c-sales {
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 300;
+      font-size: 18px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #4a90d9;
+      margin-top: 2px;
+    }
+
+    .logo-c-tagline {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: #8a9fb5;
+      padding-left: 2px;
+    }
+
+    /* Dark version of C */
+    .logo-c-large.on-dark .logo-c-short { color: #ffffff; }
+    .logo-c-large.on-dark .logo-c-tagline { color: #607a90; }
+
+    /* Favicon C */
+    .fav-c {
+      background: #2c3e50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 720px) {
+      .preview-grid { grid-template-columns: 1fr; }
+      .spec-block { grid-template-columns: 1fr; }
+      .preview-panel.light { border-right: none; border-bottom: 1px solid #f0f0f0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <h1>Aiphorism Creative — Logo Concepts</h1>
+    <h2>Quick Short Sales</h2>
+    <p>Three distinct logo directions for Jack Watlington's short sale real estate brand. Each shown at postcard scale and favicon scale.</p>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       CONCEPT A: The Trusted Advisor
+  ══════════════════════════════════════════ -->
+  <div class="concept">
+    <div class="concept-header">
+      <div class="concept-label">Concept A</div>
+      <div class="concept-name">The Trusted Advisor — Navy + Warm Gold</div>
+    </div>
+
+    <div class="preview-grid">
+
+      <!-- Light background -->
+      <div class="preview-panel light">
+        <div class="preview-label">On White / Postcard</div>
+        <div class="logo-a-large">
+          <div class="logo-a-wordmark">Quick <span>Short</span> Sales</div>
+          <div class="logo-a-rule"></div>
+          <div class="logo-a-sub">South Florida Short Sale Specialists</div>
+        </div>
+      </div>
+
+      <!-- Dark background -->
+      <div class="preview-panel dark">
+        <div class="preview-label">On Dark / Digital Header</div>
+        <div class="logo-a-large on-dark">
+          <div class="logo-a-wordmark">Quick <span>Short</span> Sales</div>
+          <div class="logo-a-rule"></div>
+          <div class="logo-a-sub">South Florida Short Sale Specialists</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Favicon -->
+    <div class="favicon-row">
+      <div class="favicon-label">Favicon / Icon</div>
+      <div class="favicon-samples">
+        <div class="favicon-item">
+          <div class="fav-a" style="width:64px;height:64px;border-radius:8px;">
+            <svg width="64" height="64" viewBox="0 0 64 64">
+              <rect width="64" height="64" rx="8" fill="#1a3a5c"/>
+              <text x="32" y="44" font-family="Georgia, serif" font-weight="700" font-size="30" fill="#c9944a" text-anchor="middle" letter-spacing="-1">QS</text>
+            </svg>
+          </div>
+          <span class="favicon-size-label">64px</span>
+        </div>
+        <div class="favicon-item">
+          <div class="fav-a" style="width:32px;height:32px;border-radius:4px;">
+            <svg width="32" height="32" viewBox="0 0 64 64">
+              <rect width="64" height="64" rx="8" fill="#1a3a5c"/>
+              <text x="32" y="44" font-family="Georgia, serif" font-weight="700" font-size="30" fill="#c9944a" text-anchor="middle" letter-spacing="-1">QS</text>
+            </svg>
+          </div>
+          <span class="favicon-size-label">32px</span>
+        </div>
+        <div class="favicon-item">
+          <div class="fav-a" style="width:16px;height:16px;border-radius:2px;">
+            <svg width="16" height="16" viewBox="0 0 64 64">
+              <rect width="64" height="64" rx="8" fill="#1a3a5c"/>
+              <text x="32" y="44" font-family="Georgia, serif" font-weight="700" font-size="30" fill="#c9944a" text-anchor="middle" letter-spacing="-1">QS</text>
+            </svg>
+          </div>
+          <span class="favicon-size-label">16px</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spec -->
+    <div class="spec-block">
+      <div class="spec-item">
+        <h4>Typography</h4>
+        <p><strong>Playfair Display (700)</strong> for the wordmark — a high-contrast serif that projects authority and established credibility without feeling cold. <strong>Lato (300)</strong> for the tagline — the contrast between the two weights creates visual hierarchy and balances gravitas with approachability.</p>
+      </div>
+      <div class="spec-item">
+        <h4>Color Palette</h4>
+        <div class="swatch-row">
+          <div class="swatch"><div class="swatch-dot" style="background:#1a3a5c;"></div><span class="swatch-hex">#1a3a5c</span></div>
+          <div class="swatch"><div class="swatch-dot" style="background:#c9944a;"></div><span class="swatch-hex">#c9944a</span></div>
+          <div class="swatch"><div class="swatch-dot" style="background:#5a7a9a;"></div><span class="swatch-hex">#5a7a9a</span></div>
+          <div class="swatch"><div class="swatch-dot" style="background:#e8c080;"></div><span class="swatch-hex">#e8c080</span></div>
+          <div class="swatch"><div class="swatch-dot" style="background:#f0e8d8;"></div><span class="swatch-hex">#f0e8d8</span></div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <h4>Best Used When</h4>
+        <ul>
+          <li>✦ Direct mail postcards — gold catches attention in the mailbox</li>
+          <li>✦ Yard signs and property materials</li>
+          <li>✦ Business cards and letterhead</li>
+          <li>✦ LinkedIn / professional digital presence</li>
+          <li>✦ Strongest when you want to signal "established expert"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       CONCEPT B: Fresh Start
+  ══════════════════════════════════════════ -->
+  <div class="concept">
+    <div class="concept-header">
+      <div class="concept-label">Concept B</div>
+      <div class="concept-name">Fresh Start — Forest Green + Cream</div>
+    </div>
+
+    <div class="preview-grid">
+
+      <!-- Forest green background (primary) -->
+      <div class="preview-panel" style="background:#1a4a2e;">
+        <div class="preview-label" style="color:#4a7a5a;">Primary / Postcard Hero</div>
+        <div class="logo-b-large">
+          <div class="logo-b-top">Quick <em>Short</em> Sales</div>
+          <div class="logo-b-bottom">
+            <!-- Simple leaf SVG -->
+            <svg class="logo-b-leaf" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2C6 2 3 7 3 12c0 4 2.5 7.5 6 9.5 .5-3 2-6 5-8-3 1-4.5 3-5 5.5C11.5 21 13 21 14.5 20c3-2 4.5-5.5 4.5-9 0-5-3-9-7-9z" fill="#8aba8e" opacity="0.9"/>
+            </svg>
+            <div class="logo-b-sub">quickshortsales.net</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cream background -->
+      <div class="preview-panel" style="background:#f5f0e8;">
+        <div class="preview-label">On Cream / Letterhead</div>
+        <div class="logo-b-large on-light">
+          <div class="logo-b-top">Quick <em>Short</em> Sales</div>
+          <div class="logo-b-bottom">
+            <svg class="logo-b-leaf" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2C6 2 3 7 3 12c0 4 2.5 7.5 6 9.5 .5-3 2-6 5-8-3 1-4.5 3-5 5.5C11.5 21 13 21 14.5 20c3-2 4.5-5.5 4.5-9 0-5-3-9-7-9z" fill="#3a8a4e"/>
+            </svg>
+            <div class="logo-b-sub">quickshortsales.net</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Favicon B -->
+    <div class="favicon-row">
+      <div class="favicon-label">Favicon / Icon</div>
+      <div class="favicon-samples">
+        <div class="favicon-item">
+          <svg width="64" height="64" viewBox="0 0 64 64">
+            <rect width="64" height="64" rx="8" fill="#1a4a2e"/>
+            <!-- Stylized house + leaf hybrid -->
+            <path d="M32 14 L48 28 L44 28 L44 50 L20 50 L20 28 L16 28 Z" fill="#f5f0e8" opacity="0.15"/>
+            <path d="M32 16 L46 29 L43 29 L43 49 L21 49 L21 29 L18 29 Z" fill="none" stroke="#f5f0e8" stroke-width="1.5" opacity="0.6"/>
+            <text x="32" y="43" font-family="Georgia, serif" font-weight="700" font-size="16" fill="#8aba8e" text-anchor="middle" letter-spacing="1">QSS</text>
+          </svg>
+          <span class="favicon-size-label">64px</span>
+        </div>
+        <div class="favicon-item">
+          <svg width="32" height="32" viewBox="0 0 64 64">
+            <rect width="64" height="64" rx="8" fill="#1a4a2e"/>
+            <path d="M32 16 L46 29 L43 29 L43 49 L21 49 L21 29 L18 29 Z" fill="none" stroke="#f5f0e8" stroke-width="1.5" opacity="0.6"/>
+            <text x="32" y="43" font-family="Georgia, serif" font-weight="700" font-size="16" fill="#8aba8e" text-anchor="middle" letter-spacing="1">QSS</text>
+          </svg>
+          <span class="favicon-size-label">32px</span>
+        </div>
+        <div class="favicon-item">
+          <svg width="16" height="16" viewBox="0 0 64 64">
+            <rect width="64" height="64" rx="8" fill="#1a4a2e"/>
+            <text x="32" y="46" font-family="Georgia, serif" font-weight="700" font-size="22" fill="#8aba8e" text-anchor="middle">Q</text>
+          </svg>
+          <span class="favicon-size-label">16px</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spec B -->
+    <div class="spec-block">
+      <div class="spec-item">
+        <h4>Typography</h4>
+        <p><strong>Merriweather (700)</strong> — a screen-optimized serif designed for high legibility at all sizes. Its slightly condensed feel and ink-trap details print beautifully on postcards. The italic weight variation on "Short" creates a gentle emphasis without aggression. <strong>Lato (400)</strong> for URL — keeps it clean.</p>
+      </div>
+      <div class="spec-item">
+        <h4>Color Palette</h4>
+        <div class="swatch-row">
+          <div class="swatch"><div class="swatch-dot" style="background:#1a4a2e;"></div><span class="swatch-hex">#1a4a2e</span></div>
+          <div class="swatch"><div class="swatch-dot" style="background:#8aba8e;"></div><span class="swatch-hex">#8aba8e</span></div>
+          <div class="swatch"><div class="swatch-dot" style="background:#f5f0e8;"></div><span class="swatch-hex">#f5f0e8</span></div>
+          <div class="swatch"><div class="swatch-dot" style="background:#3a8a4e;"></div><span class="swatch-hex">#3a8a4e</span></div>
+          <div class="swatch"><div class="swatch-dot" style="background:#d4e8d8;"></div><span class="swatch-hex">#d4e8d8</span></div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <h4>Best Used When</h4>
+        <ul>
+          <li>✦ Landing page hero — the green communicates hope and a new chapter</li>
+          <li>✦ Postcards where you want calm over urgency</li>
+          <li>✦ Evergreen digital presence — ages well</li>
+          <li>✦ Works especially well with homeowner-facing empathy copy</li>
+          <li>✦ Differentiates from the sea of red/blue real estate brands</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       CONCEPT C: Modern & Direct
+  ══════════════════════════════════════════ -->
+  <div class="concept">
+    <div class="concept-header">
+      <div class="concept-label">Concept C</div>
+      <div class="concept-name">Modern & Direct — Charcoal + Sky Blue</div>
+    </div>
+
+    <div class="preview-grid">
+
+      <!-- White background -->
+      <div class="preview-panel light">
+        <div class="preview-label">On White / Web Header</div>
+        <div class="logo-c-large">
+          <div class="logo-c-badge">
+            <!-- Minimal house icon -->
+            <svg class="logo-c-icon" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="17" stroke="#4a90d9" stroke-width="1.5" opacity="0.3"/>
+              <path d="M18 9 L28 18 L25.5 18 L25.5 28 L10.5 28 L10.5 18 L8 18 Z" fill="#4a90d9" opacity="0.15"/>
+              <path d="M18 10 L27 18.5 L25 18.5 L25 27 L11 27 L11 18.5 L9 18.5 Z" stroke="#4a90d9" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+              <rect x="15" y="21" width="6" height="6" rx="0.5" stroke="#4a90d9" stroke-width="1.2" fill="none"/>
+            </svg>
+            <div class="logo-c-text-stack">
+              <span class="logo-c-quick">Quick</span>
+              <span class="logo-c-short">Short Sales</span>
+            </div>
+          </div>
+          <div class="logo-c-tagline">Fast. Honest. South Florida Short Sale Experts.</div>
+        </div>
+      </div>
+
+      <!-- Dark background -->
+      <div class="preview-panel dark">
+        <div class="preview-label">On Dark / App / Email Header</div>
+        <div class="logo-c-large on-dark">
+          <div class="logo-c-badge">
+            <svg class="logo-c-icon" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="18" r="17" stroke="#4a90d9" stroke-width="1.5" opacity="0.4"/>
+              <path d="M18 9 L28 18 L25.5 18 L25.5 28 L10.5 28 L10.5 18 L8 18 Z" fill="#4a90d9" opacity="0.2"/>
+              <path d="M18 10 L27 18.5 L25 18.5 L25 27 L11 27 L11 18.5 L9 18.5 Z" stroke="#4a90d9" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+              <rect x="15" y="21" width="6" height="6" rx="0.5" stroke="#4a90d9" stroke-width="1.2" fill="none"/>
+            </svg>
+            <div class="logo-c-text-stack">
+              <span class="logo-c-quick">Quick</span>
+              <span class="logo-c-short" style="color:#fff;">Short Sales</span>
+            </div>
+          </div>
+          <div class="logo-c-tagline">Fast. Honest. South Florida Short Sale Experts.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Favicon C -->
+    <div class="favicon-row">
+      <div class="favicon-label">Favicon / Icon</div>
+      <div class="favicon-samples">
+        <div class="favicon-item">
+          <svg width="64" height="64" viewBox="0 0 64 64">
+            <rect width="64" height="64" rx="10" fill="#2c3e50"/>
+            <path d="M32 14 L50 30 L46 30 L46 50 L18 50 L18 30 L14 30 Z" fill="#4a90d9" opacity="0.2"/>
+            <path d="M32 15 L49 30.5 L45.5 30.5 L45.5 49.5 L18.5 49.5 L18.5 30.5 L15 30.5 Z" stroke="#4a90d9" stroke-width="2" fill="none" stroke-linejoin="round"/>
+            <rect x="26" y="37" width="12" height="12.5" rx="1" stroke="#4a90d9" stroke-width="1.8" fill="none"/>
+          </svg>
+          <span class="favicon-size-label">64px</span>
+        </div>
+        <div class="favicon-item">
+          <svg width="32" height="32" viewBox="0 0 64 64">
+            <rect width="64" height="64" rx="10" fill="#2c3e50"/>
+            <path d="M32 15 L49 30.5 L45.5 30.5 L45.5 49.5 L18.5 49.5 L18.5 30.5 L15 30.5 Z" stroke="#4a90d9" stroke-width="2" fill="none" stroke-linejoin="round"/>
+            <rect x="26" y="37" width="12" height="12.5" rx="1" stroke="#4a90d9" stroke-width="1.8" fill="none"/>
+          </svg>
+          <span class="favicon-size-label">32px</span>
+        </div>
+        <div class="favicon-item">
+          <svg width="16" height="16" viewBox="0 0 64 64">
+            <rect width="64" height="64" rx="10" fill="#2c3e50"/>
+            <path d="M32 15 L49 30.5 L45.5 30.5 L45.5 49.5 L18.5 49.5 L18.5 30.5 L15 30.5 Z" stroke="#4a90d9" stroke-width="3" fill="none" stroke-linejoin="round"/>
+          </svg>
+          <span class="favicon-size-label">16px</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spec C -->
+    <div class="spec-block">
+      <div class="spec-item">
+        <h4>Typography</h4>
+        <p><strong>Source Sans 3 (700 + 300)</strong> — a humanist sans-serif that balances friendliness and professionalism. The extreme weight contrast (300 "Quick" vs 700 "Short Sales") creates a visual hierarchy that draws the eye while the overall feel stays modern and approachable. Renders crisply on screen and in print.</p>
+      </div>
+      <div class="spec-item">
+        <h4>Color Palette</h4>
+        <div class="swatch-row">
+          <div class="swatch"><div class="swatch-dot" style="background:#2c3e50;"></div><span class="swatch-hex">#2c3e50</span></div>
+          <div class="swatch"><div class="swatch-dot" style="background:#4a90d9;"></div><span class="swatch-hex">#4a90d9</span></div>
+          <div class="swatch"><div class="swatch-dot" style="background:#8a9fb5;"></div><span class="swatch-hex">#8a9fb5</span></div>
+          <div class="swatch"><div class="swatch-dot" style="background:#e8f2fc;"></div><span class="swatch-hex">#e8f2fc</span></div>
+          <div class="swatch"><div class="swatch-dot" style="background:#ffffff;"></div><span class="swatch-hex">#ffffff</span></div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <h4>Best Used When</h4>
+        <ul>
+          <li>✦ Full website / digital-first presence</li>
+          <li>✦ Email campaigns and digital ads</li>
+          <li>✦ Audiences who respond to "modern professional"</li>
+          <li>✦ Pairs well with a clean sans-serif landing page</li>
+          <li>✦ Best if site ever expands to full Fidelity Realty co-brand</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       COMPARISON TABLE
+  ══════════════════════════════════════════ -->
+  <div class="concept" style="margin-bottom: 0;">
+    <div class="concept-header">
+      <div class="concept-label">Summary</div>
+      <div class="concept-name">Decision Guide</div>
+    </div>
+    <div style="padding: 28px 36px 36px; overflow-x: auto;">
+      <table style="width:100%; border-collapse: collapse; font-size: 13px;">
+        <thead>
+          <tr style="border-bottom: 2px solid #f0f0f0;">
+            <th style="text-align:left; padding: 8px 12px; color:#aaa; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; font-weight:700;">Concept</th>
+            <th style="text-align:left; padding: 8px 12px; color:#aaa; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; font-weight:700;">Postcards</th>
+            <th style="text-align:left; padding: 8px 12px; color:#aaa; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; font-weight:700;">Landing Page</th>
+            <th style="text-align:left; padding: 8px 12px; color:#aaa; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; font-weight:700;">Long-Term Site</th>
+            <th style="text-align:left; padding: 8px 12px; color:#aaa; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; font-weight:700;">Emotional Tone</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid #f5f5f5;">
+            <td style="padding: 12px; font-weight:600; color:#1a3a5c;">A — Navy/Gold</td>
+            <td style="padding: 12px; color:#555;">⭐⭐⭐⭐⭐</td>
+            <td style="padding: 12px; color:#555;">⭐⭐⭐⭐</td>
+            <td style="padding: 12px; color:#555;">⭐⭐⭐⭐</td>
+            <td style="padding: 12px; color:#555;">Authority, Trust, Heritage</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #f5f5f5;">
+            <td style="padding: 12px; font-weight:600; color:#1a4a2e;">B — Green/Cream</td>
+            <td style="padding: 12px; color:#555;">⭐⭐⭐⭐</td>
+            <td style="padding: 12px; color:#555;">⭐⭐⭐⭐⭐</td>
+            <td style="padding: 12px; color:#555;">⭐⭐⭐⭐</td>
+            <td style="padding: 12px; color:#555;">Hope, Calm, Fresh Start</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; font-weight:600; color:#2c3e50;">C — Charcoal/Blue</td>
+            <td style="padding: 12px; color:#555;">⭐⭐⭐</td>
+            <td style="padding: 12px; color:#555;">⭐⭐⭐⭐</td>
+            <td style="padding: 12px; color:#555;">⭐⭐⭐⭐⭐</td>
+            <td style="padding: 12px; color:#555;">Modern, Clear, Capable</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px; color:#aaa; margin-top:16px; line-height:1.6;">
+        <strong>Recommendation for immediate launch:</strong> Concept A for direct mail (gold pops in the mailbox, authority helps overcome resistance).
+        Concept B for the landing page (empathetic tone aligns with homeowner's emotional state).
+        Concept C if/when the full site is built or if Jack wants a more contemporary feel long-term.
+      </p>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:40px; font-size:11px; color:#ccc; letter-spacing:0.1em;">
+    Aiphorism Creative · Quick Short Sales · Logo Concepts v1.0 · 2026-03-20
+  </div>
+
+</body>
+</html>
