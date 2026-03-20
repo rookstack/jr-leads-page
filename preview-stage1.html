@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stage 1 Postcard Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #111; font-family: 'Lato', sans-serif; padding: 40px 24px; }
+    .page-title { color: #c9944a; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+    .page-sub { color: #666; font-size: 0.75rem; margin-bottom: 32px; }
+    .card-label { color: #555; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .card-wrap { margin-bottom: 40px; }
+
+    /* ── CARD SHELL (9x6 ratio scaled to fit screen) ── */
+    .card {
+      width: 900px;
+      height: 600px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    }
+
+    /* ════════════════════════════════════
+       STAGE 1 — FRONT
+    ════════════════════════════════════ */
+    .s1-front {
+      width: 100%; height: 100%;
+      background: #1a3a5c;
+      color: #f5f0e8;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 44px 52px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .s1-front::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      border: 22px solid rgba(201,148,74,0.1);
+    }
+    .s1-front::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -50px;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      border: 12px solid rgba(201,148,74,0.07);
+    }
+    .brand { font-family: 'Playfair Display', serif; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #c9944a; position: relative; }
+    .headline { font-family: 'Playfair Display', serif; font-size: 56px; font-weight: 700; line-height: 1.05; color: #fff; position: relative; margin-top: 16px; }
+    .headline em { color: #c9944a; font-style: normal; }
+    .subline { font-size: 16px; color: #c8bfaf; line-height: 1.55; margin-top: 12px; max-width: 460px; position: relative; }
+    .bottom-row { display: flex; justify-content: space-between; align-items: flex-end; position: relative; }
+    .prop-box { border-left: 4px solid #c9944a; padding-left: 14px; }
+    .prop-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9944a; margin-bottom: 4px; }
+    .prop-addr { font-size: 15px; font-weight: 700; color: #f5f0e8; line-height: 1.4; }
+    .qr-box { width: 90px; height: 90px; background: rgba(255,255,255,0.06); border: 1px solid rgba(201,148,74,0.3); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .qr-box span { font-size: 9px; color: #c9944a; text-align: center; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.5; }
+
+    /* ════════════════════════════════════
+       STAGE 1 — BACK
+    ════════════════════════════════════ */
+    .s1-back {
+      width: 100%; height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+    }
+    .s1-left {
+      padding: 38px 32px;
+      background: #f5f0e8;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .s1-right {
+      padding: 32px 28px;
+      background: #1a3a5c;
+      color: #f5f0e8;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .greeting { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #1a3a5c; margin-bottom: 12px; }
+    .body-copy { font-size: 13px; line-height: 1.65; color: #3a3028; }
+    .body-copy p + p { margin-top: 10px; }
+    .sig { font-size: 12px; color: #1a3a5c; border-top: 1px solid rgba(26,58,92,0.15); padding-top: 10px; margin-top: 10px; }
+    .sig strong { display: block; font-size: 14px; margin-bottom: 3px; }
+    .sig span { display: block; color: #7a6a58; font-size: 11px; line-height: 1.5; }
+    .cta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #c9944a; margin-bottom: 8px; }
+    .cta-head { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 14px; }
+    .cta-steps { font-size: 12px; color: #c8bfaf; line-height: 1.8; }
+    .cta-steps .gold { color: #c9944a; font-weight: 700; display: block; font-size: 13px; }
+    .divider { height: 1px; background: rgba(201,148,74,0.25); margin: 12px 0; }
+    .addr-block { font-size: 11px; color: #a09080; line-height: 1.55; }
+    .addr-block strong { color: #f5f0e8; display: block; margin-bottom: 4px; }
+    .right-brand { font-size: 10px; color: #4a6a8a; text-transform: uppercase; letter-spacing: 0.08em; }
+  </style>
+</head>
+<body>
+  <div class="page-title">Quick Short Sales — Stage 1</div>
+  <div class="page-sub">Behind on payments? You still have options. · Month 1 — First Touch</div>
+
+  <div class="card-wrap">
+    <div class="card-label">Front</div>
+    <div class="card">
+      <div class="s1-front">
+        <div class="brand">Quick Short Sales</div>
+        <div>
+          <div class="headline">Behind on<br/>payments?<br/><em>You still have<br/>options.</em></div>
+          <div class="subline">Life happens — and when it does,<br/>knowing your options changes everything.</div>
+        </div>
+        <div class="bottom-row">
+          <div class="prop-box">
+            <div class="prop-label">Your property</div>
+            <div class="prop-addr">1234 Oak Street<br/>Delray Beach, FL</div>
+          </div>
+          <div class="qr-box"><span>Scan<br/>to learn<br/>more</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-wrap">
+    <div class="card-label">Back</div>
+    <div class="card">
+      <div class="s1-back">
+        <div class="s1-left">
+          <div>
+            <div class="greeting">Hi Michael,</div>
+            <div class="body-copy">
+              <p>If you've fallen behind on your mortgage, you're not alone. Job loss, medical bills, rising property taxes, divorce — unexpected hardship hits good people every day. Feeling stressed or unsure is completely normal.</p>
+              <p>What you may not know is that you could have more options than you think. A short sale allows you to sell for less than you owe and walk away on your schedule — without the lasting damage foreclosure leaves behind. We handle all lender negotiations at no upfront cost.</p>
+            </div>
+          </div>
+          <div class="sig">
+            <strong>Jack Watlington</strong>
+            <span>Licensed Real Estate Broker, FL #3139881</span>
+            <span>Fidelity Realty Advisors · Boynton Beach, FL</span>
+            <span>(561) 222-6331</span>
+          </div>
+        </div>
+        <div class="s1-right">
+          <div>
+            <div class="cta-label">Free consultation</div>
+            <div class="cta-head">Let's talk<br/>about your<br/>options.</div>
+            <div class="cta-steps">
+              <span>📋 Fill out a short form at</span>
+              <span class="gold">quickshortsales.net</span>
+              <span style="margin-top:8px;display:block;">or call directly:</span>
+              <span class="gold">(561) 222-6331</span>
+            </div>
+            <div class="divider"></div>
+            <div class="cta-steps">
+              <span>✓ Confidential</span>
+              <span>✓ No upfront cost</span>
+              <span>✓ No pressure</span>
+            </div>
+          </div>
+          <div>
+            <div class="addr-block">
+              <strong>Michael Johnson</strong>
+              1234 Oak Street<br/>
+              Delray Beach, FL 33444
+            </div>
+            <div class="right-brand" style="margin-top:10px;">Quick Short Sales</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
