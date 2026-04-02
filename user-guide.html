@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quick Short Sales — Lead Pipeline User Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    /* ─── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:  #1a3a5c;
+      --gold:  #c9944a;
+      --cream: #f5f0e8;
+      --white: #ffffff;
+      --light-border: #ddd5c4;
+      --text-dark: #1c1c1c;
+      --text-mid:  #4a4a4a;
+      --success: #2e7d32;
+      --warning: #b45309;
+      --danger:  #b71c1c;
+    }
+
+    html { font-size: 15px; }
+
+    body {
+      font-family: 'Lato', Arial, sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.7;
+    }
+
+    /* ─── Print Setup ──────────────────────────────── */
+    @media print {
+      body { font-size: 11pt; }
+      .page-break { page-break-before: always; }
+      .no-print { display: none; }
+      a { color: inherit; text-decoration: none; }
+      .quick-ref { page-break-after: always; }
+    }
+
+    /* ─── Layout ───────────────────────────────────── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 40px 60px;
+    }
+
+    /* ─── Cover Header ─────────────────────────────── */
+    .cover {
+      background: var(--navy);
+      color: var(--white);
+      padding: 50px 40px 40px;
+      text-align: center;
+      border-bottom: 6px solid var(--gold);
+    }
+
+    .cover .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .cover .doc-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+
+    .cover .meta {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.5px;
+    }
+
+    .cover .portal-url {
+      display: inline-block;
+      margin-top: 18px;
+      background: rgba(201,148,74,0.15);
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      color: var(--gold);
+      font-family: 'Lato', sans-serif;
+    }
+
+    /* ─── Quick Reference Box ──────────────────────── */
+    .quick-ref {
+      background: var(--cream);
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin: 36px 0 40px;
+    }
+
+    .quick-ref h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--navy);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+
+    .qr-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 32px;
+    }
+
+    .qr-col h3 {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .qr-col ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .qr-col ul li {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      padding: 3px 0 3px 16px;
+      position: relative;
+    }
+
+    .qr-col ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .qr-col ul li strong {
+      color: var(--navy);
+    }
+
+    .alert-box {
+      background: var(--navy);
+      color: var(--cream);
+      border-radius: 6px;
+      padding: 12px 18px;
+      margin-top: 20px;
+      font-size: 0.88rem;
+    }
+
+    .alert-box strong {
+      color: var(--gold);
+    }
+
+    /* ─── Section Headings ─────────────────────────── */
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+      border-bottom: 2px solid var(--cream);
+      padding-bottom: 10px;
+    }
+
+    .section-num {
+      background: var(--navy);
+      color: var(--gold);
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-header h2 {
+      font-size: 1.4rem;
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    /* ─── Step Lists ───────────────────────────────── */
+    .steps {
+      counter-reset: step-counter;
+      list-style: none;
+      padding: 0;
+    }
+
+    .steps li {
+      counter-increment: step-counter;
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+
+    .steps li::before {
+      content: counter(step-counter);
+      background: var(--gold);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.8rem;
+      min-width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .steps li p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+    }
+
+    .steps li p strong {
+      color: var(--navy);
+    }
+
+    .steps li p .note {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--text-mid);
+      margin-top: 3px;
+      font-style: italic;
+    }
+
+    /* ─── Bullet Lists ─────────────────────────────── */
+    .bullets {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0;
+    }
+
+    .bullets li {
+      padding: 5px 0 5px 22px;
+      position: relative;
+      font-size: 0.93rem;
+      color: var(--text-dark);
+    }
+
+    .bullets li::before {
+      content: '●';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 0.6rem;
+      top: 10px;
+    }
+
+    /* ─── Filter/Badge Table ───────────────────────── */
+    .filter-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+
+    .filter-table th {
+      background: var(--navy);
+      color: var(--gold);
+      text-align: left;
+      padding: 10px 14px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .filter-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--light-border);
+      vertical-align: top;
+    }
+
+    .filter-table tr:nth-child(even) td {
+      background: var(--cream);
+    }
+
+    /* ─── Status Badges ────────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge-match {
+      background: #e8f5e9;
+      color: var(--success);
+      border: 1px solid #a5d6a7;
+    }
+
+    .badge-changed {
+      background: #fff3e0;
+      color: var(--warning);
+      border: 1px solid #ffcc80;
+    }
+
+    .badge-notfound {
+      background: #ffebee;
+      color: var(--danger);
+      border: 1px solid #ef9a9a;
+    }
+
+    .badge-pending {
+      background: #e3f2fd;
+      color: #1565c0;
+      border: 1px solid #90caf9;
+    }
+
+    .badge-warm {
+      background: #fff8e1;
+      color: #e65100;
+      border: 1px solid #ffcc02;
+    }
+
+    .badge-hot {
+      background: #fce4ec;
+      color: #880e4f;
+      border: 1px solid #f48fb1;
+    }
+
+    /* ─── Info / Tip Blocks ────────────────────────── */
+    .tip-block {
+      background: #eef3f9;
+      border-left: 4px solid var(--navy);
+      padding: 14px 18px;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0;
+      font-size: 0.9rem;
+      color: var(--text-mid);
+    }
+
+    .tip-block strong {
+      color: var(--navy);
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .gold-block {
+      background: #fdf6ec;
+      border-left: 4px solid var(--gold);
+      padding: 14px 18px;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+    }
+
+    .gold-block strong {
+      color: var(--gold);
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── Stage Cards ──────────────────────────────── */
+    .stage-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .stage-card {
+      border: 2px solid var(--light-border);
+      border-radius: 8px;
+      padding: 18px 16px;
+      text-align: center;
+    }
+
+    .stage-card .stage-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .stage-card .stage-month {
+      font-size: 0.72rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .stage-card p {
+      font-size: 0.84rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    /* ─── Glossary ─────────────────────────────────── */
+    .glossary-item {
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--light-border);
+      padding-bottom: 14px;
+    }
+
+    .glossary-item:last-child {
+      border-bottom: none;
+    }
+
+    .glossary-term {
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 0.98rem;
+    }
+
+    .glossary-abbr {
+      font-size: 0.78rem;
+      color: var(--gold);
+      font-weight: 700;
+      margin-left: 6px;
+    }
+
+    .glossary-def {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      margin-top: 4px;
+    }
+
+    /* ─── Divider ──────────────────────────────────── */
+    .divider {
+      border: none;
+      border-top: 2px solid var(--cream);
+      margin: 40px 0;
+    }
+
+    /* ─── Footer ───────────────────────────────────── */
+    .footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 22px 40px;
+      font-size: 0.78rem;
+      letter-spacing: 0.5px;
+    }
+
+    .footer strong {
+      color: var(--gold);
+    }
+
+    /* ─── Inline code ──────────────────────────────── */
+    code {
+      background: var(--cream);
+      border: 1px solid var(--light-border);
+      border-radius: 3px;
+      padding: 2px 6px;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      color: var(--navy);
+    }
+
+    /* ─── Sub-header ───────────────────────────────── */
+    h3.sub {
+      font-size: 1.05rem;
+      color: var(--navy);
+      margin: 24px 0 10px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+    }
+
+    @media (max-width: 640px) {
+      .qr-grid { grid-template-columns: 1fr; }
+      .stage-cards { grid-template-columns: 1fr; }
+      .container { padding: 20px 18px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════ COVER ══════════════ -->
+  <header class="cover">
+    <div class="brand">Quick Short Sales</div>
+    <div class="doc-title">Lead Pipeline — Client User Guide</div>
+    <div class="meta">Prepared for Jack Watlington &nbsp;·&nbsp; Confidential</div>
+    <div class="portal-url">Portal: aiphorism-client-portal.vercel.app/jr-propstream</div>
+  </header>
+
+  <div class="container">
+
+    <!-- ══════════════ SECTION 0 — QUICK REFERENCE ══════════════ -->
+    <div class="quick-ref" id="quick-ref">
+      <h2>⚡ Quick Reference — Everything You Need at a Glance</h2>
+      <div class="qr-grid">
+
+        <div class="qr-col">
+          <h3>Monthly Workflow</h3>
+          <ul>
+            <li><strong>1.</strong> Export CSV from Property Radar</li>
+            <li><strong>2.</strong> Upload via Property CSV Import</li>
+            <li><strong>3.</strong> Wait overnight — RPR runs automatically</li>
+            <li><strong>4.</strong> Review Lead Pipeline — filter by list &amp; status</li>
+            <li><strong>5.</strong> Mark Active (MLS-listed) properties manually</li>
+            <li><strong>6.</strong> Team sends postcards — you sit back</li>
+            <li><strong>7.</strong> Follow up on any Warm / Hot leads</li>
+          </ul>
+        </div>
+
+        <div class="qr-col">
+          <h3>RPR Status Badges</h3>
+          <ul>
+            <li><span class="badge badge-match">✓ Match</span> &nbsp;Good — mail goes out</li>
+            <li><span class="badge badge-changed">⚠ Changed</span> &nbsp;Review — ownership shifted</li>
+            <li><span class="badge badge-notfound">✗ Not Found</span> &nbsp;Skip — no mail sent</li>
+            <li><span class="badge badge-pending">⏳ Pending</span> &nbsp;Validation in progress</li>
+          </ul>
+
+          <h3 style="margin-top: 18px;">Lead Status Tags</h3>
+          <ul>
+            <li><span class="badge badge-warm">🔥 Warm</span> &nbsp;Showed interest (auto-set)</li>
+            <li><span class="badge badge-hot">❤️ Hot</span> &nbsp;High intent — follow up now</li>
+            <li><strong>Nurture</strong> — keep on radar, not urgent</li>
+            <li><strong>Dead</strong> — not a viable prospect</li>
+          </ul>
+        </div>
+
+        <div class="qr-col">
+          <h3>What You Do</h3>
+          <ul>
+            <li>Upload new Property Radar CSVs monthly</li>
+            <li>Review dashboard morning after upload</li>
+            <li>Mark any listed properties as Active</li>
+            <li>Follow up on Warm / Hot leads directly</li>
+            <li>Update lead status in the property drawer</li>
+          </ul>
+        </div>
+
+        <div class="qr-col">
+          <h3>What the Team Does</h3>
+          <ul>
+            <li>RPR validation runs automatically overnight</li>
+            <li>Postcard mailing via Lob.com (team-triggered)</li>
+            <li>QR code tracking is fully automatic</li>
+            <li>System escalates Warm/Hot status for you</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="alert-box">
+        <strong>Your portal login:</strong> fidelw@gmail.com &nbsp;·&nbsp;
+        <strong>Landing page:</strong> quickshortsales.net &nbsp;·&nbsp;
+        <strong>Questions?</strong> Reach Joshua at Aiphorism
+      </div>
+    </div>
+
+
+    <!-- ══════════════ SECTION 1 — GETTING STARTED ══════════════ -->
+    <div class="section page-break" id="getting-started">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <h2>Getting Started</h2>
+      </div>
+
+      <p>
+        Jack, welcome to your Quick Short Sales lead pipeline. This portal is your command center for every property lead — from the moment you upload a list to the day a homeowner reaches out. Everything is built around your workflow as a broker, and almost everything runs automatically in the background.
+      </p>
+
+      <h3 class="sub">Logging In</h3>
+      <ol class="steps">
+        <li><p>Open any web browser (Chrome, Safari, Edge — all work fine).</p></li>
+        <li><p>Navigate to: <code>aiphorism-client-portal.vercel.app/jr-propstream</code></p></li>
+        <li><p>Enter your login credentials. Your current login is <strong>fidelw@gmail.com</strong>. A personalized account will be set up for you — the team will let you know when it's ready.</p></li>
+        <li><p>You'll land on the <strong>Lead Pipeline</strong> dashboard — your main workspace.</p></li>
+      </ol>
+
+      <div class="tip-block">
+        <strong>Tip</strong>
+        Bookmark the portal URL in your browser. You'll be visiting it at least once a month — usually the morning after uploading a new list, and whenever you get an alert about a Warm or Hot lead.
+      </div>
+
+      <h3 class="sub">What's Inside the Portal</h3>
+      <p>Your portal has three main tools — accessible from the navigation at the top or side of the screen:</p>
+
+      <table class="filter-table">
+        <thead>
+          <tr>
+            <th>Tool</th>
+            <th>What It Does</th>
+            <th>When You Use It</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Lead Pipeline</strong></td>
+            <td>Your main dashboard. Shows all properties, their RPR validation status, distress score, lead status, and mailer history.</td>
+            <td>Every time you check in. This is your home base.</td>
+          </tr>
+          <tr>
+            <td><strong>Property CSV Import</strong></td>
+            <td>Upload a new export from Property Radar to bring in a fresh batch of leads.</td>
+            <td>Once a month (or whenever you pull a new list).</td>
+          </tr>
+          <tr>
+            <td><strong>Landing Page</strong></td>
+            <td>Preview of the homeowner-facing page at quickshortsales.net — where your QR codes send people.</td>
+            <td>For reference / showing clients what they'll see.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <!-- ══════════════ SECTION 2 — MONTHLY WORKFLOW ══════════════ -->
+    <div class="section" id="monthly-workflow">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <h2>Monthly Workflow — Step by Step</h2>
+      </div>
+
+      <p>
+        Your monthly rhythm is simple: pull a new list from Property Radar, upload it to the portal, and let the system do the heavy lifting overnight. Here's exactly how it flows.
+      </p>
+
+      <h3 class="sub">Part A — Uploading a New List</h3>
+      <ol class="steps">
+        <li>
+          <p><strong>Export your leads from Property Radar.</strong> Filter your search criteria as usual and export the results as a <strong>CSV file</strong>. Save it somewhere easy to find — your Desktop or Downloads folder is fine.
+          <span class="note">Property Radar's export button is typically in the top-right of your results view. Choose CSV/spreadsheet format when prompted.</span></p>
+        </li>
+        <li>
+          <p><strong>Log into your portal</strong> at <code>aiphorism-client-portal.vercel.app/jr-propstream</code>.</p>
+        </li>
+        <li>
+          <p><strong>Click "Property CSV Import"</strong> in the navigation menu.</p>
+        </li>
+        <li>
+          <p><strong>Give your list a name.</strong> Use something descriptive and date-stamped — for example: <em>"LA County April 2026"</em> or <em>"San Fernando Valley Q2."</em> This name will appear as a filter in your Lead Pipeline dashboard, so you can always tell lists apart.
+          <span class="note">Each upload creates a separate named list. You can have many lists active at the same time.</span></p>
+        </li>
+        <li>
+          <p><strong>Click "Upload" and select your CSV file.</strong> The portal will process it immediately — you'll see a results table appear showing how many properties were imported.</p>
+        </li>
+        <li>
+          <p><strong>You're done for now.</strong> The portal automatically queues every property for RPR validation, which runs overnight.</p>
+        </li>
+      </ol>
+
+      <div class="gold-block">
+        <strong>What Happens Next (Automatic)</strong>
+        Overnight, the system runs each property address against RPR (Realtors Property Resource) to verify owner information is current. By the next morning, every property in your list will have a status badge: ✓ Match, ⚠ Changed, or ✗ Not Found. You don't need to do anything — just check back the next morning.
+      </div>
+
+      <h3 class="sub">Part B — Reviewing Your Leads (Next Morning)</h3>
+      <ol class="steps">
+        <li>
+          <p><strong>Log into the portal and go to Lead Pipeline.</strong> Your newly imported list is now fully validated.</p>
+        </li>
+        <li>
+          <p><strong>Filter by your new list name</strong> using the list filter at the top of the dashboard. This narrows the view to just the properties you just uploaded.</p>
+        </li>
+        <li>
+          <p><strong>Filter by PRP Status: ✓ Match</strong> to see clean, validated properties ready for mailing.</p>
+        </li>
+        <li>
+          <p><strong>Scan for any Active (MLS-listed) properties.</strong> If a property in your list has come on the market, you don't want to send it a postcard — that would be awkward. Filter by market status "All" to surface any that show as Active, then mark them accordingly (see Section 4 for how to do this in the drawer).</p>
+        </li>
+        <li>
+          <p><strong>Let the team know you're ready.</strong> Once you've reviewed and flagged any Active properties, notify Joshua so the Lob.com mailing can be triggered for that list's batch.</p>
+        </li>
+      </ol>
+
+      <h3 class="sub">Part C — Ongoing: Following Up on Warm &amp; Hot Leads</h3>
+      <ol class="steps">
+        <li>
+          <p><strong>Anytime a homeowner scans your QR code or fills out a form on quickshortsales.net,</strong> the system automatically upgrades their lead status to <strong>Warm</strong> or <strong>Hot</strong>. You don't need to monitor the landing page — it's all handled.</p>
+        </li>
+        <li>
+          <p><strong>Check the Lead Pipeline dashboard regularly</strong> (daily or a few times per week). Filter by Lead Status: <em>Warm</em> or <em>Hot</em> to see anyone who has responded.</p>
+        </li>
+        <li>
+          <p><strong>Open the property drawer</strong> (click on any row) and review the homeowner's contact info, valuation, and any form responses they submitted.</p>
+        </li>
+        <li>
+          <p><strong>Follow up directly</strong> — call or email the homeowner using the contact info shown. This is where your expertise as a broker takes over.</p>
+        </li>
+        <li>
+          <p><strong>Update the lead status</strong> in the drawer after your conversation — move it to Nurture, Dead, or keep it Hot depending on where things stand.</p>
+        </li>
+      </ol>
+    </div>
+
+
+    <!-- ══════════════ SECTION 3 — LEAD PIPELINE DASHBOARD ══════════════ -->
+    <div class="section page-break" id="lead-pipeline">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <h2>Working the Lead Pipeline Dashboard</h2>
+      </div>
+
+      <p>
+        The Lead Pipeline is your main workspace. It shows every property across all your lists in one place, with powerful filters to zero in on exactly what you need. Here's how to navigate it.
+      </p>
+
+      <h3 class="sub">Using the Filters</h3>
+      <p>The filter bar runs along the top of the dashboard. Use these filters in combination to drill down to exactly the properties you want to work:</p>
+
+      <table class="filter-table">
+        <thead>
+          <tr>
+            <th>Filter</th>
+            <th>Options</th>
+            <th>What It Does</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>List</strong></td>
+            <td>All / [Your named lists]</td>
+            <td>Shows only properties from a specific upload batch. Each Property Radar export you've uploaded appears here by the name you gave it.</td>
+          </tr>
+          <tr>
+            <td><strong>PRP Status</strong></td>
+            <td>All / ✓ Match / ⚠ Changed / ✗ Not Found / Pending</td>
+            <td>Filters by RPR validation result. Use "✓ Match" to see mail-ready leads. Use "⚠ Changed" to manually review ownership shifts.</td>
+          </tr>
+          <tr>
+            <td><strong>Market Status</strong></td>
+            <td>Off Market (default) / Active / All</td>
+            <td>"Off Market" is the default — these are the homes you want to target. "Active" shows homes currently listed on MLS (which you'll want to exclude from mailing).</td>
+          </tr>
+          <tr>
+            <td><strong>Lead Status</strong></td>
+            <td>Unassigned / Warm / Hot / Nurture / Dead</td>
+            <td>Filters by where a lead is in your follow-up funnel. "Warm" and "Hot" are your priority leads — someone who has engaged with your materials.</td>
+          </tr>
+          <tr>
+            <td><strong>Owner Type</strong></td>
+            <td>All / Individuals Only / Business Owned</td>
+            <td>Use "Individuals Only" to focus on homeowner-occupied properties. "Business Owned" often means LLCs or trusts — may require a different outreach approach.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="tip-block">
+        <strong>Pro Tip</strong>
+        A powerful combination: Filter by your newest list + PRP Status "✓ Match" + Market Status "Off Market" + Lead Status "Unassigned." This shows you exactly which fresh, validated, off-market properties haven't been touched yet — your next mailing batch.
+      </div>
+
+      <h3 class="sub">Opening a Property Drawer</h3>
+      <p>Click any row in the dashboard to open that property's detail drawer on the right side of the screen. The drawer is where all the action happens for an individual lead.</p>
+
+      <p><strong>Inside the drawer, you'll find:</strong></p>
+      <ul class="bullets">
+        <li>Full owner name, mailing address, and contact information</li>
+        <li>Property valuation and CLTV (Combined Loan-to-Value) ratio</li>
+        <li>RPR validation notes — what matched, what changed, why</li>
+        <li>Mailer history — which postcards have been sent and when (Stage 1, 2, or 3)</li>
+        <li>Lead status dropdown — update this as you work the lead</li>
+        <li>Market status toggle — mark a property as Active (on MLS) to remove it from the mail queue</li>
+        <li>Contact notes field — auto-saves whatever you type; use this to log your calls and conversations</li>
+        <li>Archive button — removes the property from your active list entirely</li>
+      </ul>
+
+      <h3 class="sub">Managing Lead Status</h3>
+      <p>The lead status dropdown in the drawer lets you manually move a property through your follow-up pipeline:</p>
+
+      <table class="filter-table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>When to Use It</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-warm">🔥 Warm</span></td>
+            <td>Auto-set when a homeowner engages (scans QR, visits site, fills form). Can also be set manually if you've had preliminary contact.</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-hot">❤️ Hot</span></td>
+            <td>Homeowner has expressed clear interest or intent. Follow up immediately. Auto-set for high-engagement form submissions.</td>
+          </tr>
+          <tr>
+            <td><strong>Nurture</strong></td>
+            <td>Potential prospect but not ready now. Keep in the system; they may come around after more touches.</td>
+          </tr>
+          <tr>
+            <td><strong>Dead</strong></td>
+            <td>Not a viable lead — wrong person, not interested, property sold, etc. Keeps the record but excludes from active follow-up.</td>
+          </tr>
+          <tr>
+            <td><strong>Unassigned</strong></td>
+            <td>Default for new leads. No action taken yet.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="gold-block">
+        <strong>On Contact Notes</strong>
+        Use the notes field religiously. Every call, every voicemail left, every text exchange — log it with a date. This history lives in the portal permanently and will save you when you're following up weeks later and can't remember where you left off.
+      </div>
+    </div>
+
+
+    <!-- ══════════════ SECTION 4 — RPR VALIDATION ══════════════ -->
+    <div class="section" id="rpr-validation">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <h2>Understanding RPR Validation Results</h2>
+      </div>
+
+      <p>
+        RPR (Realtors Property Resource) is the NAR's national property database. The system cross-checks every property you upload against RPR to confirm the owner information is current and accurate before any postcard goes out. This protects you from wasted mail spend and ensures your outreach is landing with the right people.
+      </p>
+
+      <p>Validation happens automatically overnight after each upload. Here's what each badge means and what you should do with it:</p>
+
+      <h3 class="sub"><span class="badge badge-match">✓ Match</span> — Confirmed &amp; Ready</h3>
+      <p>
+        The owner information in your Property Radar export matches what RPR has on file. This property is validated and cleared for mailing. No action needed from you — it will be included in the next postcard send automatically (as long as it's off-market).
+      </p>
+
+      <h3 class="sub"><span class="badge badge-changed">⚠ Changed</span> — Review Required</h3>
+      <p>
+        RPR returned data that differs from your Property Radar export. This could mean the property recently sold, ownership transferred to an LLC or trust, or a name discrepancy exists. You should open the property drawer and review the RPR notes to understand what changed.
+      </p>
+      <ul class="bullets">
+        <li>If the property recently sold → mark it Dead or Archive it</li>
+        <li>If ownership changed to a business entity → review whether it's still a viable short sale candidate</li>
+        <li>If it looks like a minor data discrepancy → you can manually approve it; let Joshua know</li>
+      </ul>
+
+      <div class="tip-block">
+        <strong>Note</strong>
+        "Changed" properties are not automatically mailed. They sit in a holding state until reviewed. This is intentional — you don't want postcards going to a new owner who has no distress situation.
+      </div>
+
+      <h3 class="sub"><span class="badge badge-notfound">✗ Not Found</span> — No Match in RPR</h3>
+      <p>
+        RPR could not find a matching record for this property. This can happen with very new properties, unusual address formats, or data gaps. These properties are excluded from mailing automatically. No action required unless you want to investigate manually.
+      </p>
+
+      <h3 class="sub"><span class="badge badge-pending">⏳ Pending</span> — Validation in Progress</h3>
+      <p>
+        The property was just uploaded and RPR hasn't processed it yet. This is normal if you're checking the portal the same day you uploaded. Check back the next morning — Pending will be gone.
+      </p>
+
+      <div class="gold-block">
+        <strong>Quick Rule of Thumb</strong>
+        Focus your energy on ✓ Match properties. Skim the ⚠ Changed ones for any easy wins. Don't stress about ✗ Not Found — the system handled it.
+      </div>
+    </div>
+
+
+    <!-- ══════════════ SECTION 5 — WARM & HOT LEADS ══════════════ -->
+    <div class="section page-break" id="warm-hot">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <h2>When a Lead Goes Warm or Hot</h2>
+      </div>
+
+      <p>
+        This is where the system pays off. Every postcard you send drives homeowners to quickshortsales.net. When someone actually visits that page and takes an action — scans the QR code, fills out the form, requests more info — the system knows. And it tells you.
+      </p>
+
+      <h3 class="sub">How Warm/Hot Status Gets Set</h3>
+      <ul class="bullets">
+        <li>A homeowner scans the QR code on any of your postcards → tracked automatically</li>
+        <li>A homeowner visits quickshortsales.net and fills out the contact form → triggers an automatic status upgrade</li>
+        <li>High-intent form submissions (e.g., "I want to talk to someone") → set to <span class="badge badge-hot">Hot</span></li>
+        <li>Lower-intent actions (e.g., page view, partial form) → set to <span class="badge badge-warm">Warm</span></li>
+        <li>You can also manually set any lead to Warm or Hot from the drawer dropdown</li>
+      </ul>
+
+      <div class="tip-block">
+        <strong>You don't need to check the landing page yourself</strong>
+        All engagement tracking is automatic. Your job is simply to check the Lead Pipeline dashboard for new Warm or Hot leads. The system surfaces them for you.
+      </div>
+
+      <h3 class="sub">How to Work a Warm or Hot Lead</h3>
+      <ol class="steps">
+        <li>
+          <p><strong>Log into the portal</strong> and go to the Lead Pipeline dashboard.</p>
+        </li>
+        <li>
+          <p><strong>Filter by Lead Status: Warm or Hot.</strong> Prioritize Hot leads — these people have expressed intent and the window to reach them is short.</p>
+        </li>
+        <li>
+          <p><strong>Click the property row</strong> to open the detail drawer.</p>
+        </li>
+        <li>
+          <p><strong>Review their submitted information.</strong> The drawer will show what they entered on the form — their name, contact number, preferred contact method, and any notes they left about their situation.</p>
+        </li>
+        <li>
+          <p><strong>Make contact directly.</strong> Call or email them using the info provided. You're the broker now — lead with your expertise in short sales and distressed property situations.
+          <span class="note">Speed matters here. Hot leads who don't hear back quickly will look elsewhere. Try to make contact within the same business day.</span></p>
+        </li>
+        <li>
+          <p><strong>Log your outreach in the notes field.</strong> Note the date, what was said, and next steps. This auto-saves.</p>
+        </li>
+        <li>
+          <p><strong>Update the lead status</strong> based on where things stand after your conversation.</p>
+        </li>
+      </ol>
+
+      <div class="gold-block">
+        <strong>A Word on Timing</strong>
+        Homeowners in distress are often considering multiple options simultaneously. The window between "I scanned this QR code" and "I signed with someone else" can be shorter than you'd expect. Same-day follow-up on Hot leads is strongly recommended.
+      </div>
+    </div>
+
+
+    <!-- ══════════════ SECTION 6 — POSTCARD CAMPAIGNS ══════════════ -->
+    <div class="section" id="postcards">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <h2>Postcard Campaigns</h2>
+      </div>
+
+      <p>
+        Every validated, off-market lead in your pipeline gets a postcard via Lob.com — a professional direct mail platform that handles printing, addressing, and USPS delivery. Here's how the campaign structure works and what you should know about timing.
+      </p>
+
+      <h3 class="sub">The 3-Stage Campaign</h3>
+      <p>
+        Each property receives up to three postcard touches over a three-month period. The campaign is designed to build familiarity — most homeowners won't respond to the first mailer, but repeated touches dramatically increase response rates.
+      </p>
+
+      <div class="stage-cards">
+        <div class="stage-card">
+          <div class="stage-label">Stage 1</div>
+          <div class="stage-month">Month 1 — Introduction</div>
+          <p>First touch. Introduces Quick Short Sales and establishes that you're a trusted local resource for homeowners in difficult situations. Plants the seed.</p>
+        </div>
+        <div class="stage-card">
+          <div class="stage-label">Stage 2</div>
+          <div class="stage-month">Month 2 — Follow-Up</div>
+          <p>Reinforces the message. Homeowners who didn't respond to Stage 1 may be ready now — life circumstances change. A different angle or offer may be featured.</p>
+        </div>
+        <div class="stage-card">
+          <div class="stage-label">Stage 3</div>
+          <div class="stage-month">Month 3 — Final Touch</div>
+          <p>Last direct mail piece in the cycle. Creates urgency and a clear call to action. After this — if no response — the lead moves to Dormant status automatically.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">What You Need to Know About Mailing</h3>
+      <ul class="bullets">
+        <li>Postcards are only sent to properties with <span class="badge badge-match">✓ Match</span> status and <strong>Off Market</strong> classification</li>
+        <li>Properties you manually mark as <strong>Active</strong> (listed on MLS) are automatically excluded from the mail queue</li>
+        <li>Mailing is currently triggered by the Aiphorism team — it is <strong>not self-service</strong>. Notify Joshua when a new list is ready to go</li>
+        <li>You can see the full mailer history for any property inside its drawer (which stage was sent, and when)</li>
+        <li>No response after Stage 3 → lead moves to <strong>Dormant</strong>. It stays in the system but no further mail is sent</li>
+      </ul>
+
+      <div class="tip-block">
+        <strong>Your Role in the Mail Process</strong>
+        Your primary job in the mailing workflow is: upload the list, review it the next morning, flag any Active properties, and give Joshua the go-ahead. The rest is automated. You'll see postcard send dates recorded in each property's drawer once they go out.
+      </div>
+
+      <h3 class="sub">Marking Properties as Active</h3>
+      <p>If you notice a property in your list has recently come on the MLS — or you spot one while browsing — here's how to mark it:</p>
+      <ol class="steps">
+        <li><p>Click the property row to open the detail drawer.</p></li>
+        <li><p>Find the <strong>"Market Status"</strong> field in the drawer.</p></li>
+        <li><p>Change it from <strong>Off Market</strong> to <strong>Active</strong>.</p></li>
+        <li><p>The property is immediately removed from the mail queue. No postcard will be sent.</p></li>
+      </ol>
+    </div>
+
+
+    <!-- ══════════════ SECTION 7 — GLOSSARY ══════════════ -->
+    <div class="section page-break" id="glossary">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <h2>Glossary</h2>
+      </div>
+
+      <p>Quick definitions for the terms you'll encounter in the portal and in conversations with the team.</p>
+
+      <div class="glossary-item">
+        <div class="glossary-term">Short Sale <span class="glossary-abbr"></span></div>
+        <div class="glossary-def">A real estate transaction where the property is sold for less than the outstanding mortgage balance, with the lender's approval. A short sale allows the homeowner to avoid foreclosure and settle their debt — though it impacts their credit. It's typically used when the homeowner is in financial distress and owes more than the home is worth.</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">RPR <span class="glossary-abbr">— Realtors Property Resource</span></div>
+        <div class="glossary-def">A national property database maintained by the National Association of Realtors (NAR). It aggregates ownership records, tax data, valuation models, and listing history. The portal uses RPR to verify that the owner information on each property matches current public records before mailing — ensuring postcards go to the right people.</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">PRP Status <span class="glossary-abbr">— Property Record Parity</span></div>
+        <div class="glossary-def">The result of the RPR validation check. Each property in your list is assigned one of four statuses: ✓ Match (records align), ⚠ Changed (something differs from your source data), ✗ Not Found (no record found in RPR), or Pending (validation hasn't run yet). Only ✓ Match properties are cleared for mailing.</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">Distress Score</div>
+        <div class="glossary-def">A numerical indicator derived from Property Radar data reflecting how financially distressed a homeowner may be. Factors typically include mortgage delinquency signals, equity position, and public record indicators like NODs (Notice of Default). A higher distress score = higher likelihood the homeowner may be open to a short sale conversation. Use it as a prioritization tool, not an absolute filter.</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">CLTV <span class="glossary-abbr">— Combined Loan-to-Value Ratio</span></div>
+        <div class="glossary-def">The total outstanding mortgage debt on a property divided by its estimated market value, expressed as a percentage. Example: $400,000 owed on a home worth $350,000 = 114% CLTV. Properties with CLTV above 100% are "underwater" — the homeowner owes more than the home is worth, making them prime short sale candidates. This figure appears in the property drawer.</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">Off Market</div>
+        <div class="glossary-def">A property that is not currently listed for sale on the MLS (Multiple Listing Service). Off-market properties are the target of your campaign — homeowners who haven't yet listed but may be in distress. The dashboard defaults to showing Off Market properties because these are the only ones worth mailing.</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">Active (MLS Listed)</div>
+        <div class="glossary-def">A property currently listed for sale on the MLS. Active listings are excluded from your postcard campaign — there's no point mailing a homeowner who's already working with an agent. If you find a property in your list that has gone Active, mark it in the portal drawer so it drops out of the mail queue.</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">Lob.com</div>
+        <div class="glossary-def">The direct mail platform used to print, address, and send your postcards via USPS. Lob handles all fulfillment automatically — you never have to manage envelopes, stamps, or printing. The team uses Lob's API to trigger mailings for your validated lists. Send history from Lob is visible inside each property's detail drawer.</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">Property Radar</div>
+        <div class="glossary-def">A real estate data and lead-generation platform that Jack uses to build targeted lists of distressed property owners. You can filter by geography, equity position, loan status, owner type, and more. The exported CSV from Property Radar is what you upload into the Quick Short Sales portal each month.</div>
+      </div>
+
+      <div class="glossary-item">
+        <div class="glossary-term">Dormant</div>
+        <div class="glossary-def">A lead that has completed all three postcard stages with no response. The record stays in your system for reference, but no further outreach is triggered automatically. A dormant lead can be manually reactivated if circumstances change (e.g., new distress signals appear in a future Property Radar pull).</div>
+      </div>
+    </div>
+
+    <!-- ══════════════ CONTACT / SUPPORT ══════════════ -->
+    <hr class="divider"/>
+    <div style="text-align: center; padding: 12px 0 4px;">
+      <p style="font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--navy); margin-bottom: 8px;">Questions or issues with the portal?</p>
+      <p style="font-size: 0.9rem; color: var(--text-mid);">Reach out to <strong>Joshua</strong> at Aiphorism — he manages the technical side of this system and is your point of contact for anything that doesn't look right.</p>
+      <p style="font-size: 0.85rem; color: var(--text-mid); margin-top: 8px;">Portal: <code>aiphorism-client-portal.vercel.app/jr-propstream</code></p>
+    </div>
+
+  </div><!-- /container -->
+
+  <footer class="footer">
+    <strong>Quick Short Sales</strong> &nbsp;·&nbsp; Lead Pipeline Client Guide &nbsp;·&nbsp;
+    Confidential — Prepared for Jack Watlington &nbsp;·&nbsp; Aiphorism &copy; 2026
+  </footer>
+
+</body>
+</html>
