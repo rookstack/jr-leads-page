@@ -9,7 +9,7 @@
     width: 320px;
     height: 50px;
     overflow: hidden;
-    font-family: 'Arial Black', 'Impact', sans-serif;
+    font-family: 'Arial Black', 'Arial', sans-serif;
   }
 
   .banner {
@@ -17,7 +17,7 @@
     height: 50px;
     position: relative;
     overflow: hidden;
-    background: #0d0020;
+    background: linear-gradient(135deg, #00BFFF 0%, #0099DD 100%);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -25,39 +25,31 @@
     cursor: pointer;
   }
 
-  /* Animated gradient sweep */
-  .banner::before {
-    content: '';
+  /* Yellow diagonal accent — slim bar */
+  .accent {
     position: absolute;
-    top: 0; left: -100%;
-    width: 300%;
+    top: 0; right: 98px;
+    width: 28px;
     height: 100%;
-    background: linear-gradient(
-      105deg,
-      #0d0020 0%,
-      #39FF14 25%,
-      #0d0020 40%,
-      #FF10F0 60%,
-      #0d0020 75%,
-      #39FF14 90%
-    );
-    opacity: 0.15;
-    animation: sweep 3s linear infinite;
+    background: #FFD700;
+    transform: skewX(-10deg);
+    opacity: 0.25;
   }
 
-  @keyframes sweep {
-    0%   { left: -100%; }
-    100% { left: 0%; }
-  }
-
+  /* Lime bottom border */
   .banner::after {
     content: '';
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    border-top: 2px solid #39FF14;
-    border-bottom: 2px solid #FF10F0;
-    pointer-events: none;
+    bottom: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, #32CD32, #66FF33, #32CD32);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
 
   .text-block {
@@ -69,51 +61,51 @@
     font-size: 13px;
     font-weight: 900;
     color: #FFFFFF;
-    text-shadow: 0 0 8px #39FF14;
     line-height: 1.1;
     white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
   }
 
   .headline span {
-    color: #39FF14;
+    color: #FFD700;
   }
 
   .phone {
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 700;
-    color: #FF10F0;
-    letter-spacing: 0.5px;
-    text-shadow: 0 0 6px #FF10F0;
+    color: rgba(255,255,255,0.92);
+    letter-spacing: 0.3px;
   }
 
   .cta-btn {
     position: relative;
     z-index: 2;
-    background: linear-gradient(135deg, #39FF14, #00ff88);
-    color: #0d0020;
+    background: #32CD32;
+    color: #FFFFFF;
     font-size: 10px;
     font-weight: 900;
-    padding: 7px 12px;
+    padding: 8px 11px;
     border: none;
-    border-radius: 3px;
+    border-radius: 4px;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.7px;
     cursor: pointer;
     white-space: nowrap;
-    animation: btnPulse 1.5s ease-in-out infinite;
     text-decoration: none;
     display: block;
+    box-shadow: 0 2px 8px rgba(50,205,50,0.45);
+    animation: btnBounce 2s ease-in-out infinite;
   }
 
-  @keyframes btnPulse {
-    0%   { box-shadow: 0 0 6px #39FF14, 0 0 14px #39FF14aa; }
-    50%  { box-shadow: 0 0 12px #39FF14, 0 0 28px #39FF14cc; }
-    100% { box-shadow: 0 0 6px #39FF14, 0 0 14px #39FF14aa; }
+  @keyframes btnBounce {
+    0%, 100% { transform: scale(1);    box-shadow: 0 2px 8px rgba(50,205,50,0.45); }
+    50%       { transform: scale(1.05); box-shadow: 0 4px 14px rgba(50,205,50,0.65); }
   }
 </style>
 </head>
 <body>
 <div class="banner">
+  <div class="accent"></div>
   <div class="text-block">
     <div class="headline">Struggling with <span>payments?</span></div>
     <div class="phone">📞 (855) 204-4447</div>

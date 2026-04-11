@@ -9,7 +9,7 @@
     width: 336px;
     height: 280px;
     overflow: hidden;
-    font-family: 'Arial Black', 'Impact', sans-serif;
+    font-family: 'Arial Black', 'Arial', sans-serif;
   }
 
   .banner {
@@ -17,7 +17,7 @@
     height: 280px;
     position: relative;
     overflow: hidden;
-    background: #0d0020;
+    background: linear-gradient(160deg, #00CFFF 0%, #00A8E8 45%, #007EC6 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,68 +26,64 @@
     cursor: pointer;
   }
 
-  /* Animated radial burst background */
-  .bg-burst {
+  /* Yellow rotated square — top-right */
+  .geo-tr {
     position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(ellipse at center,
-      #39FF1415 0%,
-      #1a003a 35%,
-      #0d0020 60%
-    );
-    animation: burstPulse 3s ease-in-out infinite;
+    top: -45px;
+    right: -35px;
+    width: 130px;
+    height: 130px;
+    background: #FFD700;
+    transform: rotate(45deg);
+    opacity: 0.18;
   }
 
-  @keyframes burstPulse {
-    0%   { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
-    50%  { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
-  }
-
-  /* Rotating gradient ring */
-  .ring {
+  /* Lime rotated square — bottom-left */
+  .geo-bl {
     position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 420px;
-    height: 420px;
-    border-radius: 50%;
-    background: conic-gradient(
-      from 0deg,
-      transparent 0%,
-      #39FF1433 15%,
-      transparent 30%,
-      #FF10F033 50%,
-      transparent 65%,
-      #39FF1433 80%,
-      transparent 100%
-    );
-    animation: ringRotate 6s linear infinite;
+    bottom: -40px;
+    left: -25px;
+    width: 110px;
+    height: 110px;
+    background: #32CD32;
+    transform: rotate(45deg);
+    opacity: 0.16;
   }
 
-  @keyframes ringRotate {
-    0%   { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  /* Yellow accent — slim diagonal stripe mid */
+  .geo-mid {
+    position: absolute;
+    top: 30%;
+    right: -10px;
+    width: 8px;
+    height: 60px;
+    background: #FFD700;
+    transform: skewY(-25deg);
+    opacity: 0.5;
+    border-radius: 2px;
   }
 
-  /* Neon border */
-  .banner::after {
-    content: '';
+  /* Yellow top bar */
+  .top-bar {
     position: absolute;
     top: 0; left: 0;
-    width: 100%; height: 100%;
-    border: 2px solid;
-    border-image: linear-gradient(135deg, #39FF14, #FF10F0, #39FF14) 1;
-    pointer-events: none;
-    animation: borderShift 2s ease-in-out infinite alternate;
+    width: 100%; height: 5px;
+    background: linear-gradient(90deg, #FFD700, #FFEB3B, #FFD700);
   }
 
-  @keyframes borderShift {
-    0%   { opacity: 0.7; }
-    100% { opacity: 1; box-shadow: inset 0 0 20px #39FF1420, inset 0 0 40px #FF10F015; }
+  /* Lime bottom bar */
+  .bottom-bar {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 5px;
+    background: linear-gradient(90deg, #32CD32, #66FF33, #32CD32);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
 
   .content {
@@ -97,134 +93,95 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 0 20px;
+    padding: 0 22px;
     gap: 12px;
   }
 
   .badge {
-    background: linear-gradient(90deg, #FF10F0, #39FF14);
-    color: #0d0020;
+    background: #FFD700;
+    color: #007EC6;
     font-size: 10px;
     font-weight: 900;
-    padding: 4px 14px;
+    padding: 4px 16px;
     border-radius: 20px;
     letter-spacing: 2px;
     text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
   }
 
   .headline {
     font-size: 28px;
     font-weight: 900;
     color: #FFFFFF;
-    line-height: 1.15;
-    text-shadow: 0 0 15px #39FF14, 0 0 30px #39FF1477;
+    line-height: 1.1;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.18);
   }
 
   .headline .accent {
-    color: #39FF14;
+    color: #FFD700;
     display: block;
     font-size: 32px;
+    line-height: 1.05;
   }
 
   .subtext {
-    font-size: 15px;
-    font-weight: 700;
-    color: #FF10F0;
-    letter-spacing: 2px;
+    font-size: 14px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.95);
+    letter-spacing: 2.5px;
     text-transform: uppercase;
-    text-shadow: 0 0 10px #FF10F0;
   }
 
   .divider {
-    width: 80%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #39FF14, #FF10F0, transparent);
-    animation: dividerGlow 2s ease-in-out infinite alternate;
-  }
-
-  @keyframes dividerGlow {
-    0%   { opacity: 0.5; }
-    100% { opacity: 1; filter: blur(0.5px); }
+    width: 75%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    border-radius: 2px;
   }
 
   .cta-btn {
-    background: linear-gradient(135deg, #39FF14 0%, #00ff88 50%, #39FF14 100%);
-    background-size: 200% 200%;
-    color: #0d0020;
-    font-size: 16px;
+    background: #32CD32;
+    color: #FFFFFF;
+    font-size: 15px;
     font-weight: 900;
-    padding: 14px 36px;
+    padding: 14px 0;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.8px;
     cursor: pointer;
-    animation: btnPulse 1.5s ease-in-out infinite, gradientShift 3s linear infinite;
+    width: 100%;
     text-decoration: none;
     display: block;
     text-align: center;
-    width: 100%;
+    box-shadow: 0 4px 14px rgba(50,205,50,0.5);
+    animation: btnBounce 2s ease-in-out infinite;
   }
 
-  @keyframes btnPulse {
-    0%   { box-shadow: 0 0 10px #39FF14, 0 0 25px #39FF14aa, 0 0 50px #39FF1455; transform: scale(1); }
-    50%  { box-shadow: 0 0 20px #39FF14, 0 0 45px #39FF14cc, 0 0 80px #39FF1477; transform: scale(1.03); }
-    100% { box-shadow: 0 0 10px #39FF14, 0 0 25px #39FF14aa, 0 0 50px #39FF1455; transform: scale(1); }
-  }
-
-  @keyframes gradientShift {
-    0%   { background-position: 0% 50%; }
-    50%  { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  @keyframes btnBounce {
+    0%, 100% { transform: scale(1);    box-shadow: 0 4px 14px rgba(50,205,50,0.5); }
+    50%       { transform: scale(1.03); box-shadow: 0 6px 22px rgba(50,205,50,0.65); }
   }
 
   .phone {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 900;
     color: #FFFFFF;
-    letter-spacing: 1.5px;
-    text-shadow: 0 0 12px #FF10F0, 0 0 24px #FF10F0aa;
-  }
-
-  /* Floating particles */
-  .particle {
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    background: #39FF14;
-    animation: floatUp linear infinite;
-    z-index: 1;
-  }
-
-  .particle:nth-child(1)  { left: 10%; bottom: -10px; animation-duration: 3s;   animation-delay: 0s;    background: #39FF14; }
-  .particle:nth-child(2)  { left: 25%; bottom: -10px; animation-duration: 4s;   animation-delay: 0.5s;  background: #FF10F0; width: 2px; height: 2px; }
-  .particle:nth-child(3)  { left: 40%; bottom: -10px; animation-duration: 3.5s; animation-delay: 1s;    background: #39FF14; }
-  .particle:nth-child(4)  { left: 60%; bottom: -10px; animation-duration: 2.8s; animation-delay: 0.3s;  background: #FF10F0; }
-  .particle:nth-child(5)  { left: 75%; bottom: -10px; animation-duration: 4.2s; animation-delay: 1.5s;  background: #39FF14; width: 2px; height: 2px; }
-  .particle:nth-child(6)  { left: 88%; bottom: -10px; animation-duration: 3.2s; animation-delay: 0.8s;  background: #FF10F0; }
-
-  @keyframes floatUp {
-    0%   { transform: translateY(0) scale(1); opacity: 0; }
-    10%  { opacity: 1; }
-    90%  { opacity: 0.7; }
-    100% { transform: translateY(-300px) scale(0.3); opacity: 0; }
+    letter-spacing: 1px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.18);
   }
 </style>
 </head>
 <body>
 <div class="banner">
-  <div class="bg-burst"></div>
-  <div class="ring"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
+  <div class="geo-tr"></div>
+  <div class="geo-bl"></div>
+  <div class="geo-mid"></div>
+  <div class="top-bar"></div>
+  <div class="bottom-bar"></div>
 
   <div class="content">
-    <div class="badge">⚡ Free Consultation</div>
+    <div class="badge">✦ Free Consultation</div>
     <div class="headline">
       Struggling with
       <span class="accent">Payments?</span>
