@@ -1,219 +1,239 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QSS Large Rectangle 336x280 v2</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
     width: 336px;
     height: 280px;
     overflow: hidden;
-    background: transparent;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    font-family: 'Arial Black', 'Impact', sans-serif;
   }
-  a.banner {
-    display: block;
+
+  .banner {
     width: 336px;
     height: 280px;
-    background: #0D1B2A;
-    text-decoration: none;
     position: relative;
     overflow: hidden;
+    background: #0d0020;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
     cursor: pointer;
   }
 
-  /* Top orange bar */
-  a.banner::before {
+  /* Animated radial burst background */
+  .bg-burst {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(ellipse at center,
+      #39FF1415 0%,
+      #1a003a 35%,
+      #0d0020 60%
+    );
+    animation: burstPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes burstPulse {
+    0%   { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
+    50%  { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
+  }
+
+  /* Rotating gradient ring */
+  .ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0%,
+      #39FF1433 15%,
+      transparent 30%,
+      #FF10F033 50%,
+      transparent 65%,
+      #39FF1433 80%,
+      transparent 100%
+    );
+    animation: ringRotate 6s linear infinite;
+  }
+
+  @keyframes ringRotate {
+    0%   { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  /* Neon border */
+  .banner::after {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 6px;
-    background: #FF5F1F;
-    z-index: 10;
-  }
-
-  /* Diagonal slice — bottom right */
-  .diagonal-slice {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 200px;
-    height: 200px;
-    background: linear-gradient(135deg, transparent 50%, rgba(255,95,31,0.07) 50%);
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 2px solid;
+    border-image: linear-gradient(135deg, #39FF14, #FF10F0, #39FF14) 1;
     pointer-events: none;
+    animation: borderShift 2s ease-in-out infinite alternate;
   }
 
-  /* Diagonal stripe texture — full bg */
-  .bg-texture {
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      -55deg,
-      transparent,
-      transparent 12px,
-      rgba(255,95,31,0.03) 12px,
-      rgba(255,95,31,0.03) 14px
-    );
-    pointer-events: none;
+  @keyframes borderShift {
+    0%   { opacity: 0.7; }
+    100% { opacity: 1; box-shadow: inset 0 0 20px #39FF1420, inset 0 0 40px #FF10F015; }
   }
 
-  /* Orange geometric accent — bottom right corner triangle */
-  .corner-accent {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 0;
-    height: 0;
-    border-left: 80px solid transparent;
-    border-bottom: 80px solid rgba(255,95,31,0.12);
-    pointer-events: none;
-  }
-
-  /* Content */
   .content {
     position: relative;
     z-index: 2;
-    padding: 24px 24px 22px 24px;
-    height: 280px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+    gap: 12px;
   }
 
-  /* Upper section */
-  .upper {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .eyebrow {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 9px;
+  .badge {
+    background: linear-gradient(90deg, #FF10F0, #39FF14);
+    color: #0d0020;
+    font-size: 10px;
+    font-weight: 900;
+    padding: 4px 14px;
+    border-radius: 20px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: #FF5F1F;
-    margin-bottom: 12px;
   }
 
-  .headline-main {
-    font-family: 'Barlow Condensed', sans-serif;
+  .headline {
+    font-size: 28px;
     font-weight: 900;
-    font-size: 46px;
-    line-height: 0.95;
     color: #FFFFFF;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    line-height: 1.15;
+    text-shadow: 0 0 15px #39FF14, 0 0 30px #39FF1477;
   }
 
-  .headline-hook {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900;
-    font-size: 46px;
-    line-height: 0.95;
-    color: #FF5F1F;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 14px;
+  .headline .accent {
+    color: #39FF14;
+    display: block;
+    font-size: 32px;
   }
 
-  .supporting {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 13px;
-    color: rgba(255,255,255,0.72);
-    line-height: 1.5;
-  }
-  .supporting strong {
-    color: #FFFFFF;
+  .subtext {
+    font-size: 15px;
     font-weight: 700;
+    color: #FF10F0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px #FF10F0;
   }
 
-  /* Divider line */
   .divider {
-    width: 36px;
-    height: 3px;
-    background: #FF5F1F;
-    border-radius: 2px;
-    margin-bottom: 14px;
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #39FF14, #FF10F0, transparent);
+    animation: dividerGlow 2s ease-in-out infinite alternate;
   }
 
-  /* Lower CTA section */
-  .lower {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  @keyframes dividerGlow {
+    0%   { opacity: 0.5; }
+    100% { opacity: 1; filter: blur(0.5px); }
   }
 
   .cta-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: #FF5F1F;
-    color: #FFFFFF;
-    font-family: 'Inter', sans-serif;
-    font-weight: 800;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    padding: 14px 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 24px rgba(255,95,31,0.55), 0 4px 14px rgba(0,0,0,0.35);
-  }
-  .cta-arrow {
+    background: linear-gradient(135deg, #39FF14 0%, #00ff88 50%, #39FF14 100%);
+    background-size: 200% 200%;
+    color: #0d0020;
     font-size: 16px;
+    font-weight: 900;
+    padding: 14px 36px;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    animation: btnPulse 1.5s ease-in-out infinite, gradientShift 3s linear infinite;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    width: 100%;
   }
 
-  .footer-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  @keyframes btnPulse {
+    0%   { box-shadow: 0 0 10px #39FF14, 0 0 25px #39FF14aa, 0 0 50px #39FF1455; transform: scale(1); }
+    50%  { box-shadow: 0 0 20px #39FF14, 0 0 45px #39FF14cc, 0 0 80px #39FF1477; transform: scale(1.03); }
+    100% { box-shadow: 0 0 10px #39FF14, 0 0 25px #39FF14aa, 0 0 50px #39FF1455; transform: scale(1); }
   }
-  .brand-name {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 9px;
-    color: rgba(255,255,255,0.5);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+
+  @keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
-  .domain {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 9px;
-    color: rgba(255,255,255,0.3);
-    letter-spacing: 0.3px;
+
+  .phone {
+    font-size: 18px;
+    font-weight: 900;
+    color: #FFFFFF;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 12px #FF10F0, 0 0 24px #FF10F0aa;
+  }
+
+  /* Floating particles */
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #39FF14;
+    animation: floatUp linear infinite;
+    z-index: 1;
+  }
+
+  .particle:nth-child(1)  { left: 10%; bottom: -10px; animation-duration: 3s;   animation-delay: 0s;    background: #39FF14; }
+  .particle:nth-child(2)  { left: 25%; bottom: -10px; animation-duration: 4s;   animation-delay: 0.5s;  background: #FF10F0; width: 2px; height: 2px; }
+  .particle:nth-child(3)  { left: 40%; bottom: -10px; animation-duration: 3.5s; animation-delay: 1s;    background: #39FF14; }
+  .particle:nth-child(4)  { left: 60%; bottom: -10px; animation-duration: 2.8s; animation-delay: 0.3s;  background: #FF10F0; }
+  .particle:nth-child(5)  { left: 75%; bottom: -10px; animation-duration: 4.2s; animation-delay: 1.5s;  background: #39FF14; width: 2px; height: 2px; }
+  .particle:nth-child(6)  { left: 88%; bottom: -10px; animation-duration: 3.2s; animation-delay: 0.8s;  background: #FF10F0; }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(0) scale(1); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.7; }
+    100% { transform: translateY(-300px) scale(0.3); opacity: 0; }
   }
 </style>
 </head>
 <body>
-<a class="banner" href="https://quickshortsales.net" target="_blank">
-  <div class="bg-texture"></div>
-  <div class="diagonal-slice"></div>
-  <div class="corner-accent"></div>
+<div class="banner">
+  <div class="bg-burst"></div>
+  <div class="ring"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+
   <div class="content">
-    <div class="upper">
-      <div class="eyebrow">South Florida Short Sale Specialists</div>
-      <div class="headline-main">Struggling</div>
-      <div class="headline-main">with payments?</div>
-      <div class="headline-hook">You have options.</div>
-      <div class="supporting">A short sale can let you <strong>walk away clean</strong> — no foreclosure, no deficiency judgment.</div>
+    <div class="badge">⚡ Free Consultation</div>
+    <div class="headline">
+      Struggling with
+      <span class="accent">Payments?</span>
     </div>
-    <div class="lower">
-      <div class="divider"></div>
-      <div class="cta-btn">Get Free Consultation <span class="cta-arrow">→</span></div>
-      <div class="footer-row">
-        <div class="brand-name">Quick Short Sales</div>
-        <div class="domain">quickshortsales.net</div>
-      </div>
-    </div>
+    <div class="subtext">You Have Options</div>
+    <div class="divider"></div>
+    <a class="cta-btn">GET FREE HELP NOW</a>
+    <div class="phone">📞 (855) 204-4447</div>
   </div>
-</a>
+</div>
 </body>
 </html>
