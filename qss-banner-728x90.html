@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QSS Leaderboard 728x90</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 728px;
+    height: 90px;
+    overflow: hidden;
+    background: transparent;
+  }
+  a.banner {
+    display: flex;
+    align-items: center;
+    width: 728px;
+    height: 90px;
+    background: linear-gradient(105deg, #1a3a5c 0%, #0f2540 60%, #132d4a 100%);
+    border-left: 5px solid #c9944a;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  /* Subtle noise texture overlay */
+  a.banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(201,148,74,0.03) 2px,
+      rgba(201,148,74,0.03) 4px
+    );
+    pointer-events: none;
+  }
+  /* Gold arc accent */
+  a.banner::after {
+    content: '';
+    position: absolute;
+    right: -30px;
+    top: -30px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 2px solid rgba(201,148,74,0.15);
+    pointer-events: none;
+  }
+  .brand {
+    flex: 0 0 auto;
+    padding: 0 20px 0 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid rgba(201,148,74,0.25);
+  }
+  .brand-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #e6c76a;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+  .brand-sub {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 9px;
+    color: rgba(245,240,232,0.55);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-top: 3px;
+    white-space: nowrap;
+  }
+  .headline {
+    flex: 1;
+    text-align: center;
+    padding: 0 24px;
+  }
+  .headline-text {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #f5f0e8;
+    line-height: 1.25;
+    letter-spacing: -0.2px;
+  }
+  .headline-text span {
+    color: #e6c76a;
+  }
+  .cta-wrap {
+    flex: 0 0 auto;
+    padding: 0 20px;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #c9944a 0%, #e6c76a 100%);
+    color: #1a3a5c;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    border-radius: 3px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(201,148,74,0.35);
+  }
+</style>
+</head>
+<body>
+<a class="banner" href="https://quickshortsales.net" target="_blank">
+  <div class="brand">
+    <div class="brand-name">Quick Short Sales</div>
+    <div class="brand-sub">South Florida</div>
+  </div>
+  <div class="headline">
+    <div class="headline-text">Behind on payments? <span>You have options.</span></div>
+  </div>
+  <div class="cta-wrap">
+    <div class="cta-btn">Free Consultation</div>
+  </div>
+</a>
+</body>
+</html>
