@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QSS Ad Banners - Download</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Lato', Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 40px 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #1a3a5c;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 40px;
+      font-size: 0.95rem;
+    }
+    .banners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+    .banner-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .banner-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    .banner-preview {
+      background: #f0f0f0;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 120px;
+    }
+    .banner-frame {
+      border: 1px solid #ddd;
+      display: inline-block;
+    }
+    .banner-info {
+      padding: 20px;
+    }
+    .banner-title {
+      font-weight: 700;
+      color: #1a3a5c;
+      margin-bottom: 6px;
+    }
+    .banner-size {
+      font-size: 0.85rem;
+      color: #999;
+      margin-bottom: 12px;
+    }
+    .banner-desc {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .download-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #c9944a, #e6c76a);
+      color: #1a3a5c;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(201,148,74,0.3);
+    }
+    .instructions {
+      background: #e8f4f8;
+      border-left: 4px solid #56a6e8;
+      padding: 16px;
+      border-radius: 4px;
+      margin-bottom: 30px;
+      font-size: 0.9rem;
+    }
+    .instructions strong { color: #1a3a5c; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Quick Short Sales — Ad Banners</h1>
+  <p class="subtitle">Download banners for Property Radar and other ad networks</p>
+
+  <div class="instructions">
+    <strong>💡 How to download:</strong> Right-click on any banner preview below and select "Save image as..." to download as PNG. All banners link to quickshortsales.net.
+  </div>
+
+  <div class="banners-grid">
+    <!-- 728×90 -->
+    <div class="banner-card">
+      <div class="banner-preview">
+        <iframe src="qss-banner-728x90.html" width="728" height="90" frameborder="0" style="border: 1px solid #ddd;"></iframe>
+      </div>
+      <div class="banner-info">
+        <div class="banner-title">Leaderboard</div>
+        <div class="banner-size">728 × 90 pixels</div>
+        <div class="banner-desc">Standard web banner. Best for desktop header/footer placement.</div>
+        <a href="qss-banner-728x90.html" download class="download-btn">View & Download</a>
+      </div>
+    </div>
+
+    <!-- 320×50 -->
+    <div class="banner-card">
+      <div class="banner-preview">
+        <iframe src="qss-banner-320x50.html" width="320" height="50" frameborder="0" style="border: 1px solid #ddd;"></iframe>
+      </div>
+      <div class="banner-info">
+        <div class="banner-title">Mobile Banner</div>
+        <div class="banner-size">320 × 50 pixels</div>
+        <div class="banner-desc">Compact mobile banner. Fits in small spaces on mobile sites.</div>
+        <a href="qss-banner-320x50.html" download class="download-btn">View & Download</a>
+      </div>
+    </div>
+
+    <!-- 336×280 -->
+    <div class="banner-card">
+      <div class="banner-preview">
+        <iframe src="qss-banner-336x280.html" width="336" height="280" frameborder="0" style="border: 1px solid #ddd;"></iframe>
+      </div>
+      <div class="banner-info">
+        <div class="banner-title">Large Rectangle</div>
+        <div class="banner-size">336 × 280 pixels</div>
+        <div class="banner-desc">High-impact display format. Great for sidebar and content areas.</div>
+        <a href="qss-banner-336x280.html" download class="download-btn">View & Download</a>
+      </div>
+    </div>
+
+    <!-- 300×250 -->
+    <div class="banner-card">
+      <div class="banner-preview">
+        <iframe src="qss-banner-300x250.html" width="300" height="250" frameborder="0" style="border: 1px solid #ddd;"></iframe>
+      </div>
+      <div class="banner-info">
+        <div class="banner-title">Medium Rectangle</div>
+        <div class="banner-size">300 × 250 pixels</div>
+        <div class="banner-desc">Industry-standard IAB format. Most common display size.</div>
+        <a href="qss-banner-300x250.html" download class="download-btn">View & Download</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
