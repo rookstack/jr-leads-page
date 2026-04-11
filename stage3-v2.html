@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You Still Have Options | Quick Short Sales</title>
+  <meta name="description" content="Struggling to make payments? Discover how a short sale could be your way out." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1a3a5c;
+      --navy2:  #112340;
+      --gold:   #c9944a;
+      --gold2:  #e6c76a;
+      --white:  #f5f0e8;
+      --muted:  #a8b8c8;
+      --border: rgba(201,148,74,0.25);
+      --radius: 10px;
+    }
+
+    body {
+      font-family: 'Lato', 'Arial', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: rgba(26,58,92,0.95);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+    .logo { display: flex; flex-direction: column; }
+    .logo-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--gold);
+    }
+    .logo-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .header-phone {
+      font-size: 0.9rem;
+      color: var(--gold2);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .header-phone:hover { text-decoration: underline; }
+
+    /* ── PERSONALIZED GREETING ── */
+    .greeting-banner {
+      display: none;
+      background: linear-gradient(135deg, rgba(201,148,74,0.15) 0%, rgba(201,148,74,0.08) 100%);
+      border-bottom: 2px solid rgba(201,148,74,0.35);
+      padding: 24px;
+      text-align: center;
+    }
+    .greeting-banner.visible { display: block; }
+    .greeting-banner p {
+      font-size: 1.1rem;
+      color: var(--white);
+      margin: 0;
+      line-height: 1.6;
+    }
+    .greeting-banner strong {
+      color: var(--gold2);
+      font-weight: 700;
+    }
+    .greeting-subline {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, #1a3a5c 0%, #0f2a48 60%, #0d1f38 100%);
+      padding: 60px 24px 50px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(201,148,74,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero > * { position: relative; z-index: 2; }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--white);
+      max-width: 700px;
+      margin: 0 auto 20px;
+    }
+    .hero h1 em {
+      color: var(--gold);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 650px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    /* ── GUIDE DOWNLOAD SECTION ── */
+    .guide-section {
+      background: rgba(26,58,92,0.6);
+      padding: 50px 24px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .guide-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+      color: var(--white);
+    }
+    .guide-section p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+
+    .guide-form {
+      max-width: 400px;
+      margin: 0 auto;
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+    }
+    .guide-form input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid rgba(201,148,74,0.3);
+      border-radius: 6px;
+      background: rgba(0,0,0,0.2);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+    .guide-form input::placeholder {
+      color: rgba(168,184,200,0.5);
+    }
+    .guide-form input:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(0,0,0,0.3);
+    }
+    .guide-form button {
+      padding: 12px 24px;
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+    .guide-form button:hover {
+      background: var(--gold2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201,148,74,0.3);
+    }
+
+    .guide-message {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      text-align: center;
+      display: none;
+    }
+    .guide-message.success {
+      background: rgba(34,197,94,0.2);
+      color: #86efac;
+      border: 1px solid #86efac;
+      display: block;
+    }
+    .guide-message.error {
+      background: rgba(239,68,68,0.2);
+      color: #fca5a5;
+      border: 1px solid #fca5a5;
+      display: block;
+    }
+
+    /* ── VIDEO SECTION ── */
+    .video-section {
+      padding: 60px 24px;
+      background: rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    .video-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+    .video-section p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
+
+    .video-container {
+      max-width: 700px;
+      margin: 0 auto;
+      aspect-ratio: 16 / 9;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .video-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* ── INFO GRID ── */
+    .info-grid {
+      padding: 60px 24px;
+      background: linear-gradient(135deg, rgba(26,58,92,0.8) 0%, rgba(17,35,64,0.8) 100%);
+    }
+    .info-grid h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 40px;
+      color: var(--white);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .grid-item {
+      background: rgba(26,58,92,0.8);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px;
+      backdrop-filter: blur(8px);
+    }
+    .grid-item h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      color: var(--gold);
+    }
+    .grid-item p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── FORMS SECTION ── */
+    .forms-section {
+      padding: 60px 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .forms-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 40px;
+      color: var(--white);
+    }
+    .forms-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 768px) {
+      .forms-grid { grid-template-columns: 1fr; gap: 30px; }
+    }
+
+    .form-card {
+      background: rgba(26,58,92,0.8);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px;
+      backdrop-filter: blur(8px);
+    }
+    .form-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      color: var(--gold);
+    }
+    .form-card .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid rgba(201,148,74,0.3);
+      border-radius: 6px;
+      background: rgba(0,0,0,0.2);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(168,184,200,0.5);
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(0,0,0,0.3);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: all 0.3s ease;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--navy);
+    }
+    .btn-primary:hover {
+      background: var(--gold2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201,148,74,0.3);
+    }
+
+    .form-message {
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      text-align: center;
+      display: none;
+      margin-top: 12px;
+    }
+    .form-message.success {
+      background: rgba(34,197,94,0.2);
+      color: #86efac;
+      border: 1px solid #86efac;
+      display: block;
+    }
+    .form-message.error {
+      background: rgba(239,68,68,0.2);
+      color: #fca5a5;
+      border: 1px solid #fca5a5;
+      display: block;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: rgba(0,0,0,0.3);
+      border-top: 1px solid var(--border);
+      padding: 30px 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="logo-name">Quick Short Sales</div>
+      <div class="logo-sub">South Florida</div>
+    </div>
+    <a href="tel:+15612226331" class="header-phone">(561) 222-6331</a>
+  </header>
+
+  <!-- Personalized Greeting Banner -->
+  <div class="greeting-banner" id="greeting-banner">
+    <p id="greeting-text"></p>
+    <p class="greeting-subline">Struggling with your payments or owe more than what your house is worth?</p>
+  </div>
+
+  <section class="hero">
+    <div class="hero-eyebrow">Stage 3: Final Contact</div>
+    <h1>It's not too late — <em>but timing matters.</em></h1>
+    <p class="hero-sub">
+      This is my final note to you. I hope you'll reach out before foreclosure takes that choice away. You still have options — let's talk about them today.
+    </p>
+  </section>
+
+  <!-- Guide Download Gate -->
+  <section class="guide-section">
+    <h2>Get Your Free Short Sale Guide</h2>
+    <p>Learn what a short sale really means, how it works, and why it might be the right move for you. Just enter your email below.</p>
+    <form id="guide-form" class="guide-form">
+      <input type="email" id="guide-email" name="email" placeholder="your@email.com" required />
+      <button type="submit">Download Guide</button>
+    </form>
+    <div id="guide-message" class="guide-message"></div>
+  </section>
+
+  <!-- Video Section -->
+  <section class="video-section">
+    <h2>Hear from Jack Watlington</h2>
+    <p>Listen to Jack explain short sales, what they mean, and how they've helped real homeowners in your situation.</p>
+    <div class="video-container">
+      <iframe id="video-frame" src="" title="Short Sale Explanation" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+  </section>
+
+  <!-- Info Grid -->
+  <section class="info-grid">
+    <h2>How Short Sales Work</h2>
+    <div class="grid">
+      <div class="grid-item">
+        <h3>💰 Avoid Foreclosure</h3>
+        <p>A short sale lets you sell your home for less than you owe, avoiding the credit damage and timeline of foreclosure.</p>
+      </div>
+      <div class="grid-item">
+        <h3>📋 Relocation Assistance</h3>
+        <p>Many lenders offer $3,000–$15,000 in relocation assistance to help you transition. Subject to lender approval.</p>
+      </div>
+      <div class="grid-item">
+        <h3>⏱️ Faster Timeline</h3>
+        <p>A short sale typically closes in 3–6 months, versus 6+ months for foreclosure. You stay in control of the process.</p>
+      </div>
+      <div class="grid-item">
+        <h3>🛡️ Protect Your Credit</h3>
+        <p>While a short sale does impact your credit, it's significantly less damaging than a foreclosure.</p>
+      </div>
+      <div class="grid-item">
+        <h3>🤝 Professional Help</h3>
+        <p>We handle the lender negotiation, paperwork, and marketing so you don't have to.</p>
+      </div>
+      <div class="grid-item">
+        <h3>💬 No Pressure</h3>
+        <p>This is just information. If a short sale isn't right for you, we'll help you understand your other options.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Forms -->
+  <section class="forms-section">
+    <h2>Ready to talk?</h2>
+    <div class="forms-grid">
+      <!-- Warm Form -->
+      <div class="form-card">
+        <h3>Quick Response</h3>
+        <p class="subtitle">Give us your street number and first name — we'll reach out with no pressure.</p>
+        <form id="warm-form">
+          <div class="form-group">
+            <label>Street Number</label>
+            <input type="text" id="street_number" name="street_number" placeholder="e.g., 1234" required />
+          </div>
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="first_name" name="first_name" placeholder="e.g., John" required />
+          </div>
+          <button type="submit" class="btn btn-primary">Tell Me More</button>
+          <div id="warm-message" class="form-message"></div>
+        </form>
+      </div>
+
+      <!-- Hot Form -->
+      <div class="form-card">
+        <h3>Let's Connect</h3>
+        <p class="subtitle">Share your info and we'll call you directly — today if possible.</p>
+        <form id="hot-form">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="hot_name" name="hot_name" placeholder="Your full name" required />
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" id="hot_phone" name="hot_phone" placeholder="(561) 555-1234" required />
+          </div>
+          <div class="form-group">
+            <label>Email (optional)</label>
+            <input type="email" id="hot_email" name="hot_email" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea id="hot_message" name="hot_message" rows="3" placeholder="Tell us a bit about your situation..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Call Me Today</button>
+          <div id="hot-message" class="form-message"></div>
+        </form>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+      <p style="color: var(--muted); font-size: 0.9rem;">
+        Or call us directly: <strong style="color: var(--gold);">(561) 222-6331</strong>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Quick Short Sales. Jack Watlington PA dba Fidelity Realty Advisors.</p>
+    <p style="margin-top: 10px; font-size: 0.75rem; color: var(--muted);">We respect your privacy. Your information is secure and will only be used to discuss your options.</p>
+  </footer>
+
+  <script>
+    // ────────────────────────────────────────
+    // CONFIGURATION
+    // ────────────────────────────────────────
+    const SUPABASE_URL = 'https://uebyzgrsaylfexldhccu.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVlYnl6Z3JzYXlsZmV4bGRoY2N1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTcwMDkwMzcsImV4cCI6MTcxNzYyOTAzN30.7T7KQULMkJvW6mTv6rqTwExYnVCZNp4RswB0EXwfj-w';
+    const SCHEMA = 'jr_leads';
+
+    // PLACEHOLDER: Replace with actual URLs
+    const VIDEO_EMBED_URL = 'https://www.youtube.com/embed/PLACEHOLDER'; // Replace PLACEHOLDER with video ID
+    const GUIDE_PDF_URL = 'https://rookstack.github.io/jr-leads-page/user-guide.html'; // Harper's guide
+
+    // ────────────────────────────────────────
+    // INITIALIZATION & PERSONALIZATION
+    // ────────────────────────────────────────
+    const urlParams = new URLSearchParams(window.location.search);
+    const srcParam = urlParams.get('src');
+    const leadId = urlParams.get('id');
+
+    // Set video iframe
+    document.getElementById('video-frame').src = VIDEO_EMBED_URL;
+
+    // On load: personalize if coming from QR
+    if (srcParam === 'qr' && leadId) {
+      patchLeadStatus(leadId, 'warm');
+
+      (async () => {
+        try {
+          const res = await fetch(
+            `${SUPABASE_URL}/rest/v1/properties?id=eq.${leadId}&select=owner_name,address,city,state`,
+            {
+              headers: {
+                'apikey': SUPABASE_ANON,
+                'Authorization': `Bearer ${SUPABASE_ANON}`,
+                'Accept-Profile': SCHEMA
+              }
+            }
+          );
+          const rows = await res.json();
+          if (!rows || !rows[0]) return;
+          const row = rows[0];
+
+          // Extract first name
+          let firstName = 'Homeowner';
+          if (row.owner_name) {
+            const raw = row.owner_name.includes(',')
+              ? row.owner_name.split(',')[1]
+              : row.owner_name;
+            const first = (raw || '').trim().split(/\s+/)[0];
+            if (first) firstName = first.charAt(0).toUpperCase() + first.slice(1).toLowerCase();
+          }
+
+          // Format address
+          const address = row.address
+            ? `${row.address}, ${row.city || ''}, ${row.state || ''}`.replace(/,\s*,/g, ',').trim()
+            : null;
+
+          // Show greeting banner
+          const greetingBanner = document.getElementById('greeting-banner');
+          const greetingText = document.getElementById('greeting-text');
+          const fnInput = document.getElementById('first_name');
+
+          if (greetingBanner && greetingText) {
+            greetingText.innerHTML = address
+              ? `Hi <strong>${firstName}</strong> — we're reaching out about your property at <strong>${address}</strong>.`
+              : `Hi <strong>${firstName}</strong> — we're reaching out because we believe you may have options.`;
+            greetingBanner.classList.add('visible');
+          }
+
+          if (fnInput && !fnInput.value) fnInput.value = firstName;
+        } catch (e) {
+          console.warn('Personalization failed:', e);
+        }
+      })();
+    }
+
+    // ────────────────────────────────────────
+    // GUIDE DOWNLOAD FORM
+    // ────────────────────────────────────────
+    document.getElementById('guide-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('guide-email').value.trim();
+      const msgEl = document.getElementById('guide-message');
+
+      if (!email) {
+        msgEl.textContent = 'Please enter your email.';
+        msgEl.className = 'guide-message error';
+        return;
+      }
+
+      try {
+        // Insert guide download record
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/guide_downloads`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON,
+            'Authorization': `Bearer ${SUPABASE_ANON}`,
+            'Content-Type': 'application/json',
+            'Accept-Profile': SCHEMA
+          },
+          body: JSON.stringify({
+            lead_id: leadId || null,
+            email_address: email,
+            downloaded_at: new Date().toISOString()
+          })
+        });
+
+        if (res.ok) {
+          // Trigger download
+          const link = document.createElement('a');
+          link.href = GUIDE_PDF_URL;
+          link.download = 'Quick-Short-Sales-Guide.pdf';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+
+          msgEl.textContent = 'Guide downloading now. Check your downloads folder!';
+          msgEl.className = 'guide-message success';
+          setTimeout(() => {
+            document.getElementById('guide-form').reset();
+            msgEl.className = 'guide-message';
+          }, 3000);
+        } else {
+          msgEl.textContent = 'Something went wrong. Please try again.';
+          msgEl.className = 'guide-message error';
+        }
+      } catch (e) {
+        console.error(e);
+        msgEl.textContent = 'Connection error. Please try again.';
+        msgEl.className = 'guide-message error';
+      }
+    });
+
+    // ────────────────────────────────────────
+    // UTILITY FUNCTIONS
+    // ────────────────────────────────────────
+    function patchLeadStatus(id, status) {
+      fetch(`${SUPABASE_URL}/rest/v1/properties?id=eq.${id}`, {
+        method: 'PATCH',
+        headers: {
+          'apikey': SUPABASE_ANON,
+          'Authorization': `Bearer ${SUPABASE_ANON}`,
+          'Content-Type': 'application/json',
+          'Accept-Profile': SCHEMA
+        },
+        body: JSON.stringify({
+          lead_status: status,
+          [status === 'warm' ? 'warm_at' : 'hot_at']: new Date().toISOString()
+        })
+      }).catch(e => console.warn('Status patch failed:', e));
+    }
+
+    // ────────────────────────────────────────
+    // WARM FORM SUBMIT
+    // ────────────────────────────────────────
+    document.getElementById('warm-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const streetNum = document.getElementById('street_number').value.trim();
+      const firstName = document.getElementById('first_name').value.trim();
+      const msgEl = document.getElementById('warm-message');
+
+      if (!streetNum || !firstName) {
+        msgEl.textContent = 'Please fill in all fields.';
+        msgEl.className = 'form-message error';
+        return;
+      }
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/insert_warm_lead`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON,
+            'Authorization': `Bearer ${SUPABASE_ANON}`,
+            'Content-Type': 'application/json',
+            'Accept-Profile': SCHEMA
+          },
+          body: JSON.stringify({ street_num: streetNum, first_name: firstName })
+        });
+
+        if (res.ok) {
+          msgEl.textContent = 'Thanks! We'll be in touch soon.';
+          msgEl.className = 'form-message success';
+          setTimeout(() => {
+            document.getElementById('warm-form').reset();
+            msgEl.className = 'form-message';
+          }, 3000);
+        } else {
+          msgEl.textContent = 'Something went wrong. Please call us at (561) 222-6331.';
+          msgEl.className = 'form-message error';
+        }
+      } catch (e) {
+        console.error(e);
+        msgEl.textContent = 'Connection error. Please call us at (561) 222-6331.';
+        msgEl.className = 'form-message error';
+      }
+    });
+
+    // ────────────────────────────────────────
+    // HOT FORM SUBMIT
+    // ────────────────────────────────────────
+    document.getElementById('hot-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('hot_name').value.trim();
+      const phone = document.getElementById('hot_phone').value.trim();
+      const email = document.getElementById('hot_email').value.trim();
+      const message = document.getElementById('hot_message').value.trim();
+      const msgEl = document.getElementById('hot-message');
+
+      if (!name || !phone) {
+        msgEl.textContent = 'Please fill in name and phone.';
+        msgEl.className = 'form-message error';
+        return;
+      }
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/insert_hot_lead`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_ANON,
+            'Authorization': `Bearer ${SUPABASE_ANON}`,
+            'Content-Type': 'application/json',
+            'Accept-Profile': SCHEMA
+          },
+          body: JSON.stringify({
+            full_name: name,
+            phone_number: phone,
+            email_address: email || null,
+            inquiry_message: message || null
+          })
+        });
+
+        if (res.ok) {
+          msgEl.textContent = 'Thank you! Jack will call you shortly.';
+          msgEl.className = 'form-message success';
+          setTimeout(() => {
+            document.getElementById('hot-form').reset();
+            msgEl.className = 'form-message';
+          }, 3000);
+        } else {
+          msgEl.textContent = 'Something went wrong. Please call (561) 222-6331.';
+          msgEl.className = 'form-message error';
+        }
+      } catch (e) {
+        console.error(e);
+        msgEl.textContent = 'Connection error. Please call (561) 222-6331.';
+        msgEl.className = 'form-message error';
+      }
+    });
+  </script>
+</body>
+</html>
