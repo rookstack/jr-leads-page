@@ -353,7 +353,12 @@
 <!-- ── HERO + WARM FORM ── -->
 <section class="hero">
   <div class="hero-eyebrow">South Florida · Short Sale Specialists</div>
-  <h1>Behind on payments? <span>You may get paid to walk away.</span></h1>
+  <!-- Personalized greeting shown when arriving via QR -->
+  <div id="personalized-greeting" style="display:none;background:rgba(201,148,74,0.12);border:1px solid rgba(201,148,74,0.35);border-radius:10px;padding:16px 20px;margin-bottom:24px;text-align:left;">
+    <p style="font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">A personal note for you</p>
+    <p id="greeting-text" style="font-size:1.05rem;color:var(--white);line-height:1.6;"></p>
+  </div>
+  <h1 id="hero-headline">Behind on payments? <span>You may get paid to walk away.</span></h1>
   <p class="hero-sub">
     Many lenders offer thousands in relocation assistance when you choose a short sale over foreclosure.
     That means you could avoid the credit damage — and leave with cash in your pocket.
@@ -546,10 +551,57 @@
     }
   }
 
-  // ── AUTO MARK WARM ON QR SCAN ──
+  // ── PERSONALIZE + AUTO MARK WARM ON QR SCAN ──
   // Fires immediately when page loads from a QR code link (?src=qr&id=UUID)
   if (srcParam === 'qr' && leadId) {
     patchLeadStatus(leadId, 'warm');
+
+    // Fetch name + address to personalize the hero
+    (async () => {
+      try {
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/properties?id=eq.${leadId}&select=owner_name,address,city,state`,
+          { headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${SUPABASE_ANON}`, 'Accept-Profile': SCHEMA } }
+        );
+        const rows = await res.json();
+        if (!rows || !rows[0]) return;
+        const row = rows[0];
+
+        // Format name: "LASTNAME,FIRSTNAME" or "LASTNAME,FIRST MIDDLE" → "First"
+        let firstName = 'Homeowner';
+        if (row.owner_name) {
+          const raw = row.owner_name.includes(',')
+            ? row.owner_name.split(',')[1]
+            : row.owner_name;
+          const first = (raw || '').trim().split(/\s+/)[0];
+          if (first) firstName = first.charAt(0).toUpperCase() + first.slice(1).toLowerCase();
+        }
+
+        const address = row.address
+          ? `${row.address}, ${row.city || ''}, ${row.state || ''}`.replace(/,\s*,/g, ',').trim()
+          : null;
+
+        // Show personalized greeting
+        const greetingEl = document.getElementById('personalized-greeting');
+        const greetingText = document.getElementById('greeting-text');
+        const headlineEl = document.getElementById('hero-headline');
+
+        if (greetingEl && greetingText) {
+          greetingText.innerHTML = address
+            ? `Hi <strong>${firstName}</strong> — we're reaching out about your property at <strong>${address}</strong>. We believe you may have options worth knowing about.`
+            : `Hi <strong>${firstName}</strong> — we're reaching out because we believe you may have options worth knowing about.`;
+          greetingEl.style.display = 'block';
+        }
+
+        // Also update the warm form first_name field if it's empty
+        const fnInput = document.getElementById('first_name');
+        if (fnInput && !fnInput.value) fnInput.value = firstName;
+
+      } catch (e) {
+        // Silently fail — page still works without personalization
+        console.warn('Personalization fetch failed:', e);
+      }
+    })();
   }
 
   // ── WARM FORM ──
