@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QSS Medium Rectangle 300x250</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<title>QSS Medium Rectangle 300x250 v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
@@ -12,161 +12,200 @@
     height: 250px;
     overflow: hidden;
     background: transparent;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
   a.banner {
     display: block;
     width: 300px;
     height: 250px;
-    background: linear-gradient(160deg, #1a3a5c 0%, #0e2338 55%, #132d4a 100%);
+    background: #0D1B2A;
     text-decoration: none;
     position: relative;
     overflow: hidden;
     cursor: pointer;
   }
 
-  /* Gold left border */
+  /* Top orange bar */
   a.banner::before {
     content: '';
     position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 5px;
-    background: linear-gradient(180deg, #e6c76a 0%, #c9944a 100%);
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: #FF5F1F;
+    z-index: 10;
   }
 
-  /* Geometric arcs — bottom-right */
-  .arc-outer {
-    position: absolute;
-    bottom: -70px;
-    right: -70px;
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(201,148,74,0.16);
-    pointer-events: none;
-  }
-  .arc-inner {
-    position: absolute;
-    bottom: -35px;
-    right: -35px;
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    border: 1px solid rgba(201,148,74,0.1);
-    pointer-events: none;
-  }
-
-  /* Subtle dot grid */
-  .texture {
+  /* Diagonal stripe texture */
+  .bg-texture {
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(circle, rgba(201,148,74,0.055) 1px, transparent 1px);
-    background-size: 16px 16px;
+    background: repeating-linear-gradient(
+      -55deg,
+      transparent,
+      transparent 10px,
+      rgba(255,95,31,0.03) 10px,
+      rgba(255,95,31,0.03) 12px
+    );
     pointer-events: none;
   }
 
-  /* Top gold accent line */
-  .top-bar {
+  /* Bottom right corner accent */
+  .corner-accent {
     position: absolute;
-    top: 0; left: 5px; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, rgba(230,199,106,0.55) 0%, transparent 75%);
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-left: 70px solid transparent;
+    border-bottom: 70px solid rgba(255,95,31,0.11);
+    pointer-events: none;
+  }
+
+  /* Faint orange glow — center bottom */
+  .glow {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 120px;
+    background: radial-gradient(ellipse at center, rgba(255,95,31,0.1) 0%, transparent 70%);
+    pointer-events: none;
   }
 
   /* Content */
   .content {
     position: relative;
     z-index: 2;
-    padding: 28px 22px 24px 22px;
-    height: 100%;
+    padding: 20px 22px 20px 22px;
+    height: 250px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
+
   .upper {
     display: flex;
     flex-direction: column;
   }
+
   .eyebrow {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 700;
     font-size: 8.5px;
-    letter-spacing: 2.2px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: #c9944a;
-    margin-bottom: 10px;
+    color: #FF5F1F;
+    margin-bottom: 11px;
   }
-  .headline {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 1.18;
-    color: #f5f0e8;
-    letter-spacing: -0.3px;
+
+  .headline-main {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    line-height: 0.95;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
-  .headline span {
-    color: #e6c76a;
+
+  .headline-hook {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    line-height: 0.95;
+    color: #FF5F1F;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 13px;
   }
+
   .supporting {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 12px;
-    color: rgba(245,240,232,0.68);
+    color: rgba(255,255,255,0.68);
     line-height: 1.5;
-    margin-top: 12px;
   }
+  .supporting strong {
+    color: #FFFFFF;
+    font-weight: 700;
+  }
+
   .lower {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 9px;
   }
+
   .divider {
-    width: 36px;
-    height: 1px;
-    background: rgba(201,148,74,0.4);
+    width: 32px;
+    height: 3px;
+    background: #FF5F1F;
+    border-radius: 2px;
+    margin-bottom: 4px;
   }
-  .cta-row {
+
+  .cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #FF5F1F;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 12.5px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    padding: 13px 18px;
+    border-radius: 5px;
+    box-shadow: 0 0 22px rgba(255,95,31,0.5), 0 4px 12px rgba(0,0,0,0.3);
+  }
+  .cta-arrow {
+    font-size: 15px;
+  }
+
+  .footer-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-  .cta-btn {
-    display: inline-block;
-    background: linear-gradient(135deg, #c9944a 0%, #e6c76a 100%);
-    color: #1a3a5c;
-    font-family: 'Lato', sans-serif;
+  .brand-name {
+    font-family: 'Inter', sans-serif;
     font-weight: 700;
-    font-size: 10.5px;
-    letter-spacing: 0.9px;
+    font-size: 8.5px;
+    color: rgba(255,255,255,0.45);
     text-transform: uppercase;
-    padding: 10px 17px;
-    border-radius: 3px;
-    box-shadow: 0 3px 12px rgba(201,148,74,0.38);
+    letter-spacing: 0.8px;
   }
   .domain {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 400;
     font-size: 8.5px;
-    color: rgba(245,240,232,0.32);
-    letter-spacing: 0.4px;
+    color: rgba(255,255,255,0.28);
   }
 </style>
 </head>
 <body>
 <a class="banner" href="https://quickshortsales.net" target="_blank">
-  <div class="texture"></div>
-  <div class="arc-outer"></div>
-  <div class="arc-inner"></div>
-  <div class="top-bar"></div>
+  <div class="bg-texture"></div>
+  <div class="corner-accent"></div>
+  <div class="glow"></div>
   <div class="content">
     <div class="upper">
       <div class="eyebrow">Short Sale Specialists · South FL</div>
-      <div class="headline">Struggling with payments?<br><span>You have options.</span></div>
-      <div class="supporting">A short sale may let you walk away clean — no foreclosure, no judgment.</div>
+      <div class="headline-main">Behind on</div>
+      <div class="headline-main">payments?</div>
+      <div class="headline-hook">You have options.</div>
+      <div class="supporting">A short sale may let you <strong>walk away clean</strong> — no foreclosure, no judgment.</div>
     </div>
     <div class="lower">
       <div class="divider"></div>
-      <div class="cta-row">
-        <div class="cta-btn">Free Consultation</div>
+      <div class="cta-btn">Free Consultation <span class="cta-arrow">→</span></div>
+      <div class="footer-row">
+        <div class="brand-name">Quick Short Sales</div>
         <div class="domain">quickshortsales.net</div>
       </div>
     </div>

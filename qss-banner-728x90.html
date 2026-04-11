@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QSS Leaderboard 728x90</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<title>QSS Leaderboard 728x90 v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Inter:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
@@ -12,119 +12,182 @@
     height: 90px;
     overflow: hidden;
     background: transparent;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
   a.banner {
     display: flex;
     align-items: center;
     width: 728px;
     height: 90px;
-    background: linear-gradient(105deg, #1a3a5c 0%, #0f2540 60%, #132d4a 100%);
-    border-left: 5px solid #c9944a;
+    background: #0D1B2A;
     text-decoration: none;
     position: relative;
     overflow: hidden;
     cursor: pointer;
   }
-  /* Subtle noise texture overlay */
+
+  /* Orange top bar — hard to miss */
   a.banner::before {
     content: '';
     position: absolute;
-    inset: 0;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: #FF5F1F;
+    z-index: 10;
+  }
+
+  /* Diagonal slash accent — right side */
+  .slash {
+    position: absolute;
+    right: 210px;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,95,31,0.08) 40%);
+    pointer-events: none;
+  }
+
+  /* Subtle diagonal stripe texture on far right */
+  .bg-texture {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px;
     background: repeating-linear-gradient(
-      90deg,
+      -55deg,
       transparent,
-      transparent 2px,
-      rgba(201,148,74,0.03) 2px,
-      rgba(201,148,74,0.03) 4px
+      transparent 8px,
+      rgba(255,95,31,0.04) 8px,
+      rgba(255,95,31,0.04) 10px
     );
     pointer-events: none;
   }
-  /* Gold arc accent */
-  a.banner::after {
-    content: '';
-    position: absolute;
-    right: -30px;
-    top: -30px;
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    border: 2px solid rgba(201,148,74,0.15);
-    pointer-events: none;
-  }
+
+  /* Brand zone */
   .brand {
     flex: 0 0 auto;
-    padding: 0 20px 0 18px;
+    padding: 0 0 0 22px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border-right: 1px solid rgba(201,148,74,0.25);
+    position: relative;
+    z-index: 2;
   }
   .brand-name {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 15px;
-    color: #e6c76a;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    color: #FFFFFF;
     letter-spacing: 0.5px;
-    line-height: 1.1;
+    line-height: 1;
+    text-transform: uppercase;
     white-space: nowrap;
   }
+  .brand-name em {
+    font-style: normal;
+    color: #FF5F1F;
+  }
   .brand-sub {
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
-    font-size: 9px;
-    color: rgba(245,240,232,0.55);
-    letter-spacing: 1.2px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 8.5px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     margin-top: 3px;
     white-space: nowrap;
   }
+
+  /* Divider */
+  .sep {
+    flex: 0 0 auto;
+    width: 1px;
+    height: 44px;
+    background: rgba(255,95,31,0.3);
+    margin: 0 22px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Headline zone */
   .headline {
     flex: 1;
-    text-align: center;
-    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
   }
-  .headline-text {
-    font-family: 'Playfair Display', serif;
+  .headline-main {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    color: #FFFFFF;
+    line-height: 1;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .headline-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1;
+    margin-top: 5px;
+    white-space: nowrap;
+  }
+  .headline-sub strong {
+    color: #FF5F1F;
     font-weight: 700;
-    font-size: 18px;
-    color: #f5f0e8;
-    line-height: 1.25;
-    letter-spacing: -0.2px;
   }
-  .headline-text span {
-    color: #e6c76a;
-  }
+
+  /* CTA zone */
   .cta-wrap {
     flex: 0 0 auto;
-    padding: 0 20px;
+    padding: 0 22px;
+    position: relative;
+    z-index: 2;
   }
   .cta-btn {
-    display: inline-block;
-    background: linear-gradient(135deg, #c9944a 0%, #e6c76a 100%);
-    color: #1a3a5c;
-    font-family: 'Lato', sans-serif;
-    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #FF5F1F;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
     font-size: 12px;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
-    padding: 10px 18px;
-    border-radius: 3px;
+    padding: 13px 20px;
+    border-radius: 4px;
     white-space: nowrap;
-    box-shadow: 0 2px 8px rgba(201,148,74,0.35);
+    box-shadow: 0 0 20px rgba(255,95,31,0.45), 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .cta-arrow {
+    font-size: 14px;
+    line-height: 1;
   }
 </style>
 </head>
 <body>
 <a class="banner" href="https://quickshortsales.net" target="_blank">
+  <div class="bg-texture"></div>
+  <div class="slash"></div>
   <div class="brand">
-    <div class="brand-name">Quick Short Sales</div>
+    <div class="brand-name">Quick <em>Short</em> Sales</div>
     <div class="brand-sub">South Florida</div>
   </div>
+  <div class="sep"></div>
   <div class="headline">
-    <div class="headline-text">Struggling with payments? <span>You have options.</span></div>
+    <div class="headline-main">Struggling with payments?</div>
+    <div class="headline-sub">You have options. <strong>A short sale may be your way out.</strong></div>
   </div>
   <div class="cta-wrap">
-    <div class="cta-btn">Free Consultation</div>
+    <div class="cta-btn">Free Consultation <span class="cta-arrow">→</span></div>
   </div>
 </a>
 </body>

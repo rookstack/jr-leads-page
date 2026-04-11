@@ -2,85 +2,123 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>QSS Mobile Banner 320x50</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QSS Mobile Banner 320x50 v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Inter:wght@700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 320px; height: 50px; overflow: hidden; background: transparent; }
+  html, body {
+    width: 320px;
+    height: 50px;
+    overflow: hidden;
+    background: transparent;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
   a.banner {
     display: flex;
     align-items: center;
     width: 320px;
     height: 50px;
-    background: linear-gradient(105deg, #1a3a5c 0%, #0f2540 100%);
-    border-left: 4px solid #c9944a;
+    background: #0D1B2A;
     text-decoration: none;
+    position: relative;
     overflow: hidden;
     cursor: pointer;
   }
-  .brand {
-    flex: 0 0 48px;
-    padding: 0 8px;
-    border-right: 1px solid rgba(201,148,74,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+  /* Orange left bar — hard identity anchor */
+  a.banner::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+    background: #FF5F1F;
+    z-index: 10;
   }
-  .brand-name {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 9.5px;
-    color: #e6c76a;
-    white-space: nowrap;
-    line-height: 1;
+
+  /* Diagonal stripe — right side */
+  .bg-texture {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 120px;
+    background: repeating-linear-gradient(
+      -55deg,
+      transparent,
+      transparent 6px,
+      rgba(255,95,31,0.05) 6px,
+      rgba(255,95,31,0.05) 8px
+    );
+    pointer-events: none;
   }
+
+  /* Headline zone */
   .headline {
     flex: 1;
-    min-width: 0;
-    padding: 0 8px;
     display: flex;
-    align-items: center;
-    overflow: hidden;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10px 0 14px;
+    position: relative;
+    z-index: 2;
   }
-  .headline-text {
-    font-family: 'Lato', sans-serif;
-    font-weight: 700;
-    font-size: 10px;
-    color: #f5f0e8;
+  .headline-main {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 17px;
+    color: #FFFFFF;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
-  .headline-text em { font-style: normal; color: #e6c76a; }
+  .headline-sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 9px;
+    color: #FF5F1F;
+    line-height: 1;
+    margin-top: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  /* CTA */
   .cta-wrap {
     flex: 0 0 auto;
-    padding: 0 8px;
+    padding: 0 10px;
+    position: relative;
+    z-index: 2;
   }
   .cta-btn {
-    display: block;
-    background: linear-gradient(135deg, #c9944a, #e6c76a);
-    color: #1a3a5c;
-    font-family: 'Lato', sans-serif;
-    font-weight: 700;
-    font-size: 8.5px;
-    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    background: #FF5F1F;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    letter-spacing: 0.3px;
     text-transform: uppercase;
-    padding: 7px 8px;
-    border-radius: 2px;
+    padding: 8px 11px;
+    border-radius: 3px;
     white-space: nowrap;
+    box-shadow: 0 0 12px rgba(255,95,31,0.5);
   }
 </style>
 </head>
 <body>
 <a class="banner" href="https://quickshortsales.net" target="_blank">
-  <div class="brand">
-    <div class="brand-name">QSS</div>
-  </div>
+  <div class="bg-texture"></div>
   <div class="headline">
-    <div class="headline-text">Struggling with payments? <em>You have options.</em></div>
+    <div class="headline-main">Struggling with payments?</div>
+    <div class="headline-sub">You have options — Short Sale Specialists</div>
   </div>
   <div class="cta-wrap">
-    <div class="cta-btn">Get Help</div>
+    <div class="cta-btn">Get Help →</div>
   </div>
 </a>
 </body>
