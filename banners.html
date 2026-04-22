@@ -1,168 +1,589 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QSS Ad Banners - Download</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quick Short Sales — Banner Ad Suite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Lato', Arial, sans-serif;
-      background: #f5f5f5;
-      padding: 40px 20px;
-      color: #333;
+      background: #0d1117;
+      font-family: 'Lato', sans-serif;
+      padding: 48px 32px;
+      color: #ccc;
     }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
+    .page-header {
+      margin-bottom: 48px;
     }
-    h1 {
-      text-align: center;
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      color: #c9944a;
+      font-size: 1.4rem;
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+    }
+    .page-header p {
+      color: #555;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .banner-section {
+      margin-bottom: 56px;
+    }
+    .banner-label {
+      color: #444;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       margin-bottom: 10px;
-      color: #1a3a5c;
     }
-    .subtitle {
-      text-align: center;
-      color: #666;
-      margin-bottom: 40px;
-      font-size: 0.95rem;
-    }
-    .banners-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 30px;
-    }
-    .banner-card {
-      background: white;
-      border-radius: 8px;
+
+    /* ─────────────────────────────────────────
+       SHARED BANNER SHELL
+    ───────────────────────────────────────── */
+    .banner {
+      position: relative;
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
     }
-    .banner-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    .banner-body {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
     }
-    .banner-preview {
-      background: #f0f0f0;
-      padding: 20px;
+
+    /* ─────────────────────────────────────────
+       COMPLIANCE STRIP (shared across all sizes)
+    ───────────────────────────────────────── */
+    .compliance {
+      background: #0a1929;
+      border-top: 1px solid rgba(201,148,74,0.15);
+      height: 15px;
       display: flex;
       align-items: center;
+      padding: 0 6px;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .compliance .eho {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+    .compliance .eho svg {
+      height: 10px;
+      width: auto;
+      display: block;
+    }
+    .compliance .legal {
+      font-family: 'Lato', sans-serif;
+      font-size: 7px;
+      color: rgba(180,190,200,0.65);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1;
+    }
+
+    /* ─────────────────────────────────────────
+       728×90 LEADERBOARD
+    ───────────────────────────────────────── */
+    .banner-728x90 {
+      width: 728px;
+      height: 90px;
+    }
+    .banner-728x90 .banner-body {
+      height: 75px;
+      background: #1a3a5c;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 16px;
+    }
+    .banner-728x90 .banner-body::before {
+      content: '';
+      position: absolute;
+      top: -30px; left: -30px;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      border: 12px solid rgba(201,148,74,0.07);
+      pointer-events: none;
+    }
+    .b728-left {
+      display: flex;
+      flex-direction: column;
       justify-content: center;
-      min-height: 120px;
+      flex-shrink: 0;
     }
-    .banner-frame {
-      border: 1px solid #ddd;
-      display: inline-block;
+    .b728-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      color: #c9944a;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: 2px;
     }
-    .banner-info {
-      padding: 20px;
+    .b728-sub {
+      font-family: 'Lato', sans-serif;
+      font-size: 7.5px;
+      color: rgba(245,240,232,0.5);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
-    .banner-title {
+    .b728-divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(201,148,74,0.2);
+      flex-shrink: 0;
+    }
+    .b728-headline {
+      flex: 1;
+    }
+    .b728-headline .h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      color: #f5f0e8;
+      line-height: 1.15;
+      margin-bottom: 2px;
+    }
+    .b728-headline .h2 {
+      font-family: 'Lato', sans-serif;
+      font-size: 9px;
+      color: rgba(245,240,232,0.65);
+      letter-spacing: 0.04em;
+    }
+    .b728-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .b728-phone {
+      font-family: 'Lato', sans-serif;
+      font-size: 13px;
       font-weight: 700;
+      color: #c9944a;
+      letter-spacing: 0.02em;
+    }
+    .b728-cta {
+      background: #c9944a;
       color: #1a3a5c;
-      margin-bottom: 6px;
+      font-family: 'Lato', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 7px 14px;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
     }
-    .banner-size {
-      font-size: 0.85rem;
-      color: #999;
-      margin-bottom: 12px;
+
+    /* ─────────────────────────────────────────
+       320×50 MOBILE BANNER
+    ───────────────────────────────────────── */
+    .banner-320x50 {
+      width: 320px;
+      height: 50px;
     }
-    .banner-desc {
-      font-size: 0.9rem;
-      color: #666;
-      margin-bottom: 16px;
+    .banner-320x50 .banner-body {
+      height: 35px;
+      background: #1a3a5c;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 8px;
+    }
+    .b320-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 10px;
+      color: #c9944a;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .b320-sep {
+      color: rgba(201,148,74,0.35);
+      font-size: 9px;
+      flex-shrink: 0;
+    }
+    .b320-headline {
+      font-family: 'Lato', sans-serif;
+      font-size: 9.5px;
+      color: #f5f0e8;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .b320-cta {
+      background: #c9944a;
+      color: #1a3a5c;
+      font-family: 'Lato', sans-serif;
+      font-size: 7.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────
+       336×280 LARGE RECTANGLE
+    ───────────────────────────────────────── */
+    .banner-336x280 {
+      width: 336px;
+      height: 280px;
+    }
+    .banner-336x280 .banner-body {
+      height: 265px;
+      background: linear-gradient(145deg, #1a3a5c 0%, #0f2540 100%);
+      padding: 22px 22px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .banner-336x280 .banner-body::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      border: 18px solid rgba(201,148,74,0.08);
+      pointer-events: none;
+    }
+    .banner-336x280 .banner-body::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #c9944a, transparent);
+    }
+    .b336-top {}
+    .b336-eyebrow {
+      font-family: 'Lato', sans-serif;
+      font-size: 8.5px;
+      font-weight: 700;
+      color: #c9944a;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .b336-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: #f5f0e8;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .b336-sub {
+      font-family: 'Lato', sans-serif;
+      font-size: 10.5px;
+      color: rgba(245,240,232,0.7);
       line-height: 1.5;
     }
-    .download-btn {
-      display: inline-block;
-      background: linear-gradient(135deg, #c9944a, #e6c76a);
-      color: #1a3a5c;
-      text-decoration: none;
-      padding: 10px 16px;
-      border-radius: 4px;
+    .b336-mid {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .b336-feature {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .b336-feature .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #c9944a;
+      flex-shrink: 0;
+    }
+    .b336-feature span {
+      font-family: 'Lato', sans-serif;
+      font-size: 9.5px;
+      color: rgba(245,240,232,0.75);
+    }
+    .b336-bottom {}
+    .b336-brand {
+      font-family: 'Lato', sans-serif;
+      font-size: 7.5px;
+      color: rgba(245,240,232,0.4);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .b336-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .b336-phone {
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
       font-weight: 700;
-      font-size: 0.9rem;
-      transition: all 0.2s;
-      cursor: pointer;
+      color: #c9944a;
     }
-    .download-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(201,148,74,0.3);
+    .b336-cta {
+      background: #c9944a;
+      color: #1a3a5c;
+      font-family: 'Lato', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 9px 16px;
     }
-    .instructions {
-      background: #e8f4f8;
-      border-left: 4px solid #56a6e8;
-      padding: 16px;
-      border-radius: 4px;
-      margin-bottom: 30px;
-      font-size: 0.9rem;
+
+    /* ─────────────────────────────────────────
+       300×250 MEDIUM RECTANGLE
+    ───────────────────────────────────────── */
+    .banner-300x250 {
+      width: 300px;
+      height: 250px;
     }
-    .instructions strong { color: #1a3a5c; }
+    .banner-300x250 .banner-body {
+      height: 235px;
+      background: linear-gradient(145deg, #1a3a5c 0%, #0f2540 100%);
+      padding: 18px 18px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .banner-300x250 .banner-body::before {
+      content: '';
+      position: absolute;
+      top: -50px; right: -50px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      border: 14px solid rgba(201,148,74,0.08);
+      pointer-events: none;
+    }
+    .banner-300x250 .banner-body::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #c9944a, transparent);
+    }
+    .b300-eyebrow {
+      font-family: 'Lato', sans-serif;
+      font-size: 8px;
+      font-weight: 700;
+      color: #c9944a;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .b300-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: 21px;
+      color: #f5f0e8;
+      line-height: 1.2;
+      margin-bottom: 7px;
+    }
+    .b300-sub {
+      font-family: 'Lato', sans-serif;
+      font-size: 9.5px;
+      color: rgba(245,240,232,0.7);
+      line-height: 1.5;
+    }
+    .b300-mid {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .b300-feature {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .b300-feature .dot {
+      width: 3.5px;
+      height: 3.5px;
+      border-radius: 50%;
+      background: #c9944a;
+      flex-shrink: 0;
+    }
+    .b300-feature span {
+      font-family: 'Lato', sans-serif;
+      font-size: 9px;
+      color: rgba(245,240,232,0.75);
+    }
+    .b300-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .b300-phone {
+      font-family: 'Lato', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #c9944a;
+    }
+    .b300-cta {
+      background: #c9944a;
+      color: #1a3a5c;
+      font-family: 'Lato', sans-serif;
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+    }
   </style>
 </head>
 <body>
-<div class="container">
-  <h1>Quick Short Sales — Ad Banners</h1>
-  <p class="subtitle">Download banners for Property Radar and other ad networks</p>
 
-  <div class="instructions">
-    <strong>💡 How to download:</strong> Right-click on any banner preview below and select "Save image as..." to download as PNG. All banners link to quickshortsales.net.
-  </div>
+<div class="page-header">
+  <h1>Quick Short Sales — Banner Ad Suite</h1>
+  <p>Florida-Compliant Display Ads · quickshortsales.net</p>
+</div>
 
-  <div class="banners-grid">
-    <!-- 728×90 -->
-    <div class="banner-card">
-      <div class="banner-preview">
-        <iframe src="qss-banner-728x90.html" width="728" height="90" frameborder="0" style="border: 1px solid #ddd;"></iframe>
+
+<!-- ══════════════════════════════════════════════════
+     728×90 LEADERBOARD
+══════════════════════════════════════════════════ -->
+<div class="banner-section">
+  <div class="banner-label">728×90 — Leaderboard</div>
+  <div class="banner banner-728x90">
+    <div class="banner-body">
+      <div class="b728-left">
+        <div class="b728-brand">Quick Short Sales</div>
+        <div class="b728-sub">quickshortsales.net</div>
       </div>
-      <div class="banner-info">
-        <div class="banner-title">Leaderboard</div>
-        <div class="banner-size">728 × 90 pixels</div>
-        <div class="banner-desc">Standard web banner. Best for desktop header/footer placement.</div>
-        <a href="qss-banner-728x90.html" download class="download-btn">View & Download</a>
+      <div class="b728-divider"></div>
+      <div class="b728-headline">
+        <div class="h1">Need to Sell Your Home Fast?</div>
+        <div class="h2">No repairs. No fees. Close in as little as 7 days.</div>
+      </div>
+      <div class="b728-right">
+        <div class="b728-phone">(855) 204-4447</div>
+        <div class="b728-cta">Get My Offer</div>
       </div>
     </div>
-
-    <!-- 320×50 -->
-    <div class="banner-card">
-      <div class="banner-preview">
-        <iframe src="qss-banner-320x50.html" width="320" height="50" frameborder="0" style="border: 1px solid #ddd;"></iframe>
+    <div class="compliance">
+      <div class="eho">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" aria-label="Equal Housing Opportunity">
+          <path d="M10 2L2 9h2v8h4v-5h4v5h4V9h2L10 2z" fill="none" stroke="rgba(180,190,200,0.55)" stroke-width="1.4" stroke-linejoin="round"/>
+          <line x1="6" y1="13" x2="14" y2="13" stroke="rgba(180,190,200,0.55)" stroke-width="1.2"/>
+          <line x1="6" y1="15.5" x2="14" y2="15.5" stroke="rgba(180,190,200,0.55)" stroke-width="1.2"/>
+        </svg>
       </div>
-      <div class="banner-info">
-        <div class="banner-title">Mobile Banner</div>
-        <div class="banner-size">320 × 50 pixels</div>
-        <div class="banner-desc">Compact mobile banner. Fits in small spaces on mobile sites.</div>
-        <a href="qss-banner-320x50.html" download class="download-btn">View & Download</a>
-      </div>
-    </div>
-
-    <!-- 336×280 -->
-    <div class="banner-card">
-      <div class="banner-preview">
-        <iframe src="qss-banner-336x280.html" width="336" height="280" frameborder="0" style="border: 1px solid #ddd;"></iframe>
-      </div>
-      <div class="banner-info">
-        <div class="banner-title">Large Rectangle</div>
-        <div class="banner-size">336 × 280 pixels</div>
-        <div class="banner-desc">High-impact display format. Great for sidebar and content areas.</div>
-        <a href="qss-banner-336x280.html" download class="download-btn">View & Download</a>
-      </div>
-    </div>
-
-    <!-- 300×250 -->
-    <div class="banner-card">
-      <div class="banner-preview">
-        <iframe src="qss-banner-300x250.html" width="300" height="250" frameborder="0" style="border: 1px solid #ddd;"></iframe>
-      </div>
-      <div class="banner-info">
-        <div class="banner-title">Medium Rectangle</div>
-        <div class="banner-size">300 × 250 pixels</div>
-        <div class="banner-desc">Industry-standard IAB format. Most common display size.</div>
-        <a href="qss-banner-300x250.html" download class="download-btn">View & Download</a>
-      </div>
+      <div class="legal">Jack Watlington PA dba Fidelity Realty Advisors &nbsp;|&nbsp; FL Lic. #3139881 &nbsp;|&nbsp; Equal Housing Opportunity</div>
     </div>
   </div>
 </div>
+
+
+<!-- ══════════════════════════════════════════════════
+     320×50 MOBILE BANNER
+══════════════════════════════════════════════════ -->
+<div class="banner-section">
+  <div class="banner-label">320×50 — Mobile Banner</div>
+  <div class="banner banner-320x50">
+    <div class="banner-body">
+      <div class="b320-brand">Quick Short Sales</div>
+      <div class="b320-sep">|</div>
+      <div class="b320-headline">Sell fast. No fees. Cash offer.</div>
+      <div class="b320-cta">Call Now</div>
+    </div>
+    <div class="compliance">
+      <div class="eho">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" aria-label="Equal Housing Opportunity">
+          <path d="M10 2L2 9h2v8h4v-5h4v5h4V9h2L10 2z" fill="none" stroke="rgba(180,190,200,0.55)" stroke-width="1.4" stroke-linejoin="round"/>
+          <line x1="6" y1="13" x2="14" y2="13" stroke="rgba(180,190,200,0.55)" stroke-width="1.2"/>
+          <line x1="6" y1="15.5" x2="14" y2="15.5" stroke="rgba(180,190,200,0.55)" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <div class="legal">Jack Watlington PA dba Fidelity Realty Advisors &nbsp;|&nbsp; FL Lic. #3139881</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     336×280 LARGE RECTANGLE
+══════════════════════════════════════════════════ -->
+<div class="banner-section">
+  <div class="banner-label">336×280 — Large Rectangle</div>
+  <div class="banner banner-336x280">
+    <div class="banner-body">
+      <div class="b336-top">
+        <div class="b336-eyebrow">South Florida Real Estate</div>
+        <div class="b336-headline">Struggling to<br>Make Payments?</div>
+        <div class="b336-sub">We buy homes in any condition.<br>Get a fair cash offer — no agents, no hassle.</div>
+      </div>
+      <div class="b336-mid">
+        <div class="b336-feature"><div class="dot"></div><span>Close in as little as 7 days</span></div>
+        <div class="b336-feature"><div class="dot"></div><span>No repairs or cleaning required</span></div>
+        <div class="b336-feature"><div class="dot"></div><span>Zero fees or commissions</span></div>
+      </div>
+      <div class="b336-bottom">
+        <div class="b336-brand">Quick Short Sales · quickshortsales.net</div>
+        <div class="b336-actions">
+          <div class="b336-phone">(855) 204-4447</div>
+          <div class="b336-cta">Get My Offer</div>
+        </div>
+      </div>
+    </div>
+    <div class="compliance">
+      <div class="eho">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" aria-label="Equal Housing Opportunity">
+          <path d="M10 2L2 9h2v8h4v-5h4v5h4V9h2L10 2z" fill="none" stroke="rgba(180,190,200,0.55)" stroke-width="1.4" stroke-linejoin="round"/>
+          <line x1="6" y1="13" x2="14" y2="13" stroke="rgba(180,190,200,0.55)" stroke-width="1.2"/>
+          <line x1="6" y1="15.5" x2="14" y2="15.5" stroke="rgba(180,190,200,0.55)" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <div class="legal">Jack Watlington PA dba Fidelity Realty Advisors &nbsp;|&nbsp; FL Lic. #3139881 &nbsp;|&nbsp; Equal Housing Opportunity</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     300×250 MEDIUM RECTANGLE
+══════════════════════════════════════════════════ -->
+<div class="banner-section">
+  <div class="banner-label">300×250 — Medium Rectangle</div>
+  <div class="banner banner-300x250">
+    <div class="banner-body">
+      <div class="b300-top">
+        <div class="b300-eyebrow">South Florida Real Estate</div>
+        <div class="b300-headline">Need to Sell<br>Your Home Fast?</div>
+        <div class="b300-sub">Cash offers. Any condition.<br>Close in as little as 7 days.</div>
+      </div>
+      <div class="b300-mid">
+        <div class="b300-feature"><div class="dot"></div><span>No repairs · No agents · No fees</span></div>
+        <div class="b300-feature"><div class="dot"></div><span>Relocation assistance available</span></div>
+      </div>
+      <div class="b300-actions">
+        <div class="b300-phone">(855) 204-4447</div>
+        <div class="b300-cta">Get My Offer</div>
+      </div>
+    </div>
+    <div class="compliance">
+      <div class="eho">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" aria-label="Equal Housing Opportunity">
+          <path d="M10 2L2 9h2v8h4v-5h4v5h4V9h2L10 2z" fill="none" stroke="rgba(180,190,200,0.55)" stroke-width="1.4" stroke-linejoin="round"/>
+          <line x1="6" y1="13" x2="14" y2="13" stroke="rgba(180,190,200,0.55)" stroke-width="1.2"/>
+          <line x1="6" y1="15.5" x2="14" y2="15.5" stroke="rgba(180,190,200,0.55)" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <div class="legal">Jack Watlington PA dba Fidelity Realty Advisors &nbsp;|&nbsp; FL Lic. #3139881 &nbsp;|&nbsp; Equal Housing Opportunity</div>
+    </div>
+  </div>
+</div>
+
+
 </body>
 </html>

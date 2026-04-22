@@ -1,195 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    width: 336px;
-    height: 280px;
-    overflow: hidden;
-    font-family: 'Arial Black', 'Arial', sans-serif;
-  }
-
-  .banner {
-    width: 336px;
-    height: 280px;
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(160deg, #00CFFF 0%, #00A8E8 45%, #007EC6 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    cursor: pointer;
-  }
-
-  /* Yellow rotated square — top-right */
-  .geo-tr {
-    position: absolute;
-    top: -45px;
-    right: -35px;
-    width: 130px;
-    height: 130px;
-    background: #FFD700;
-    transform: rotate(45deg);
-    opacity: 0.18;
-  }
-
-  /* Lime rotated square — bottom-left */
-  .geo-bl {
-    position: absolute;
-    bottom: -40px;
-    left: -25px;
-    width: 110px;
-    height: 110px;
-    background: #32CD32;
-    transform: rotate(45deg);
-    opacity: 0.16;
-  }
-
-  /* Yellow accent — slim diagonal stripe mid */
-  .geo-mid {
-    position: absolute;
-    top: 30%;
-    right: -10px;
-    width: 8px;
-    height: 60px;
-    background: #FFD700;
-    transform: skewY(-25deg);
-    opacity: 0.5;
-    border-radius: 2px;
-  }
-
-  /* Yellow top bar */
-  .top-bar {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 5px;
-    background: linear-gradient(90deg, #FFD700, #FFEB3B, #FFD700);
-  }
-
-  /* Lime bottom bar */
-  .bottom-bar {
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 100%; height: 5px;
-    background: linear-gradient(90deg, #32CD32, #66FF33, #32CD32);
-    background-size: 200% 100%;
-    animation: shimmer 2.5s linear infinite;
-  }
-
-  @keyframes shimmer {
-    0%   { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-  }
-
-  .content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 0 22px;
-    gap: 12px;
-  }
-
-  .badge {
-    background: #FFD700;
-    color: #007EC6;
-    font-size: 10px;
-    font-weight: 900;
-    padding: 4px 16px;
-    border-radius: 20px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-  }
-
-  .headline {
-    font-size: 28px;
-    font-weight: 900;
-    color: #FFFFFF;
-    line-height: 1.1;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.18);
-  }
-
-  .headline .accent {
-    color: #FFD700;
-    display: block;
-    font-size: 32px;
-    line-height: 1.05;
-  }
-
-  .subtext {
-    font-size: 14px;
-    font-weight: 800;
-    color: rgba(255,255,255,0.95);
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-  }
-
-  .divider {
-    width: 75%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-    border-radius: 2px;
-  }
-
-  .cta-btn {
-    background: #32CD32;
-    color: #FFFFFF;
-    font-size: 15px;
-    font-weight: 900;
-    padding: 14px 0;
-    border: none;
-    border-radius: 6px;
-    text-transform: uppercase;
-    letter-spacing: 1.8px;
-    cursor: pointer;
-    width: 100%;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-    box-shadow: 0 4px 14px rgba(50,205,50,0.5);
-    animation: btnBounce 2s ease-in-out infinite;
-  }
-
-  @keyframes btnBounce {
-    0%, 100% { transform: scale(1);    box-shadow: 0 4px 14px rgba(50,205,50,0.5); }
-    50%       { transform: scale(1.03); box-shadow: 0 6px 22px rgba(50,205,50,0.65); }
-  }
-
-  .phone {
-    font-size: 17px;
-    font-weight: 900;
-    color: #FFFFFF;
-    letter-spacing: 1px;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.18);
-  }
-</style>
+  <meta charset="UTF-8"/>
+  <title>QSS Banner 336x280</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 336px; height: 280px; overflow: hidden; }
+    .banner { width: 336px; height: 280px; display: flex; flex-direction: column; overflow: hidden; }
+    .banner-body {
+      height: 265px;
+      background: linear-gradient(145deg, #1a3a5c 0%, #0f2540 100%);
+      padding: 22px 22px 16px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      position: relative;
+    }
+    .banner-body::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      border: 18px solid rgba(201,148,74,0.08);
+      pointer-events: none;
+    }
+    .banner-body::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #c9944a, transparent);
+    }
+    .eyebrow { font-family: 'Lato', sans-serif; font-size: 8.5px; font-weight: 700; color: #c9944a; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 10px; }
+    .headline { font-family: 'Playfair Display', serif; font-size: 24px; color: #f5f0e8; line-height: 1.2; margin-bottom: 8px; }
+    .sub { font-family: 'Lato', sans-serif; font-size: 10.5px; color: rgba(245,240,232,0.7); line-height: 1.5; }
+    .features { display: flex; flex-direction: column; gap: 5px; }
+    .feature { display: flex; align-items: center; gap: 7px; }
+    .feature .dot { width: 4px; height: 4px; border-radius: 50%; background: #c9944a; flex-shrink: 0; }
+    .feature span { font-family: 'Lato', sans-serif; font-size: 9.5px; color: rgba(245,240,232,0.75); }
+    .brand-line { font-family: 'Lato', sans-serif; font-size: 7.5px; color: rgba(245,240,232,0.4); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+    .actions { display: flex; align-items: center; justify-content: space-between; }
+    .phone { font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 700; color: #c9944a; }
+    .cta { background: #c9944a; color: #1a3a5c; font-family: 'Lato', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 16px; }
+    .compliance {
+      background: #0a1929; border-top: 1px solid rgba(201,148,74,0.15);
+      height: 15px; display: flex; align-items: center; padding: 0 6px; gap: 4px;
+    }
+    .compliance svg { height: 10px; width: auto; display: block; flex-shrink: 0; }
+    .legal { font-family: 'Lato', sans-serif; font-size: 7px; color: rgba(180,190,200,0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  </style>
 </head>
 <body>
 <div class="banner">
-  <div class="geo-tr"></div>
-  <div class="geo-bl"></div>
-  <div class="geo-mid"></div>
-  <div class="top-bar"></div>
-  <div class="bottom-bar"></div>
-
-  <div class="content">
-    <div class="badge">✦ Free Consultation</div>
-    <div class="headline">
-      Struggling with
-      <span class="accent">Payments?</span>
+  <div class="banner-body">
+    <div>
+      <div class="eyebrow">South Florida Real Estate</div>
+      <div class="headline">Struggling to<br>Make Payments?</div>
+      <div class="sub">We buy homes in any condition.<br>Get a fair cash offer — no agents, no hassle.</div>
     </div>
-    <div class="subtext">You Have Options</div>
-    <div class="divider"></div>
-    <a class="cta-btn">GET FREE HELP NOW</a>
-    <div class="phone">📞 (855) 204-4447</div>
+    <div class="features">
+      <div class="feature"><div class="dot"></div><span>Close in as little as 7 days</span></div>
+      <div class="feature"><div class="dot"></div><span>No repairs or cleaning required</span></div>
+      <div class="feature"><div class="dot"></div><span>Zero fees or commissions</span></div>
+    </div>
+    <div>
+      <div class="brand-line">Quick Short Sales · quickshortsales.net</div>
+      <div class="actions">
+        <div class="phone">(855) 204-4447</div>
+        <div class="cta">Get My Offer</div>
+      </div>
+    </div>
+  </div>
+  <div class="compliance">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" aria-label="Equal Housing Opportunity">
+      <path d="M10 2L2 9h2v8h4v-5h4v5h4V9h2L10 2z" fill="none" stroke="rgba(180,190,200,0.55)" stroke-width="1.4" stroke-linejoin="round"/>
+      <line x1="6" y1="13" x2="14" y2="13" stroke="rgba(180,190,200,0.55)" stroke-width="1.2"/>
+      <line x1="6" y1="15.5" x2="14" y2="15.5" stroke="rgba(180,190,200,0.55)" stroke-width="1.2"/>
+    </svg>
+    <div class="legal">Jack Watlington PA dba Fidelity Realty Advisors &nbsp;|&nbsp; FL Lic. #3139881 &nbsp;|&nbsp; Equal Housing Opportunity</div>
   </div>
 </div>
 </body>
