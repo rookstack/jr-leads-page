@@ -1,44 +1,148 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-  <title>QSS Banner 320x50</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 320px; height: 50px; overflow: hidden; }
-    .banner { width: 320px; height: 50px; display: flex; flex-direction: column; overflow: hidden; }
-    .banner-body {
-      height: 35px; background: #1a3a5c;
-      display: flex; align-items: center; padding: 0 10px; gap: 8px;
-    }
-    .b-brand { font-family: 'Playfair Display', serif; font-size: 10px; color: #c9944a; letter-spacing: 0.03em; white-space: nowrap; flex-shrink: 0; }
-    .b-sep { color: rgba(201,148,74,0.35); font-size: 9px; flex-shrink: 0; }
-    .b-headline { font-family: 'Lato', sans-serif; font-size: 9.5px; color: #f5f0e8; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .b-cta { background: #c9944a; color: #1a3a5c; font-family: 'Lato', sans-serif; font-size: 7.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 8px; white-space: nowrap; flex-shrink: 0; }
-    .compliance {
-      background: #0a1929; border-top: 1px solid rgba(201,148,74,0.15);
-      height: 15px; display: flex; align-items: center; padding: 0 6px; gap: 4px;
-    }
-    .compliance svg { height: 10px; width: auto; display: block; flex-shrink: 0; }
-    .legal { font-family: 'Lato', sans-serif; font-size: 7px; color: rgba(180,190,200,0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  </style>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 320px;
+    height: 50px;
+    overflow: hidden;
+    font-family: 'Arial Black', 'Arial', sans-serif;
+  }
+
+  .banner {
+    width: 320px;
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #00BFFF 0%, #0099DD 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* bottom 14px padding keeps content above compliance strip */
+    padding: 0 12px 14px 12px;
+    cursor: pointer;
+  }
+
+  /* Yellow diagonal accent — slim bar */
+  .accent {
+    position: absolute;
+    top: 0; right: 98px;
+    width: 28px;
+    height: 100%;
+    background: #FFD700;
+    transform: skewX(-10deg);
+    opacity: 0.25;
+  }
+
+  /* Lime bottom border sits just above compliance strip */
+  .banner::after {
+    content: '';
+    position: absolute;
+    bottom: 14px; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, #32CD32, #66FF33, #32CD32);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .text-block {
+    position: relative;
+    z-index: 2;
+  }
+
+  .headline {
+    font-size: 13px;
+    font-weight: 900;
+    color: #FFFFFF;
+    line-height: 1.1;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+
+  .headline span {
+    color: #FFD700;
+  }
+
+  .phone {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.92);
+    letter-spacing: 0.3px;
+  }
+
+  .cta-btn {
+    position: relative;
+    z-index: 2;
+    background: #32CD32;
+    color: #FFFFFF;
+    font-size: 10px;
+    font-weight: 900;
+    padding: 8px 11px;
+    border: none;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    display: block;
+    box-shadow: 0 2px 8px rgba(50,205,50,0.45);
+    animation: btnBounce 2s ease-in-out infinite;
+  }
+
+  @keyframes btnBounce {
+    0%, 100% { transform: scale(1);    box-shadow: 0 2px 8px rgba(50,205,50,0.45); }
+    50%       { transform: scale(1.05); box-shadow: 0 4px 14px rgba(50,205,50,0.65); }
+  }
+
+  /* ── Compliance strip ── */
+  .compliance-strip {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 14px;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    gap: 4px;
+    z-index: 20;
+  }
+  .compliance-text {
+    font-family: 'Lato', Arial, sans-serif;
+    font-size: 6.5px;
+    color: rgba(255,255,255,0.70);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+  }
+</style>
 </head>
 <body>
 <div class="banner">
-  <div class="banner-body">
-    <div class="b-brand">Quick Short Sales</div>
-    <div class="b-sep">|</div>
-    <div class="b-headline">Sell fast. No fees. Cash offer.</div>
-    <div class="b-cta">Call Now</div>
+  <div class="accent"></div>
+  <div class="text-block">
+    <div class="headline">Struggling with <span>payments?</span></div>
+    <div class="phone">📞 (855) 204-4447</div>
   </div>
-  <div class="compliance">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" aria-label="Equal Housing Opportunity">
-      <path d="M10 2L2 9h2v8h4v-5h4v5h4V9h2L10 2z" fill="none" stroke="rgba(180,190,200,0.55)" stroke-width="1.4" stroke-linejoin="round"/>
-      <line x1="6" y1="13" x2="14" y2="13" stroke="rgba(180,190,200,0.55)" stroke-width="1.2"/>
-      <line x1="6" y1="15.5" x2="14" y2="15.5" stroke="rgba(180,190,200,0.55)" stroke-width="1.2"/>
+  <a class="cta-btn">GET HELP NOW</a>
+
+  <div class="compliance-strip">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 22" style="height:10px;width:auto;display:block;flex-shrink:0;" aria-label="Equal Housing Opportunity">
+      <path d="M10 2L1 9.5h2.5V20h5v-5h3v5h5V9.5H19L10 2z" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="7" y1="13" x2="13" y2="13" stroke="rgba(255,255,255,0.7)" stroke-width="1.3"/>
+      <line x1="7" y1="15.5" x2="13" y2="15.5" stroke="rgba(255,255,255,0.7)" stroke-width="1.3"/>
     </svg>
-    <div class="legal">Jack Watlington PA dba Fidelity Realty Advisors &nbsp;|&nbsp; FL Lic. #3139881</div>
+    <span class="compliance-text">Jack Watlington PA dba Fidelity Realty Advisors | FL Lic. #3139881 | Equal Housing Opportunity</span>
   </div>
 </div>
 </body>
