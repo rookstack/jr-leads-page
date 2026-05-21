@@ -1013,5 +1013,64 @@
     </div>
   </footer>
 
+  <!-- ═══════════════════════════════════════
+       QR SCAN → WARM LEAD TRACKER
+  ═══════════════════════════════════════ -->
+  <script>
+    (function () {
+      var SUPABASE_URL = 'https://uebyzgrsaylfexldhccu.supabase.co';
+      var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVlYnl6Z3JzYXlsZmV4bGRoY2N1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NjgwOTQsImV4cCI6MjA4NzU0NDA5NH0.5QpO51ZIxNFskzuvA_k2yjpoNVz1NUrT0sMsY8wFGKQ';
+
+      var params = new URLSearchParams(window.location.search);
+      var src = params.get('src');
+      var id  = params.get('id');
+
+      if (src === 'qr' && id) {
+        // Mark lead as warm on QR scan
+        fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(id), {
+          method: 'PATCH',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json',
+            'Accept-Profile': 'jr_leads',
+            'Content-Profile': 'jr_leads',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({
+            lead_status: 'warm',
+            warm_at: new Date().toISOString()
+          })
+        }).catch(function (e) { console.warn('QR track error:', e); });
+      }
+
+      // Hot lead on form submit
+      document.addEventListener('DOMContentLoaded', function () {
+        var forms = document.querySelectorAll('form[data-lead-form]');
+        forms.forEach(function (form) {
+          form.addEventListener('submit', function () {
+            var lid = id || (params.get('id'));
+            if (!lid) return;
+            fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(lid), {
+              method: 'PATCH',
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                'Content-Type': 'application/json',
+                'Accept-Profile': 'jr_leads',
+                'Content-Profile': 'jr_leads',
+                'Prefer': 'return=minimal'
+              },
+              body: JSON.stringify({
+                lead_status: 'hot',
+                hot_at: new Date().toISOString()
+              })
+            }).catch(function (e) { console.warn('Hot track error:', e); });
+          });
+        });
+      });
+    })();
+  </script>
+
 </body>
 </html>
