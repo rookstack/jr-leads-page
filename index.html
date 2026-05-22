@@ -1070,6 +1070,15 @@
         }).catch(function (e) { console.warn('QR track error:', e); });
       }
 
+      // Update guide download link to carry src + id params
+      document.addEventListener('DOMContentLoaded', function () {
+        var guideLink = document.querySelector('a[href="short-sale-guide.html"]');
+        if (guideLink) {
+          var guideSuffix = id ? ('?src=' + (src || 'qr') + '&id=' + id) : (src ? '?src=' + src : '?src=direct');
+          guideLink.href = 'short-sale-guide.html' + guideSuffix;
+        }
+      });
+
       // Hot lead on form submit
       document.addEventListener('DOMContentLoaded', function () {
         var forms = document.querySelectorAll('form[data-lead-form]');
