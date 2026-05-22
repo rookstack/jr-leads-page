@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Short Sale Guide — Fidelity Realty Advisors</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #e8e8e8;
+    color: #333;
+  }
+
+  .page {
+    width: 850px;
+    min-height: 1100px;
+    margin: 40px auto;
+    background: #fff;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.18);
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  /* ── HEADER BAR ── */
+  .page-header {
+    background: #4D7A2A;
+    color: #fff;
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .page-header .logo-text { font-size: 12px; font-weight: bold; letter-spacing: 0.5px; color: #FFD700; }
+  .page-header .page-title { font-size: 12px; opacity: 0.8; }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: #4D7A2A;
+    color: #fff;
+    padding: 12px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+  }
+  .page-footer .disclaimer { font-size: 10px; opacity: 0.7; font-style: italic; }
+  .pg-num { font-size: 11px; opacity: 0.7; }
+
+  /* ── PAGE HERO IMAGE STRIP ── */
+  .page-hero {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    object-position: center 60%;
+    display: block;
+  }
+  .page-hero-overlay {
+    position: relative;
+  }
+  .page-hero-overlay::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(to top, #fff, transparent);
+  }
+
+  /* ── CONTENT ── */
+  .content { padding: 28px 40px 80px; }
+
+  h2 {
+    color: #4D7A2A;
+    font-size: 22px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #FFD700;
+  }
+  h3 { color: #3A6A1E; font-size: 16px; margin: 20px 0 8px; }
+  p { font-size: 13.5px; line-height: 1.75; margin-bottom: 12px; color: #444; }
+  ul { margin: 8px 0 14px 24px; font-size: 13.5px; line-height: 1.8; color: #444; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: #f4f9ee;
+    border-left: 5px solid #8BC53F;
+    padding: 14px 18px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout p { margin: 0; font-style: italic; color: #3A6A1E; font-size: 13.5px; }
+
+  /* ── WARNING ── */
+  .warning {
+    background: #fff8e1;
+    border-left: 5px solid #FFC524;
+    padding: 14px 18px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .warning-title { font-weight: bold; color: #b8860b; font-size: 14px; margin-bottom: 6px; }
+  .warning p { margin: 0; font-size: 13px; color: #555; }
+
+  /* ── TWO-COLUMN LAYOUT ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 16px 0;
+    align-items: start;
+  }
+  .two-col img {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    height: 200px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+  }
+  .two-col-text { display: flex; flex-direction: column; justify-content: center; }
+
+  /* ── SIDE IMAGE (right-float) ── */
+  .img-right {
+    float: right;
+    margin: 0 0 16px 20px;
+    width: 220px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    object-fit: cover;
+    height: 160px;
+  }
+  .clearfix::after { content: ''; display: table; clear: both; }
+
+  /* ── TABLE ── */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 12.5px; }
+  table thead tr { background: #4D7A2A; color: #fff; }
+  table thead th { padding: 10px 14px; text-align: left; }
+  table thead th:first-child { width: 28%; background: #3A6A1E; }
+  table thead th:nth-child(3) { background: #777; }
+  table tbody tr:nth-child(even) { background: #f7faf2; }
+  table tbody tr:nth-child(odd) { background: #fff; }
+  table tbody td { padding: 10px 14px; border-bottom: 1px solid #e0e0e0; vertical-align: top; line-height: 1.5; }
+  table tbody td:first-child { font-weight: bold; color: #4D7A2A; }
+  table tbody td:nth-child(2) { color: #2d6a2d; }
+  table tbody td:nth-child(3) { color: #888; }
+
+  /* ── BENEFIT CARDS ── */
+  .benefit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+  .benefit-card {
+    background: #f4f9ee;
+    border: 1px solid #c5e0a0;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .benefit-card .icon { font-size: 22px; margin-bottom: 6px; }
+  .benefit-card h4 { font-size: 13px; color: #4D7A2A; margin-bottom: 6px; }
+  .benefit-card p { font-size: 12.5px; color: #555; margin: 0; line-height: 1.6; }
+
+  /* ── PROCESS STEPS ── */
+  .steps { margin: 16px 0; }
+  .step { display: flex; gap: 16px; margin-bottom: 14px; align-items: flex-start; }
+  .step-num {
+    min-width: 34px; height: 34px;
+    background: #4D7A2A; color: #FFD700;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: bold; flex-shrink: 0; margin-top: 2px;
+  }
+  .step-body h4 { font-size: 14px; color: #4D7A2A; margin-bottom: 3px; }
+  .step-body p { font-size: 12.5px; color: #555; margin: 0; line-height: 1.6; }
+  .step-connector { width: 2px; height: 12px; background: #c5e0a0; margin: 0 0 0 16px; }
+
+  /* ── OPTION ITEMS ── */
+  .option-item {
+    border-left: 4px solid #8BC53F;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    background: #fafafa;
+    border-radius: 0 6px 6px 0;
+  }
+  .option-item h4 { font-size: 13.5px; color: #4D7A2A; margin-bottom: 4px; }
+  .option-item p { font-size: 12.5px; color: #555; margin: 0; }
+
+  /* ── CLIENT STORY ── */
+  .story-box {
+    background: linear-gradient(135deg, #4D7A2A 0%, #3A6A1E 100%);
+    color: #fff;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .story-box .story-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #FFD700; margin-bottom: 8px; }
+  .story-box p { color: #e8f5d8; font-size: 13px; line-height: 1.7; margin-bottom: 6px; }
+  .story-box .story-note { font-size: 10px; color: #b8d896; font-style: italic; margin: 0; }
+
+  /* ── STAT BADGES ── */
+  .stat-row { display: flex; gap: 16px; margin: 16px 0; }
+  .stat-badge {
+    flex: 1;
+    background: #4D7A2A;
+    color: #fff;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-badge .stat-num { font-size: 26px; font-weight: bold; color: #FFD700; }
+  .stat-badge .stat-label { font-size: 11px; color: #c8e6a0; margin-top: 4px; line-height: 1.4; }
+
+  /* ── CTA BOX ── */
+  .cta-box {
+    background: linear-gradient(135deg, #FFD700 0%, #FFC524 100%);
+    border-radius: 10px;
+    padding: 24px 28px;
+    text-align: center;
+    margin: 20px 0;
+  }
+  .cta-box h3 { color: #3A6A1E; font-size: 19px; margin-bottom: 6px; }
+  .cta-box .sub { font-size: 12px; color: #556B4A; margin-bottom: 14px; font-style: italic; }
+  .cta-box p { font-size: 12.5px; color: #556B4A; margin-bottom: 14px; }
+  .cta-btn {
+    display: inline-block;
+    background: #4D7A2A;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px 28px;
+    border-radius: 6px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 3px;
+    background: linear-gradient(to right, #FFD700, #8BC53F, #4D7A2A);
+    margin: 18px 0;
+    border-radius: 2px;
+  }
+
+  /* ════════ COVER PAGE ════════ */
+  .cover {
+    min-height: 1100px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .cover-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 520px;
+    object-fit: cover;
+    object-position: center 70%;
+    width: 100%;
+    z-index: 0;
+  }
+  .cover-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 520px;
+    background: linear-gradient(to bottom, rgba(30,60,10,0.55) 0%, rgba(77,122,42,0.7) 60%, rgba(255,255,255,1) 100%);
+    z-index: 1;
+  }
+  .cover-top {
+    position: relative;
+    z-index: 2;
+    padding: 40px 60px 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .cover-logo-wrap {
+    background: rgba(255,255,255,0.92);
+    border-radius: 10px;
+    padding: 12px 20px;
+  }
+  .cover-logo-wrap img { max-width: 200px; height: auto; display: block; }
+  .cover-badge {
+    background: rgba(255,215,0,0.2);
+    border: 1px solid rgba(255,215,0,0.6);
+    color: #FFD700;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+  .cover-headline {
+    position: relative;
+    z-index: 2;
+    padding: 200px 60px 0;
+    text-align: left;
+  }
+  .cover-headline .eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #FFD700;
+    margin-bottom: 10px;
+  }
+  .cover-headline h1 {
+    font-size: 42px;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .cover-headline .subtitle {
+    font-size: 15px;
+    color: #e0f0c8;
+    max-width: 460px;
+    line-height: 1.65;
+  }
+  .cover-body {
+    position: relative;
+    z-index: 2;
+    padding: 40px 60px;
+    flex: 1;
+  }
+  .cover-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .cover-pillar {
+    background: #f4f9ee;
+    border: 1px solid #c5e0a0;
+    border-radius: 10px;
+    padding: 18px 16px;
+    text-align: center;
+  }
+  .cover-pillar .pillar-icon { font-size: 28px; margin-bottom: 8px; }
+  .cover-pillar h4 { font-size: 13px; color: #4D7A2A; margin-bottom: 6px; }
+  .cover-pillar p { font-size: 12px; color: #666; margin: 0; line-height: 1.5; }
+  .cover-agent-bar {
+    background: #4D7A2A;
+    color: #fff;
+    padding: 16px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+  }
+  .cover-agent-bar .agent-name { font-size: 16px; font-weight: bold; color: #FFD700; }
+  .cover-agent-bar .agent-title { font-size: 12px; color: #c8e6a0; margin-top: 2px; }
+  .cover-agent-bar .contact { font-size: 12px; color: #c8e6a0; text-align: right; line-height: 1.7; }
+
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; box-shadow: none; page-break-after: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     COVER
+══════════════════════════════════════ -->
+<div class="page">
+  <div class="cover">
+    <img class="cover-bg" src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=900&q=85" alt="Beautiful home">
+    <div class="cover-overlay"></div>
+
+    <div class="cover-top">
+      <div class="cover-logo-wrap">
+        <img src="/home/king/.openclaw/media/inbound/FRA_Logo_1---7c4cc9cd-58c4-4594-a979-339abc4ef0d1.jpg" alt="Fidelity Realty Advisors">
+      </div>
+      <div class="cover-badge">Free Homeowner Resource</div>
+    </div>
+
+    <div class="cover-headline">
+      <div class="eyebrow">Confidential &nbsp;·&nbsp; No Obligation &nbsp;·&nbsp; No Cost to You</div>
+      <h1>The Short Sale<br>Homeowner's Guide</h1>
+      <p class="subtitle">A clear, honest path to avoid foreclosure, protect your credit, and move forward with confidence.</p>
+    </div>
+
+    <div class="cover-body">
+      <div class="divider"></div>
+      <p style="color:#556B4A; font-size:14px; margin-bottom:20px;">If you're behind on your mortgage, you still have options — but the window is open right now. This guide walks you through everything you need to know about the short sale process, step by step.</p>
+
+      <div class="cover-pillars">
+        <div class="cover-pillar">
+          <div class="pillar-icon">🏠</div>
+          <h4>Understand Your Options</h4>
+          <p>Know all the paths available before making any decision.</p>
+        </div>
+        <div class="cover-pillar">
+          <div class="pillar-icon">🛡️</div>
+          <h4>Protect Your Credit</h4>
+          <p>Learn how a short sale minimizes long-term financial damage.</p>
+        </div>
+        <div class="cover-pillar">
+          <div class="pillar-icon">✅</div>
+          <h4>Move Forward Confidently</h4>
+          <p>A proven 5-step process with expert guidance at every stage.</p>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-badge">
+          <div class="stat-num">50–150</div>
+          <div class="stat-label">Points less credit damage vs. foreclosure</div>
+        </div>
+        <div class="stat-badge">
+          <div class="stat-num">2–3 yrs</div>
+          <div class="stat-label">To re-qualify for a home loan after short sale</div>
+        </div>
+        <div class="stat-badge">
+          <div class="stat-num">$0</div>
+          <div class="stat-label">Out-of-pocket costs — lender pays closing costs</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-agent-bar">
+      <div>
+        <div class="agent-name">Jack Watlington</div>
+        <div class="agent-title">Short Sale Specialist &nbsp;·&nbsp; Fidelity Realty Advisors</div>
+      </div>
+      <div class="contact">
+        fidelityrealtyAdvisors.com
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 1 — Understanding Your Situation
+══════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="logo-text">Fidelity Realty Advisors &nbsp;|&nbsp; Jack Watlington</span>
+    <span class="page-title">Page 1 of 5</span>
+  </div>
+
+  <div class="page-hero-overlay">
+    <img class="page-hero" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=80" alt="Home and keys" style="object-position: center 40%;">
+  </div>
+
+  <div class="content">
+    <h2>Understanding Your Situation</h2>
+
+    <div class="two-col">
+      <div class="two-col-text">
+        <div class="callout">
+          <p><strong>Most homeowners in financial distress wait 6–12 months too long.</strong> By then, their options narrow significantly. If you're reading this, you still have time — but that window matters.</p>
+        </div>
+        <p>Life can change quickly. Job loss, medical expenses, divorce, or rising insurance and property costs can turn a once-comfortable home into an overwhelming financial burden.</p>
+        <p>The problem isn't that homeowners don't care — it's that most don't fully understand what options are still available to them.</p>
+      </div>
+      <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=500&q=80" alt="Reviewing documents" style="width:100%; height:200px; object-fit:cover; border-radius:10px; box-shadow:0 3px 12px rgba(0,0,0,0.15);">
+    </div>
+
+    <div class="divider"></div>
+
+    <h3>What Is a Short Sale?</h3>
+    <div class="clearfix">
+      <img class="img-right" src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=400&q=80" alt="Real estate professional">
+      <p>A short sale occurs when your mortgage lender agrees to accept <strong>less than the full amount owed</strong> on your loan so the home can be sold. Instead of forcing the property into foreclosure, the lender works with you to approve a sale to a new buyer.</p>
+      <p>For example, if you owe <strong>$400,000</strong> but your home is only worth <strong>$325,000</strong>, the lender may agree to accept the lower amount to resolve the debt — and in many cases, forgive the difference entirely.</p>
+    </div>
+
+    <h3>Why Would a Lender Agree to This?</h3>
+    <p>Foreclosure is expensive for lenders. It involves legal fees, months of delays, property maintenance, and the risk of a vacant home losing value over time. In most cases, lenders recover <strong>more money through a short sale than through foreclosure</strong> — which is exactly why they're often willing to cooperate.</p>
+
+    <div class="callout">
+      <p>The sooner you take action, the more options you have. Waiting doesn't make the situation easier — it makes it smaller.</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Jack Watlington &nbsp;|&nbsp; Fidelity Realty Advisors</span>
+    <span class="disclaimer">For informational purposes only. Not legal or financial advice.</span>
+    <span class="pg-num">1</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 2 — Your Options
+══════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="logo-text">Fidelity Realty Advisors &nbsp;|&nbsp; Jack Watlington</span>
+    <span class="page-title">Page 2 of 5</span>
+  </div>
+
+  <div class="page-hero-overlay">
+    <img class="page-hero" src="https://images.unsplash.com/photo-1449844908441-8d6b7b83d4ac?w=900&q=80" alt="Neighborhood" style="object-position: center 55%;">
+  </div>
+
+  <div class="content">
+    <h2>Your Options as a Homeowner</h2>
+    <p>Before making any decision, it's important to understand all the paths available to you. Every situation is different — the right option depends on your finances, timeline, and goals.</p>
+
+    <div class="warning">
+      <div class="warning-title">⚠️ Foreclosure — Avoid This At All Costs</div>
+      <p>Foreclosure is the legal process where your lender takes ownership of your home after missed payments. It is the most damaging outcome financially and emotionally — destroying your credit, limiting your housing options for years, and following you into employment background checks. <strong>Everything below exists to help you avoid this.</strong></p>
+    </div>
+
+    <div class="two-col" style="margin-top:16px;">
+      <div>
+        <div class="option-item">
+          <h4>🔧 Loan Modification</h4>
+          <p>Your lender may adjust your loan terms to make monthly payments more manageable. Best if your hardship is temporary.</p>
+        </div>
+        <div class="option-item">
+          <h4>🔄 Refinance</h4>
+          <p>Replaces your current loan with a new one at better terms. Only viable if you still have equity and a stable financial profile.</p>
+        </div>
+        <div class="option-item">
+          <h4>🏡 Traditional Sale</h4>
+          <p>If your home is worth more than what you owe, sell it, pay off the mortgage, and keep the proceeds.</p>
+        </div>
+        <div class="option-item" style="border-left-color: #4D7A2A; background: #f4f9ee;">
+          <h4 style="color:#3A6A1E;">✅ Short Sale — Best If Underwater</h4>
+          <p>If you owe more than your home is worth, a short sale allows you to sell with lender approval and in many cases walk away with the remaining debt forgiven.</p>
+        </div>
+      </div>
+      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&q=80" alt="House for sale" style="width:100%; height:320px; object-fit:cover; border-radius:10px; box-shadow:0 3px 12px rgba(0,0,0,0.15);">
+    </div>
+
+    <div class="callout">
+      <p><strong>Key Insight:</strong> The sooner you take action, the more control you have over your outcome. Waiting costs you options — and time is the one thing you can't get back.</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Jack Watlington &nbsp;|&nbsp; Fidelity Realty Advisors</span>
+    <span class="disclaimer">For informational purposes only. Not legal or financial advice.</span>
+    <span class="pg-num">2</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 3 — Short Sale vs Foreclosure
+══════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="logo-text">Fidelity Realty Advisors &nbsp;|&nbsp; Jack Watlington</span>
+    <span class="page-title">Page 3 of 5</span>
+  </div>
+
+  <div class="page-hero-overlay">
+    <img class="page-hero" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80" alt="Modern home" style="object-position: center 50%;">
+  </div>
+
+  <div class="content">
+    <h2>Short Sale vs. Foreclosure</h2>
+    <p>The difference between these two paths can follow you for a decade. Here's what it looks like in real terms:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>✅ Short Sale</th>
+          <th>❌ Foreclosure</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Control</td><td>You manage the process and timeline</td><td>Lender controls everything</td></tr>
+        <tr><td>Credit Impact</td><td>Typically 50–150 point drop</td><td>Typically 150–300+ point drop</td></tr>
+        <tr><td>Future Home Buying</td><td>Potential eligibility in 2–3 years</td><td>Typically 5–7 years before qualifying</td></tr>
+        <tr><td>Public Record</td><td>Reported as "settled" or "paid less than owed"</td><td>Recorded as foreclosure — one of the worst marks possible</td></tr>
+        <tr><td>Employment Impact</td><td>Minimal in most cases</td><td>Can affect background checks and job opportunities</td></tr>
+        <tr><td>Emotional Toll</td><td>Structured, supported exit with a clear timeline</td><td>Uncertain, adversarial, and deeply stressful</td></tr>
+        <tr><td>Remaining Debt</td><td>Often negotiated and forgiven entirely</td><td>Deficiency judgment possible — you may still owe</td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <div class="two-col">
+      <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&q=80" alt="Signing documents" style="width:100%; height:190px; object-fit:cover; border-radius:10px; box-shadow:0 3px 12px rgba(0,0,0,0.15);">
+      <div class="two-col-text">
+        <h3 style="margin-top:0;">Why This Matters</h3>
+        <p>A short sale shows you took responsibility and resolved your situation. A foreclosure signals a complete breakdown — and lenders, landlords, and employers treat them very differently.</p>
+        <p>This isn't just about your home. It's about your credit, your next rental, your next job, and your ability to own a home again.</p>
+        <div class="callout">
+          <p><strong>A short sale is not a failure.</strong> It's a strategic decision — the responsible move that protects everything that comes after.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Jack Watlington &nbsp;|&nbsp; Fidelity Realty Advisors</span>
+    <span class="disclaimer">For informational purposes only. Not legal or financial advice.</span>
+    <span class="pg-num">3</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 4 — Benefits & Requirements
+══════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="logo-text">Fidelity Realty Advisors &nbsp;|&nbsp; Jack Watlington</span>
+    <span class="page-title">Page 4 of 5</span>
+  </div>
+
+  <div class="page-hero-overlay">
+    <img class="page-hero" src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=900&q=80" alt="Home exterior" style="object-position: center 65%;">
+  </div>
+
+  <div class="content">
+    <h2>Benefits &amp; What You'll Need</h2>
+
+    <div class="benefit-grid">
+      <div class="benefit-card">
+        <div class="icon">💰</div>
+        <h4>Debt Relief</h4>
+        <p>We negotiate directly with your lender to pursue full forgiveness of the remaining balance. In many cases, you walk away owing nothing.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="icon">$0</div>
+        <h4>No Out-of-Pocket Costs</h4>
+        <p>Real estate commissions and most closing costs are typically paid by the lender — not you. This process costs you nothing to start.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="icon">📦</div>
+        <h4>Relocation Assistance</h4>
+        <p>Some lenders offer cash incentives to help cover moving expenses. We identify and pursue every option available to you.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="icon">🧘</div>
+        <h4>Less Stressful Exit</h4>
+        <p>You avoid the legal pressure and uncertainty of foreclosure. This is a structured, supported process from start to finish.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="two-col">
+      <div class="two-col-text">
+        <h3 style="margin-top:0;">What You'll Need to Qualify</h3>
+        <p>Lenders require a hardship package that documents your financial situation. <strong>Don't worry — we walk you through every step, and most clients already have everything they need.</strong></p>
+        <ul>
+          <li>A hardship letter explaining your situation</li>
+          <li>Recent bank statements and pay stubs</li>
+          <li>Tax returns (last 2 years)</li>
+          <li>A Comparative Market Analysis (CMA)</li>
+        </ul>
+      </div>
+      <img src="https://images.unsplash.com/photo-1607863680198-23d4b2565df0?w=500&q=80" alt="Family moving" style="width:100%; height:200px; object-fit:cover; border-radius:10px; box-shadow:0 3px 12px rgba(0,0,0,0.15);">
+    </div>
+
+    <div class="story-box">
+      <div class="story-label">✦ Real Client Result</div>
+      <p>A homeowner was 4 months behind on payments and facing foreclosure proceedings. We listed and closed their short sale in 89 days. The lender approved the sale and forgave <strong>$33,000 in remaining debt</strong>. They avoided foreclosure entirely and moved forward with their credit intact.</p>
+      <p class="story-note">Details changed for privacy. Results vary based on individual circumstances.</p>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Jack Watlington &nbsp;|&nbsp; Fidelity Realty Advisors</span>
+    <span class="disclaimer">For informational purposes only. Not legal or financial advice.</span>
+    <span class="pg-num">4</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 5 — Process & CTA
+══════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="logo-text">Fidelity Realty Advisors &nbsp;|&nbsp; Jack Watlington</span>
+    <span class="page-title">Page 5 of 5</span>
+  </div>
+
+  <div class="page-hero-overlay">
+    <img class="page-hero" src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=900&q=80" alt="Handshake deal" style="object-position: center 40%;">
+  </div>
+
+  <div class="content">
+    <h2>What to Expect &amp; Next Steps</h2>
+
+    <div class="two-col">
+      <div>
+        <p>The short sale process is straightforward when you have the right team. Here's exactly what happens:</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h4>Consultation</h4>
+              <p>We review your situation honestly and tell you upfront whether a short sale is the right move for you.</p>
+            </div>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h4>Listing Your Home</h4>
+              <p>Your property is strategically priced and marketed to attract qualified buyers quickly.</p>
+            </div>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h4>Offer &amp; Submission</h4>
+              <p>We submit the offer along with your complete hardship package directly to the lender.</p>
+            </div>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <h4>Negotiation</h4>
+              <p>We work directly with the lender's loss mitigation department to secure approval and push for maximum debt forgiveness.</p>
+            </div>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-body">
+              <h4>Closing</h4>
+              <p>The sale closes, the debt is resolved, and you move forward with your credit protected.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <img src="https://images.unsplash.com/photo-1613545325278-f24b0cae1224?w=500&q=80" alt="New home" style="width:100%; height:220px; object-fit:cover; border-radius:10px; box-shadow:0 3px 12px rgba(0,0,0,0.15); margin-bottom:16px;">
+        <div class="stat-row" style="flex-direction:column; gap:10px;">
+          <div class="stat-badge" style="display:flex; align-items:center; gap:16px; text-align:left; padding:12px 16px;">
+            <div class="stat-num" style="font-size:20px; min-width:50px;">89</div>
+            <div class="stat-label" style="font-size:12px; color:#c8e6a0;">Average days from listing to close on a short sale</div>
+          </div>
+          <div class="stat-badge" style="display:flex; align-items:center; gap:16px; text-align:left; padding:12px 16px;">
+            <div class="stat-num" style="font-size:20px; min-width:50px;">$0</div>
+            <div class="stat-label" style="font-size:12px; color:#c8e6a0;">Cost to you — we get paid by the lender at closing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <h3>Schedule Your Free 15-Minute Consultation</h3>
+      <p class="sub">No Obligation &nbsp;·&nbsp; Completely Confidential &nbsp;·&nbsp; No Cost to You</p>
+      <p>A short sale is about more than selling a home — it's about protecting your credit, your opportunities, and your peace of mind. You have options. The sooner you act, the more of them you keep.</p>
+      <a href="#" class="cta-btn">👉 Book Your Free Consultation Now</a>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>Jack Watlington &nbsp;|&nbsp; Fidelity Realty Advisors</span>
+    <span class="disclaimer">For informational purposes only. Not legal or financial advice.</span>
+    <span class="pg-num">5</span>
+  </div>
+</div>
+
+</body>
+</html>
