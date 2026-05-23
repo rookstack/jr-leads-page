@@ -1052,22 +1052,36 @@
       var id  = params.get('id');
 
       if (src === 'qr' && id) {
-        // Mark lead as warm on QR scan
-        fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(id), {
-          method: 'PATCH',
-          headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-            'Content-Type': 'application/json',
-            'Accept-Profile': 'jr_leads',
-            'Content-Profile': 'jr_leads',
-            'Prefer': 'return=minimal'
-          },
-          body: JSON.stringify({
-            lead_status: 'warm',
-            warm_at: new Date().toISOString()
-          })
-        }).catch(function (e) { console.warn('QR track error:', e); });
+        // Mark lead as warm on QR scan (fire-and-forget, non-blocking)
+        var HEADERS = {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json',
+          'Accept-Profile': 'jr_leads',
+          'Content-Profile': 'jr_leads',
+          'Prefer': 'return=minimal'
+        };
+        var scanNow = new Date().toISOString();
+        // Step 1: GET current qr_scan_count, then PATCH with incremented value
+        fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(id) + '&select=qr_scan_count', {
+          headers: Object.assign({}, HEADERS, { 'Prefer': '' })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var currentCount = (data && data.length > 0 && data[0].qr_scan_count) ? data[0].qr_scan_count : 0;
+          return fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(id), {
+            method: 'PATCH',
+            headers: HEADERS,
+            body: JSON.stringify({
+              lead_status: 'warm',
+              warm_at: scanNow,
+              qr_scanned_at: scanNow,
+              lead_source: 'qr_scan',
+              qr_scan_count: currentCount + 1
+            })
+          });
+        })
+        .catch(function (e) { console.warn('QR track error:', e); });
       }
 
       // Update guide download link to carry src + id params
