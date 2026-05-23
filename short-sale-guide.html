@@ -532,7 +532,21 @@
       </div>
       <div class="gate-field">
         <label for="gate-address">Property Address *</label>
-        <input type="text" id="gate-address" name="address" placeholder="123 Main St, Miami, FL 33101" required />
+        <input type="text" id="gate-address" name="address" placeholder="123 Main St" required />
+      </div>
+      <div class="gate-row">
+        <div class="gate-field">
+          <label for="gate-city">City *</label>
+          <input type="text" id="gate-city" name="city" placeholder="Miami" required />
+        </div>
+        <div class="gate-field" style="max-width:80px;">
+          <label for="gate-state">State *</label>
+          <input type="text" id="gate-state" name="state" placeholder="FL" maxlength="2" required />
+        </div>
+        <div class="gate-field" style="max-width:100px;">
+          <label for="gate-zip">ZIP *</label>
+          <input type="text" id="gate-zip" name="zip" placeholder="33101" maxlength="5" required />
+        </div>
       </div>
       <div class="gate-row">
         <div class="gate-field">
@@ -962,6 +976,9 @@
   var form       = document.getElementById('gate-form');
   var nameInput  = document.getElementById('gate-name');
   var addrInput  = document.getElementById('gate-address');
+  var cityInput  = document.getElementById('gate-city');
+  var stateInput = document.getElementById('gate-state');
+  var zipInput   = document.getElementById('gate-zip');
   var emailInput = document.getElementById('gate-email');
   var phoneInput = document.getElementById('gate-phone');
   var consentBox = document.getElementById('gate-consent');
@@ -999,12 +1016,11 @@
       if (data && data.length > 0) {
         var row = data[0];
         var fullName = ((row.primary_first || '') + ' ' + (row.primary_last || '')).trim();
-        var fullAddr = [row.address, row.city, row.state, row.zip].filter(Boolean).join(', ');
         if (fullName) nameInput.value = fullName;
-        if (fullAddr) {
-          addrInput.value = fullAddr;
-          addrInput.setAttribute('readonly', 'readonly');
-        }
+        if (row.address) { addrInput.value = row.address; addrInput.setAttribute('readonly', 'readonly'); }
+        if (row.city)    { cityInput.value = row.city;    cityInput.setAttribute('readonly', 'readonly'); }
+        if (row.state)   { stateInput.value = row.state;  stateInput.setAttribute('readonly', 'readonly'); }
+        if (row.zip)     { zipInput.value = row.zip;      zipInput.setAttribute('readonly', 'readonly'); }
       }
     })
     .catch(function(e) { console.warn('Gate prefill error:', e); });
@@ -1016,11 +1032,15 @@
 
     var name    = nameInput.value.trim();
     var address = addrInput.value.trim();
+    var city    = cityInput.value.trim();
+    var state   = stateInput.value.trim();
+    var zip     = zipInput.value.trim();
     var email   = emailInput.value.trim();
     var phone   = phoneInput.value.trim();
 
     if (!name) { showError('Please enter your name.'); return; }
     if (!address) { showError('Property address is required.'); return; }
+    if (!city) { showError('City is required.'); return; }
     if (!email && !phone) { showError('Please provide at least an email or phone number.'); return; }
     if (!consentBox.checked) { showError('Please check the consent box to proceed.'); return; }
 
@@ -1060,11 +1080,6 @@
       });
     } else {
       // Ad / direct source — POST to guide_leads
-      // Parse city from address (text after last comma)
-      var cityGuess = '';
-      var lastComma = address.lastIndexOf(',');
-      if (lastComma !== -1) cityGuess = address.substring(lastComma + 1).trim();
-
       fetch(SUPABASE_URL + '/rest/v1/guide_leads', {
         method: 'POST',
         headers: {
@@ -1078,7 +1093,9 @@
         body: JSON.stringify({
           name: name,
           address: address,
-          city: cityGuess,
+          city: city || null,
+          state: state || null,
+          zip: zip || null,
           email: email || null,
           phone: phone || null,
           source: src === 'ad' ? 'ad' : 'direct',
