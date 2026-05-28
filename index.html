@@ -844,7 +844,8 @@
       </p>
       <div class="video-wrap">
         <iframe
-          src="https://www.youtube.com/embed/22SJBWCZRtM?rel=0&modestbranding=1&showinfo=0&controls=1&iv_load_policy=3"
+          id="yt-video"
+          src="https://www.youtube.com/embed/22SJBWCZRtM?rel=0&modestbranding=1&showinfo=0&controls=1&iv_load_policy=3&enablejsapi=1&mute=1"
           title="Jack Watlington — What Is a Short Sale?"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
@@ -1120,5 +1121,27 @@
     })();
   </script>
 
+<script>
+  (function() {
+    var played = false;
+    var iframe = document.getElementById('yt-video');
+    if (!iframe) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !played) {
+          played = true;
+          // Start playing (muted for autoplay policy)
+          iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+          // Unmute after short delay
+          setTimeout(function() {
+            iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+          }, 500);
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.4 });
+    observer.observe(iframe);
+  })();
+</script>
 </body>
 </html>
