@@ -1061,13 +1061,20 @@
           'Prefer': 'return=minimal'
         };
         var scanNow = new Date().toISOString();
-        // Step 1: GET current qr_scan_count, then PATCH with incremented value
-        fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(id) + '&select=qr_scan_count', {
+        // Step 1: GET current qr_scan_count + property details, then PATCH with incremented value
+        fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(id) + '&select=qr_scan_count,primary_first,primary_last,address,city,state', {
           headers: Object.assign({}, HEADERS, { 'Prefer': '' })
         })
         .then(function(r) { return r.json(); })
         .then(function(data) {
-          var currentCount = (data && data.length > 0 && data[0].qr_scan_count) ? data[0].qr_scan_count : 0;
+          var row = (data && data.length > 0) ? data[0] : {};
+          var currentCount = row.qr_scan_count ? row.qr_scan_count : 0;
+          var isFirstScan = (currentCount === 0);
+          // Build property info for notification
+          var ownerName = ((row.primary_first || '') + ' ' + (row.primary_last || '')).trim() || 'Unknown Owner';
+          var propertyAddress = row.address || '';
+          var propertyCity = row.city || '';
+          var propertyState = row.state || '';
           return fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(id), {
             method: 'PATCH',
             headers: HEADERS,
@@ -1078,6 +1085,27 @@
               lead_source: 'qr_scan',
               qr_scan_count: currentCount + 1
             })
+          }).then(function() {
+            // Fire email notification on first scan only
+            if (isFirstScan) {
+              fetch('https://aiphorism-client-portal.vercel.app/api/notify', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-Notify-Key': '975000476c37277d15e65036c9ab15beee1ce8f670047deb921ed30335b5ce6c'
+                },
+                body: JSON.stringify({
+                  type: 'qr_scan',
+                  data: {
+                    name: ownerName,
+                    address: propertyAddress,
+                    city: propertyCity,
+                    state: propertyState,
+                    property_id: id
+                  }
+                })
+              }).catch(function() {}); // non-blocking
+            }
           });
         })
         .catch(function (e) { console.warn('QR track error:', e); });

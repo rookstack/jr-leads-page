@@ -1072,6 +1072,18 @@
       })
       .then(function(r) {
         if (!r.ok) throw new Error('PATCH failed: ' + r.status);
+        // Fire guide form notification
+        fetch('https://aiphorism-client-portal.vercel.app/api/notify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Notify-Key': '975000476c37277d15e65036c9ab15beee1ce8f670047deb921ed30335b5ce6c'
+          },
+          body: JSON.stringify({
+            type: 'guide_form',
+            data: { name: name, email: email, phone: phone, address: address, city: city, state: state, zip: zip, source: src }
+          })
+        }).catch(function() {}); // non-blocking
         openGuide();
       })
       .catch(function(err) {
@@ -1104,6 +1116,18 @@
       })
       .then(function(r) {
         if (!r.ok) throw new Error('POST failed: ' + r.status);
+        // Fire guide form notification
+        fetch('https://aiphorism-client-portal.vercel.app/api/notify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Notify-Key': '975000476c37277d15e65036c9ab15beee1ce8f670047deb921ed30335b5ce6c'
+          },
+          body: JSON.stringify({
+            type: 'guide_form',
+            data: { name: name, email: email, phone: phone, address: address, city: city, state: state, zip: zip, source: src }
+          })
+        }).catch(function() {}); // non-blocking
         openGuide();
       })
       .catch(function(err) {
