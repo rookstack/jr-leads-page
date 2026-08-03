@@ -1086,26 +1086,26 @@
               qr_scan_count: currentCount + 1
             })
           }).then(function() {
-            // Fire email notification on first scan only
-            if (isFirstScan) {
-              fetch('https://aiphorism-client-portal.vercel.app/api/notify', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'X-Notify-Key': '975000476c37277d15e65036c9ab15beee1ce8f670047deb921ed30335b5ce6c'
-                },
-                body: JSON.stringify({
-                  type: 'qr_scan',
-                  data: {
-                    name: ownerName,
-                    address: propertyAddress,
-                    city: propertyCity,
-                    state: propertyState,
-                    property_id: id
-                  }
-                })
-              }).catch(function() {}); // non-blocking
-            }
+            // Fire email notification on every scan (not just first)
+            fetch('https://aiphorism-client-portal.vercel.app/api/notify', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Notify-Key': '975000476c37277d15e65036c9ab15beee1ce8f670047deb921ed30335b5ce6c'
+              },
+              body: JSON.stringify({
+                type: 'qr_scan',
+                data: {
+                  name: ownerName,
+                  address: propertyAddress,
+                  city: propertyCity,
+                  state: propertyState,
+                  property_id: id,
+                  scan_count: String(currentCount + 1),
+                  is_first_scan: isFirstScan ? 'true' : 'false'
+                }
+              })
+            }).catch(function() {}); // non-blocking
           });
         })
         .catch(function (e) { console.warn('QR track error:', e); });

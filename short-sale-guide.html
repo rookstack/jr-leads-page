@@ -1049,59 +1049,92 @@
 
     var now = new Date().toISOString();
 
-    if (leadId) {
-      // QR source — PATCH existing property
-      fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(leadId), {
-        method: 'PATCH',
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_KEY,
-          'Content-Type': 'application/json',
-          'Accept-Profile': 'jr_leads',
-          'Content-Profile': 'jr_leads',
-          'Prefer': 'return=minimal'
-        },
+    var NOTIFY_KEY = '975000476c37277d15e65036c9ab15beee1ce8f670047deb921ed30335b5ce6c';
+    var NOTIFY_URL = 'https://aiphorism-client-portal.vercel.app/api/notify';
+    var API_HEADERS = {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Accept-Profile': 'jr_leads',
+      'Content-Profile': 'jr_leads',
+      'Prefer': 'return=minimal'
+    };
+
+    function fireNotify(type, extraData) {
+      fetch(NOTIFY_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Notify-Key': NOTIFY_KEY },
+        body: JSON.stringify({ type: type, data: extraData })
+      }).catch(function() {}); // non-blocking — never block user
+    }
+
+    function writeFormSubmission(propertyId, formType) {
+      // Record in form_submissions for audit trail
+      fetch(SUPABASE_URL + '/rest/v1/form_submissions', {
+        method: 'POST',
+        headers: API_HEADERS,
         body: JSON.stringify({
-          email: email || null,
+          property_id: propertyId || null,
+          qr_code: leadId || null,
+          form_type: formType,
+          first_name: name.split(' ')[0] || null,
+          last_name: name.split(' ').slice(1).join(' ') || null,
           phone: phone || null,
-          lead_status: 'warm',
-          warm_at: now,
-          qr_scanned_at: now,
-          lead_source: 'qr_scan'
+          email: email || null,
+          full_address: [address, city, state, zip].filter(Boolean).join(', ') || null,
+          submitted_at: now
         })
+      }).catch(function() {}); // non-blocking
+    }
+
+    if (leadId) {
+      // QR source — PATCH existing property, then log submission + notify
+      fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(leadId) +
+            '&select=qr_scan_count,primary_first,primary_last,address,city,state,zip', {
+        headers: Object.assign({}, API_HEADERS, { 'Prefer': '' })
       })
-      .then(function(r) {
-        if (!r.ok) throw new Error('PATCH failed: ' + r.status);
-        // Fire guide form notification
-        fetch('https://aiphorism-client-portal.vercel.app/api/notify', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Notify-Key': '975000476c37277d15e65036c9ab15beee1ce8f670047deb921ed30335b5ce6c'
-          },
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var row = (data && data.length > 0) ? data[0] : {};
+        var currentCount = row.qr_scan_count || 0;
+        return fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(leadId), {
+          method: 'PATCH',
+          headers: API_HEADERS,
           body: JSON.stringify({
-            type: 'guide_form',
-            data: { name: name, email: email, phone: phone, address: address, city: city, state: state, zip: zip, source: src }
+            email: email || null,
+            phone: phone || null,
+            lead_status: 'hot',
+            hot_at: now,
+            qr_scanned_at: now,
+            qr_scan_count: currentCount + 1,
+            lead_source: 'qr_form'
           })
-        }).catch(function() {}); // non-blocking
-        openGuide();
+        }).then(function(r) {
+          if (!r.ok) throw new Error('PATCH failed: ' + r.status);
+          writeFormSubmission(leadId, 'guide_download_qr');
+          fireNotify('guide_form', {
+            name: name, email: email, phone: phone,
+            address: address, city: city, state: state, zip: zip,
+            source: src,
+            scan_count: String(currentCount + 1)
+          });
+          openGuide();
+        });
       })
       .catch(function(err) {
         console.warn('Gate PATCH error:', err);
+        writeFormSubmission(leadId, 'guide_download_qr');
+        fireNotify('guide_form', {
+          name: name, email: email, phone: phone,
+          address: address, city: city, state: state, zip: zip, source: src
+        });
         openGuide(); // open anyway — don't block user
       });
     } else {
-      // Ad / direct source — POST to guide_leads
+      // Ad / direct source — POST to guide_leads + form_submissions + notify
       fetch(SUPABASE_URL + '/rest/v1/guide_leads', {
         method: 'POST',
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_KEY,
-          'Content-Type': 'application/json',
-          'Accept-Profile': 'jr_leads',
-          'Content-Profile': 'jr_leads',
-          'Prefer': 'return=minimal'
-        },
+        headers: API_HEADERS,
         body: JSON.stringify({
           name: name,
           address: address,
@@ -1116,22 +1149,21 @@
       })
       .then(function(r) {
         if (!r.ok) throw new Error('POST failed: ' + r.status);
-        // Fire guide form notification
-        fetch('https://aiphorism-client-portal.vercel.app/api/notify', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Notify-Key': '975000476c37277d15e65036c9ab15beee1ce8f670047deb921ed30335b5ce6c'
-          },
-          body: JSON.stringify({
-            type: 'guide_form',
-            data: { name: name, email: email, phone: phone, address: address, city: city, state: state, zip: zip, source: src }
-          })
-        }).catch(function() {}); // non-blocking
+        writeFormSubmission(null, 'guide_download_direct');
+        fireNotify('guide_form', {
+          name: name, email: email, phone: phone,
+          address: address, city: city, state: state, zip: zip, source: src
+        });
         openGuide();
       })
       .catch(function(err) {
         console.warn('Gate POST error:', err);
+        // Still try to save and notify even if guide_leads failed
+        writeFormSubmission(null, 'guide_download_direct');
+        fireNotify('guide_form', {
+          name: name, email: email, phone: phone,
+          address: address, city: city, state: state, zip: zip, source: src
+        });
         openGuide();
       });
     }
