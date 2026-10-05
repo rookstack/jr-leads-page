@@ -1049,64 +1049,48 @@
       var params = new URLSearchParams(window.location.search);
       var src = params.get('src');
       var id  = params.get('id');
+      var UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-      if (src === 'qr' && id) {
-        // Mark lead as warm on QR scan (fire-and-forget, non-blocking)
+      if (src === 'qr' && id && UUID_RE.test(id)) {
+        // Mark lead warm via RPC (fire-and-forget, non-blocking)
         var HEADERS = {
           'apikey': SUPABASE_ANON_KEY,
           'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
           'Content-Type': 'application/json',
           'Accept-Profile': 'jr_leads',
-          'Content-Profile': 'jr_leads',
-          'Prefer': 'return=minimal'
+          'Content-Profile': 'jr_leads'
         };
-        var scanNow = new Date().toISOString();
-        // Step 1: GET current qr_scan_count + property details, then PATCH with incremented value
-        fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(id) + '&select=qr_scan_count,primary_first,primary_last,address,city,state', {
-          headers: Object.assign({}, HEADERS, { 'Prefer': '' })
+        fetch(SUPABASE_URL + '/rest/v1/rpc/qr_scan', {
+          method: 'POST',
+          headers: HEADERS,
+          body: JSON.stringify({ p_id: id })
         })
         .then(function(r) { return r.json(); })
         .then(function(data) {
-          var row = (data && data.length > 0) ? data[0] : {};
-          var currentCount = row.qr_scan_count ? row.qr_scan_count : 0;
-          var isFirstScan = (currentCount === 0);
-          // Build property info for notification
-          var ownerName = ((row.primary_first || '') + ' ' + (row.primary_last || '')).trim() || 'Unknown Owner';
-          var propertyAddress = row.address || '';
-          var propertyCity = row.city || '';
-          var propertyState = row.state || '';
-          return fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(id), {
-            method: 'PATCH',
-            headers: HEADERS,
+          var row = (data && data.length > 0) ? data[0] : null;
+          if (!row) return; // ID not found
+          var ownerName = ((row.first || '') + ' ' + (row.last || '')).trim() || 'Unknown Owner';
+          var isFirstScan = (row.scan_count === 1);
+          // Fire email notification on every scan (not just first)
+          fetch('https://aiphorism-client-portal.vercel.app/api/notify', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Notify-Key': '975000476c37277d15e65036c9ab15beee1ce8f670047deb921ed30335b5ce6c'
+            },
             body: JSON.stringify({
-              lead_status: 'warm',
-              warm_at: scanNow,
-              qr_scanned_at: scanNow,
-              lead_source: 'qr_scan',
-              qr_scan_count: currentCount + 1
+              type: 'qr_scan',
+              data: {
+                name: ownerName,
+                address: row.address || '',
+                city: row.city || '',
+                state: row.state || '',
+                property_id: id,
+                scan_count: String(row.scan_count),
+                is_first_scan: isFirstScan ? 'true' : 'false'
+              }
             })
-          }).then(function() {
-            // Fire email notification on every scan (not just first)
-            fetch('https://aiphorism-client-portal.vercel.app/api/notify', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'X-Notify-Key': '975000476c37277d15e65036c9ab15beee1ce8f670047deb921ed30335b5ce6c'
-              },
-              body: JSON.stringify({
-                type: 'qr_scan',
-                data: {
-                  name: ownerName,
-                  address: propertyAddress,
-                  city: propertyCity,
-                  state: propertyState,
-                  property_id: id,
-                  scan_count: String(currentCount + 1),
-                  is_first_scan: isFirstScan ? 'true' : 'false'
-                }
-              })
-            }).catch(function() {}); // non-blocking
-          });
+          }).catch(function() {}); // non-blocking
         })
         .catch(function (e) { console.warn('QR track error:', e); });
       }
@@ -1126,21 +1110,17 @@
         forms.forEach(function (form) {
           form.addEventListener('submit', function () {
             var lid = id || (params.get('id'));
-            if (!lid) return;
-            fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(lid), {
-              method: 'PATCH',
+            if (!lid || !UUID_RE.test(lid)) return;
+            fetch(SUPABASE_URL + '/rest/v1/rpc/mark_hot', {
+              method: 'POST',
               headers: {
                 'apikey': SUPABASE_ANON_KEY,
                 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
                 'Content-Type': 'application/json',
                 'Accept-Profile': 'jr_leads',
-                'Content-Profile': 'jr_leads',
-                'Prefer': 'return=minimal'
+                'Content-Profile': 'jr_leads'
               },
-              body: JSON.stringify({
-                lead_status: 'hot',
-                hot_at: new Date().toISOString()
-              })
+              body: JSON.stringify({ p_id: lid })
             }).catch(function (e) { console.warn('Hot track error:', e); });
           });
         });

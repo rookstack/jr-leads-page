@@ -968,6 +968,7 @@
   var SUPABASE_URL  = 'https://uebyzgrsaylfexldhccu.supabase.co';
   var SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVlYnl6Z3JzYXlsZmV4bGRoY2N1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NjgwOTQsImV4cCI6MjA4NzU0NDA5NH0.5QpO51ZIxNFskzuvA_k2yjpoNVz1NUrT0sMsY8wFGKQ';
 
+  var UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   var params = new URLSearchParams(window.location.search);
   var src    = params.get('src') || 'direct';
   var leadId = params.get('id');
@@ -1001,21 +1002,24 @@
     document.querySelector('.page') && document.querySelector('.page').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  // Pre-populate if ?id= present
-  if (leadId) {
-    fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(leadId) +
-          '&select=primary_first,primary_last,address,city,state,zip', {
+  // Pre-populate if ?id= present and is a valid UUID
+  if (leadId && UUID_RE.test(leadId)) {
+    fetch(SUPABASE_URL + '/rest/v1/rpc/guide_prefill', {
+      method: 'POST',
       headers: {
         'apikey': SUPABASE_KEY,
         'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Accept-Profile': 'jr_leads'
-      }
+        'Content-Type': 'application/json',
+        'Accept-Profile': 'jr_leads',
+        'Content-Profile': 'jr_leads'
+      },
+      body: JSON.stringify({ p_id: leadId })
     })
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data && data.length > 0) {
         var row = data[0];
-        var fullName = ((row.primary_first || '') + ' ' + (row.primary_last || '')).trim();
+        var fullName = ((row.first || '') + ' ' + (row.last || '')).trim();
         if (fullName) nameInput.value = fullName;
         if (row.address) { addrInput.value = row.address; addrInput.setAttribute('readonly', 'readonly'); }
         if (row.city)    { cityInput.value = row.city;    cityInput.setAttribute('readonly', 'readonly'); }
@@ -1047,17 +1051,14 @@
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting…';
 
-    var now = new Date().toISOString();
-
     var NOTIFY_KEY = '975000476c37277d15e65036c9ab15beee1ce8f670047deb921ed30335b5ce6c';
     var NOTIFY_URL = 'https://aiphorism-client-portal.vercel.app/api/notify';
-    var API_HEADERS = {
+    var RPC_HEADERS = {
       'apikey': SUPABASE_KEY,
       'Authorization': 'Bearer ' + SUPABASE_KEY,
       'Content-Type': 'application/json',
       'Accept-Profile': 'jr_leads',
-      'Content-Profile': 'jr_leads',
-      'Prefer': 'return=minimal'
+      'Content-Profile': 'jr_leads'
     };
 
     function fireNotify(type, extraData) {
@@ -1068,62 +1069,34 @@
       }).catch(function() {}); // non-blocking — never block user
     }
 
-    function writeFormSubmission(propertyId, formType) {
-      // Record in form_submissions for audit trail
-      fetch(SUPABASE_URL + '/rest/v1/form_submissions', {
+    if (leadId && UUID_RE.test(leadId)) {
+      // QR source — one RPC call handles the property update and form_submissions row
+      fetch(SUPABASE_URL + '/rest/v1/rpc/guide_submit_qr', {
         method: 'POST',
-        headers: API_HEADERS,
+        headers: RPC_HEADERS,
         body: JSON.stringify({
-          property_id: propertyId || null,
-          qr_code: leadId || null,
-          form_type: formType,
-          first_name: name.split(' ')[0] || null,
-          last_name: name.split(' ').slice(1).join(' ') || null,
-          phone: phone || null,
-          email: email || null,
-          full_address: [address, city, state, zip].filter(Boolean).join(', ') || null,
-          submitted_at: now
+          p_id:      leadId,
+          p_name:    name,
+          p_email:   email || null,
+          p_phone:   phone || null,
+          p_address: address,
+          p_city:    city || null,
+          p_state:   state || null,
+          p_zip:     zip || null
         })
-      }).catch(function() {}); // non-blocking
-    }
-
-    if (leadId) {
-      // QR source — PATCH existing property, then log submission + notify
-      fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(leadId) +
-            '&select=qr_scan_count,primary_first,primary_last,address,city,state,zip', {
-        headers: Object.assign({}, API_HEADERS, { 'Prefer': '' })
       })
       .then(function(r) { return r.json(); })
-      .then(function(data) {
-        var row = (data && data.length > 0) ? data[0] : {};
-        var currentCount = row.qr_scan_count || 0;
-        return fetch(SUPABASE_URL + '/rest/v1/properties?id=eq.' + encodeURIComponent(leadId), {
-          method: 'PATCH',
-          headers: API_HEADERS,
-          body: JSON.stringify({
-            email: email || null,
-            phone: phone || null,
-            lead_status: 'hot',
-            hot_at: now,
-            qr_scanned_at: now,
-            qr_scan_count: currentCount + 1,
-            lead_source: 'qr_form'
-          })
-        }).then(function(r) {
-          if (!r.ok) throw new Error('PATCH failed: ' + r.status);
-          writeFormSubmission(leadId, 'guide_download_qr');
-          fireNotify('guide_form', {
-            name: name, email: email, phone: phone,
-            address: address, city: city, state: state, zip: zip,
-            source: src,
-            scan_count: String(currentCount + 1)
-          });
-          openGuide();
+      .then(function(scanCount) {
+        fireNotify('guide_form', {
+          name: name, email: email, phone: phone,
+          address: address, city: city, state: state, zip: zip,
+          source: src,
+          scan_count: scanCount != null ? String(scanCount) : ''
         });
+        openGuide();
       })
       .catch(function(err) {
-        console.warn('Gate PATCH error:', err);
-        writeFormSubmission(leadId, 'guide_download_qr');
+        console.warn('Gate QR submit error:', err);
         fireNotify('guide_form', {
           name: name, email: email, phone: phone,
           address: address, city: city, state: state, zip: zip, source: src
@@ -1131,25 +1104,23 @@
         openGuide(); // open anyway — don't block user
       });
     } else {
-      // Ad / direct source — POST to guide_leads + form_submissions + notify
-      fetch(SUPABASE_URL + '/rest/v1/guide_leads', {
+      // Ad / direct source — one RPC call handles guide_leads and form_submissions
+      fetch(SUPABASE_URL + '/rest/v1/rpc/guide_submit_direct', {
         method: 'POST',
-        headers: API_HEADERS,
+        headers: RPC_HEADERS,
         body: JSON.stringify({
-          name: name,
-          address: address,
-          city: city || null,
-          state: state || null,
-          zip: zip || null,
-          email: email || null,
-          phone: phone || null,
-          source: src === 'ad' ? 'ad' : 'direct',
-          lead_status: 'warm'
+          p_name:    name,
+          p_email:   email || null,
+          p_phone:   phone || null,
+          p_address: address,
+          p_city:    city || null,
+          p_state:   state || null,
+          p_zip:     zip || null,
+          p_source:  src === 'ad' ? 'ad' : 'direct'
         })
       })
       .then(function(r) {
-        if (!r.ok) throw new Error('POST failed: ' + r.status);
-        writeFormSubmission(null, 'guide_download_direct');
+        if (!r.ok) throw new Error('RPC failed: ' + r.status);
         fireNotify('guide_form', {
           name: name, email: email, phone: phone,
           address: address, city: city, state: state, zip: zip, source: src
@@ -1157,9 +1128,8 @@
         openGuide();
       })
       .catch(function(err) {
-        console.warn('Gate POST error:', err);
-        // Still try to save and notify even if guide_leads failed
-        writeFormSubmission(null, 'guide_download_direct');
+        console.warn('Gate direct submit error:', err);
+        // Still notify even if the RPC failed
         fireNotify('guide_form', {
           name: name, email: email, phone: phone,
           address: address, city: city, state: state, zip: zip, source: src
