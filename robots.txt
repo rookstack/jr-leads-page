@@ -1,0 +1,56 @@
+# quickshortsales.net
+# The point of this site is to be read and cited. Everyone may crawl the public pages.
+# Internal and print-only files are kept out of the index; they are not secret, just noise.
+
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /postcard-
+Disallow: /postcards.html
+Disallow: /preview-
+Disallow: /stage1
+Disallow: /stage2
+Disallow: /stage3
+Disallow: /banners.html
+Disallow: /qss-banner-
+Disallow: /logo-concepts.html
+Disallow: /user-guide.html
+Disallow: /export-banners.mjs
+
+# AI crawlers, allowed explicitly. Search and answer engines first, then training crawlers.
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-User
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Googlebot
+Allow: /
+User-agent: Bingbot
+Allow: /
+User-agent: Applebot
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+User-agent: CCBot
+Allow: /
+User-agent: Amazonbot
+Allow: /
+User-agent: meta-externalagent
+Allow: /
+
+Sitemap: https://quickshortsales.net/sitemap.xml
